@@ -40,3 +40,23 @@ Since I am in the **Foundations Phase (T1)**, this repository hosts my study not
 * `📂 /learning` - Code snippets and exercises from my Python learning path.
 
 ---
+## 🗺️ Strategic Roadmap
+
+My journey is structured into 5 phases, aiming for **Erasmus mobility** and **OSCP readiness by T5**.
+
+### 🏆 Target Certifications
+![CompTIA Security+](https://img.shields.io/badge/Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)
+![eJPT](https://img.shields.io/badge/eJPT-INE-32CD32?style=flat-square)
+![OSCP](https://img.shields.io/badge/OSCP-OffSec-A90533?style=flat-square&logo=kalilinux&logoColor=white)
+
+### 🚀 Timeline Overview
+
+| Phase | Focus Area | Status |
+| :--- | :--- | :--- |
+| **Trimester 1** | 🧱 **Foundations** (Linux, Python, Bash) | 🟢 **In Progress** |
+| **Trimester 2** | ✈️ **Erasmus Ready** (Sec+, Portolio, German A1) | 📅 Planned |
+| **Trimester 3** | ⚔️ **Specialization** (eJPT, Adv. Labs) | 📅 Planned |
+| **Trimester 4** | 🔥 **Intensive** (OSCP Prep, CTFs) | 📅 Planned |
+| **Trimester 5** | 🎓 **Professional** (Job Hunting, Final Audit) | 📅 Planned |
+
+👉 **[View Full Detailed Roadmap & Checklist](./ROADMAP.md)**
