@@ -1,0 +1,13 @@
+Práctica de IPTables en la máquina virtual de HTB
+
+| 1.  | Launch a web server on TCP/8080 port on your target and use iptables to block incoming traffic on that port. | python -m http.server 8080                                                                    |
+| --- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| 2.  | Change iptables rules to allow incoming traffic on the TCP/8080 port.                                        | sudo iptables -A INPUT -p tcp --dport 8080 -j ACCPET                                          |
+| 3.  | Block traffic from a specific IP address.                                                                    | sudo iptables -A INPUT -s 104.131.8.116 -j DROP                                               |
+| 4.  | Allow traffic from a specific IP address.                                                                    | sudo iptables -A INPUT -s 127.0.0.1 -j ACCEPT                                                 |
+| 5.  | Block traffic based on protocol.                                                                             | sudo iptables -A INPUT -p tcp -j DROP                                                         |
+| 6.  | Allow traffic based on protocol.                                                                             | sudo iptables -A INPUT -p tcp -j ACCEPT                                                       |
+| 7.  | Create a new chain.                                                                                          | sudo iptables -N cadena_prueba                                                                |
+| 8.  | Forward traffic to a specific chain.                                                                         | sudo iptables -A INPUT -j cadena_prueba                                                       |
+| 9.  | Delete a specific rule.                                                                                      | sudo iptables -L --line-numbers (listar reglas con numero) && sudo iptables -D INPUT "numero" |
+| 10. | List all existing rules.                                                                                     | sudo iptables -L -n -v / sudo iptables -S                                                     |
