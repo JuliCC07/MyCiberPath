@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "619a84b2b4026e4a",
@@ -187,9 +188,9 @@
   },
   "active": "15f720363aa49a25",
   "lastOpenFiles": [
-    "Pasted image 20260213104625.png",
-    "notes/networking/iptables_lab.md",
     "write-ups/htb/starting-point/Fawn (HTB).md",
+    "write-ups/htb/starting-point/Pasted image 20260213104625.png",
+    "notes/networking/iptables_lab.md",
     "write-ups/htb/starting-point/Meow (HTB).md",
     "README.md",
     "ROADMAP.md"
