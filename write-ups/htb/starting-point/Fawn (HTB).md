@@ -40,7 +40,30 @@ _(Aquí es donde detallas lo que encontraste manualmente)_
 - **Razonamiento:** [La flag está disponible desde el usuario anonymous y sin necesidad de una contraseña.]
     
 - **Pasos de Reproducción:**
-    ![[Pasted image 20260213104625.png]]
+    ftp anonymous@10.129.3.239 
+    Connected to 10.129.3.239. 
+    220 (vsFTPd 3.0.3) 
+    331 Please specify the password. 
+    Password: 
+    230 Login successful. 
+    Remote system type is UNIX. 
+    Using binary mode to transfer files. 
+    ftp> ls 
+    229 Entering Extended Passive Mode (111133431) 
+    150 Here comes the directory listing. 
+			    1 0 0 32 Jun 04 2021 flag.txt 
+	226 Directory send OK. 
+	ftp> get flag.txt local: flag.txt remote: flag.txt 
+	229 Entering Extended Passive Mode (111152251) 
+	150 Opening BINARY mode data connection for flag.txt (32 bytes). 
+	100% \[`*********************************************]
+	226 Transfer complete. 
+	32 bytes received in 00:00 (0.15 KiB/s) 
+	ftp> exit 
+	221 Goodbye. 
+	$ cat flag.txt 035db21c881520061c53e0536e44f815 
+
+
 
 ## 5. Remediación y Conclusiones
 
