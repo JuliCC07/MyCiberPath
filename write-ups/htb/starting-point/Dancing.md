@@ -13,7 +13,7 @@
 
 ## 2. Resumen Ejecutivo
 
-_(Opcional pero muy "Pro": Un párrafo de 3 líneas resumiendo qué pasó. Ej: "Se comprometió el servidor explotando una versión obsoleta de FTP, obteniendo acceso inicial y escalando a root mediante un script de Python con permisos de sudo mal configurados.")_
+Se comprometió el servidor Windows explotando una configuración insegura en el servicio SMB (Null Session). Esta brecha permitió el acceso de red anónimo y no autenticado a un recurso compartido interno (`WorkShares`), derivando en la exposición y extracción no autorizada de información confidencial de los usuarios.
 
 ## 3. Enumeración (Reconocimiento)
 
