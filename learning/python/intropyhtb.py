@@ -17,13 +17,15 @@
 # Latest expression can be the variable "_" in IDLE i.e:
 ## 38 + 4
 ## 50 - _
+
 # Conditional statements and Loops
+# If-Else
 ## happy = True
 ## if happy: # Shorthand of happy == True
 ##     print("Happy and we know it!")
 ## else:
 ##     print("Not happy...")
-## 
+# If-elif-else
 ## happy = 2
 ## if happy == 1:
 ##     print("Happy and we know it !")
@@ -31,3 +33,63 @@
 ##     print("Excited about it!")
 ## else:
 ##     print("Not happy...")
+# While-Loop
+## counter = 0
+## while counter < 5:
+##     print(f'Hello #{counter}') # f(ormat)-string: populate a strign with values during runtime
+##     counter = counter + 1
+# Format Strings
+## print("What's your name?")
+## me = input()
+## greeting = f'Hello {me}!'
+## print(greeting)
+# List of Strings
+## groceries = ['Walnuts', 'Grapes', 'Bird seeds']
+## print(groceries[2])
+# Loop to reverse a string
+# While version
+## var = "Julián"
+## i = len(var) -1
+## while i >= 0:
+##     print(var[i])
+##     i -= 1
+# For version
+## var = "Julián"
+## for i in range(len(var) - 1, -1, -1):
+##     print(var[i])
+# Slicing
+## var = "Julián"
+## print(var[::-1])
+# for-each loop
+## groceries = ['Walnuts', 'Grapes', 'Bird seeds']
+## for food in groceries:
+##     print(f'I bought some {food} today.')
+
+# Defining functions
+## Password Generator Example
+wordlist = ['password', 'john', 'qwerty', 'admin']
+for word in wordlist:
+    counter = 0
+    while counter < 100:
+        print(f'{word}{counter}')
+        counter += 1 
+
+def f(x):
+    return 2 * x + 5
+def power_of(x, exponent):
+    return x ** exponent
+
+print(f(2))
+print(power_of(2, 4))
+
+#Invitation
+def print_sample_invitation(mother, father, child, teacher, event):
+    sample_text = f'''
+    Dear {mother} and {father}.
+    {teacher} and I would love to see you both as well as {child} at our {event} tomorrow evening.
+
+    Best regards,
+    Principal G. Sturgis.
+    '''
+    print(sample_text)
+print_sample_invitation(mother='Karen', father='John', child='Noah', teacher='Tina', event='Pizza Party')
