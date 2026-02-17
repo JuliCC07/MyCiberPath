@@ -95,7 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "write-ups/htb/starting-point/Reedemer.md",
+                "file": "learning/python/Python Fundamentals.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +105,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Reedemer"
+              "title": "Backlinks for Python Fundamentals"
             }
           },
           {
@@ -114,12 +114,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "write-ups/htb/starting-point/Reedemer.md",
+                "file": "learning/python/Python Fundamentals.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Reedemer"
+              "title": "Outgoing links from Python Fundamentals"
             }
           },
           {
@@ -158,8 +158,8 @@
               "type": "outline",
               "state": {
                 "file": "learning/python/Python Fundamentals.md",
-                "followCursor": false,
-                "showSearch": false,
+                "followCursor": true,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
