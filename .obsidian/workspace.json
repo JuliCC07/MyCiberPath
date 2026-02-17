@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "write-ups/htb/starting-point/Reedemer.md",
+                "file": "learning/python/Python Fundamentals.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Reedemer"
+              "title": "Python Fundamentals"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "619a84b2b4026e4a",
@@ -156,13 +157,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "write-ups/htb/starting-point/Reedemer.md",
+                "file": "learning/python/Python Fundamentals.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Reedemer"
+              "title": "Outline of Python Fundamentals"
             }
           }
         ],
@@ -170,7 +171,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -184,10 +186,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "00553ffac944a97d",
+  "active": "beff1baabf936c28",
   "lastOpenFiles": [
-    "write-ups/htb/starting-point/Dancing.md",
+    "learning/python/exerciseshtb.py",
+    "learning/python/exerciseshtb",
     "write-ups/htb/starting-point/Reedemer.md",
+    "learning/python/Python Fundamentals.md",
+    "write-ups/htb/starting-point/Dancing.md",
     "write-ups/htb/starting-point/Meow.md",
     "write-ups/htb/starting-point/Fawn.md",
     "write-ups/htb/starting-point/Pasted image 20260213104625.png",
