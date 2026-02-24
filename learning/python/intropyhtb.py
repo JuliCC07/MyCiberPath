@@ -155,5 +155,72 @@
 ## print(datetime.now())
 
 # Giving it a new name
-from datetime import datetime as dt
-print(dt.now())
+## from datetime import datetime as dt
+## print(dt.now())
+
+# Requests package
+## (I have to make sure to delete the requests package after the module (python3 -m pip uninstall requests))
+## import requests
+## resp = requests.get('http://httpbin.org/ip')
+## print(resp.content.decode())
+
+# Prints:
+## {
+##     "origin": "X.X.X.X"
+## }
+
+# BeautifulSoup Package
+## (I have to make sure to delete the requests package after the module (python3 -m pip uninstall beautifulsoup4))
+## from bs4 import BeautifulSoup
+## html_doc = """ 
+## <html>
+## <head><title>Birbs are pretty</title></head>
+## <body><p class="birb-food"><b>Birbs and their foods</b></p>
+## <p class="food">Birbs love:<a class="seed" href="http://seeds" id="seed">seed</a>
+##    and 
+##    <a class="fruit" href="http://fruit" id="fruit">fruit</a></p>
+##  </body></html>
+##  """
+## soup = BeautifulSoup(html_doc, 'html.parser')
+## print(soup.prettify()) 
+
+# The First Iterations
+## Printing Web Page Source Code
+import requests
+from bs4 import BeautifulSoup
+import re
+
+PAGE_URL = "https://www.deepl.com/en/translator"
+
+# Defining the function to get the HTML out of an url
+
+def get_html_of(url):
+    resp = requests.get(url)
+    if resp.status_code != 200:
+        print(f'HTTP status code of {resp.status_code} returned, but 200 was expected. Exiting...')
+        exit(1)
+    return resp.content.decode()
+
+# Setting up variables in order to get the content of the html and the one which counts the words of the html.
+
+html = get_html_of(PAGE_URL)
+soup = BeautifulSoup(html, 'html.parser')
+raw_text = soup.get_text()
+all_words = re.findall(r'\w+', raw_text) # r' ' stands for "r"aw string.
+
+word_count = {} # Declared a new variable that acts like an empty dictionary
+
+for word in all_words:
+    if word not in word_count: # Going through each word in all_words
+        word_count[word] = 1 # Checking if it NOT (in the if declaration says not in) exists already
+    else:
+        current_count = word_count.get(word) # if it exists we get the current value set of word 
+        word_count[word] = current_count + 1 # Increment the value of word by one
+
+# We can cut down the above code to the following to lines:
+# for word in all_words:
+#    word_count[word] = word_count.setdefault(word, 0) + 1
+
+top_words = sorted(word_count.items(), key=lambda item: item[1], reverse=True)
+for i in range(10):
+    print(top_words[i][0])
