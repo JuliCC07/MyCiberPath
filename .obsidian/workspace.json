@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "write-ups/htb/starting-point/Reedemer.md",
+                "file": "notes/networking/Life of a packet.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Reedemer"
+              "title": "Life of a packet"
             }
           }
         ]
@@ -181,8 +181,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -198,6 +197,9 @@
   },
   "active": "beff1baabf936c28",
   "lastOpenFiles": [
+    "notes/networking/Static routing CLI commands.md",
+    "notes/networking/Life of a packet.md",
+    "write-ups/htb/starting-point/Reedemer.md",
     "README.md",
     "notes/networking/Switch Inferfaces.md",
     "learning/python/Python Fundamentals.md",
@@ -206,7 +208,6 @@
     "learning/python/C2TcpConnection.py",
     "learning/python/exerciseshtb.py",
     "learning/python/exerciseshtb",
-    "write-ups/htb/starting-point/Reedemer.md",
     "write-ups/htb/starting-point/Dancing.md",
     "write-ups/htb/starting-point/Meow.md",
     "write-ups/htb/starting-point/Fawn.md",
