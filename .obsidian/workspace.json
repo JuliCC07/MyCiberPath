@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "write-ups/htb/starting-point/Reedemer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Reedemer"
             }
           }
         ]
@@ -94,17 +94,17 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "write-ups/htb/starting-point/Reedemer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for README"
+              "title": "Backlinks for Reedemer"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "learning/python/Python Fundamentals.md",
+                "file": "write-ups/htb/starting-point/Reedemer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Python Fundamentals"
+              "title": "Outgoing links from Reedemer"
             }
           },
           {
@@ -156,21 +156,31 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "learning/python/Python Fundamentals.md",
+                "file": "write-ups/htb/starting-point/Reedemer.md",
                 "followCursor": true,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Python Fundamentals"
+              "title": "Outline of Reedemer"
+            }
+          },
+          {
+            "id": "8a4e43705e383db6",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -184,8 +194,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "0f95b4564fa04c83",
+  "active": "beff1baabf936c28",
   "lastOpenFiles": [
+    "README.md",
     "notes/networking/Switch Inferfaces.md",
     "learning/python/Python Fundamentals.md",
     "notes/networking/Switch Interfaces/Untitled.md",
@@ -199,7 +210,6 @@
     "write-ups/htb/starting-point/Fawn.md",
     "write-ups/htb/starting-point/Pasted image 20260213104625.png",
     "notes/networking/iptables_lab.md",
-    "README.md",
     "ROADMAP.md"
   ]
 }
