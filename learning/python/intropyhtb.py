@@ -144,4 +144,16 @@
 ## 
 ## with Foo():
 ##     print("Hello world!")
+# Importing a Library
+## import datetime
+## dir(datetime) ---> On IDLE
+## now = datetime.datetime.now()
+## print(now) 
 
+# Importing a Class from a Library
+## from datetime import datetime
+## print(datetime.now())
+
+# Giving it a new name
+from datetime import datetime as dt
+print(dt.now())
