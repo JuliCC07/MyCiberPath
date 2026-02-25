@@ -44,13 +44,16 @@ def get_top_words_from(all_words, min_length):
 @click.command()
 @click.option('--url', '-u', prompt='Web URL', help='URL of webpage to extract from.')
 @click.option('--length', '-l', default=0, help='Minimum word length (default: 0, no limit.)')
-@click.option('--output', '-o')
-def main(url, length):
+@click.option('--output', '-o', default=None, help='Define the output file where you want to store the data')
+def main(url, length, output):
     the_words = get_all_words_from(url)
     top_words = get_top_words_from(the_words, length)    
-    
-    for i in range(10):
-        print(top_words[i][0])
+    resultado = "\n".join(top_words[i][0] for i in range(10))
+    if output != None:
+        with open(output, 'w') as wr:
+            wr.write(resultado + "\n")
+    else:   
+        print(resultado)
 
 if __name__ == '__main__':
     main()
