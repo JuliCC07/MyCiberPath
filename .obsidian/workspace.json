@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/networking/VLANs.md",
+                "file": "learning/python/Python Fundamentals.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VLANs"
+              "title": "Python Fundamentals"
             }
           }
         ]
@@ -197,8 +197,8 @@
   },
   "active": "beff1baabf936c28",
   "lastOpenFiles": [
-    "notes/networking/Life of a packet.md",
     "notes/networking/VLANs.md",
+    "notes/networking/Life of a packet.md",
     "notes/networking/Static routing CLI commands.md",
     "write-ups/htb/starting-point/Reedemer.md",
     "README.md",

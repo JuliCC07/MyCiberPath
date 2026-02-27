@@ -13,3 +13,7 @@ List of strings
 Slicing
 Functions
 Classes (tengo que repasar de esto)
+Libraries
+Importing classes from libraries
+Iterations
+Regexs (e.g "\w+")
