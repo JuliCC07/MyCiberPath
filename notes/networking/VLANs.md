@@ -26,3 +26,27 @@ ip route 0.0.0.0 0.0.0.0 "ip" para redirigir todas las ips a la ip del router
  interface vlan 10
 ip address
 no shutdown
+
+
+Show int switchport configuration:
+show interfaces "interface" switchport
+
+
+# Step by step guide of 18th day lab
+
+## Step 1:
+Removing subinterfaces from R1 in order to replace ROAS with point-to-point connection
+- ### Removing an interface configuration
+	no int "interface"
+- ### Enabling layer 3 capabilities on Multilayer Switch
+	no switchport
+	ip add ...
+	ip routing
+	**Setting the default route:**ip add 0.0.0.0 0.0.0.0 "router address"
+## Step 2:
+Configure SVI on SW2, one for each VLAN
+- ### Creating the interfaces and setting up addresses
+	interface vlan "vlan id"
+	ip add "add" (in this case the last usable address)
+	no shutdown
+	

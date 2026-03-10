@@ -8,7 +8,7 @@ dynamic auto: will not actively try to form a trunk
 disable dtp negotiation with "switchport nonegotiate / switchport mode access"
 
 VTP
-Allows to configure vlnans on a central vtp server switch and other switches will synchronize theri vlan database to the server, designed for large networks with many vlans, rarely used and recommended t not use it. versions from 1-3 
+Allows to configure vlans on a central vtp server switch and other switches will synchronize their vlan database to the server, designed for large networks with many vlans, rarely used and recommended t not use it. versions from 1-3 
 3 vtp modes:
 - server (default)
 - client
