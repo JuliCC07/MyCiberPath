@@ -1,0 +1,13 @@
+[Unit]
+Description=Ajustes de energía según perfil tuned (sistema)
+After=tuned.service network.target
+Wants=tuned.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/tuned-monitor-system.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
