@@ -1,0 +1,19 @@
+[Unit]
+Description=Aplica configuración de monitor según perfil de tuned
+# Esperar a que GNOME y tuned estén listos
+After=graphical-session.target tuned.service
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/tuned-monitor.sh
+Restart=on-failure
+RestartSec=5
+
+# Variables de entorno necesarias para GNOME/Wayland
+Environment=DISPLAY=:0
+Environment=WAYLAND_DISPLAY=wayland-0
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+
+[Install]
+WantedBy=default.target
