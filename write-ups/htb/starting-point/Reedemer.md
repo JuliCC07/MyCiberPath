@@ -1,3 +1,11 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - vms
+  - pentesting
+  - starting-point
+---
 ## 1. Información General
 
 - **Máquina:** Redeemer

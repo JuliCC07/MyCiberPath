@@ -1,14 +1,22 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - vms
+  - pentesting
+  - starting-point
+---
 ## 1. Información General
 
-- **Máquina:** [Dancing]
-    
-- **IP:** [10.129.9.24]
-    
-- **SO:** [Windows]
-    
-- **Dificultad:** [Muy facil]
-    
-- **Fecha:** [15/02/2026]
+- **Máquina:** Dancing
+
+- **IP:** 10.129.9.24
+
+- **SO:** Windows
+
+- **Dificultad:** Muy facil
+
+- **Fecha:** 15/02/2026
     
 
 ## 2. Resumen Ejecutivo
@@ -33,21 +41,21 @@ Se comprometió el servidor Windows explotando una configuración insegura en el
 
 ### 3.2 Análisis de Servicios
 
-- **Tecnologías Detectadas:** [Microsoft Windows SMB (Puertos 139, 445), WinRM/HTTPAPI 2.0 (Puerto 5985), RPC (Puerto 135)]
-    
-- **Hallazgos Clave:** \[El script `smb2-security-mode` de Nmap revela que la versión del protocolo es SMB 3.1.1 y que la firma de mensajes está habilitada pero no es requerida. 2. Mediante enumeración de recursos compartidos (`smbclient -L`), se descubrió un recurso no estándar llamado `WorkShares` accesible de forma anónima (Null Session) sin requerir credenciales válidas.\]
+- **Tecnologías Detectadas:** Microsoft Windows SMB (Puertos 139, 445), WinRM/HTTPAPI 2.0 (Puerto 5985), RPC (Puerto 135)
+
+- **Hallazgos Clave:** El script `smb2-security-mode` de Nmap revela que la versión del protocolo es SMB 3.1.1 y que la firma de mensajes está habilitada pero no es requerida. 2. Mediante enumeración de recursos compartidos (`smbclient -L`), se descubrió un recurso no estándar llamado `WorkShares` accesible de forma anónima (Null Session) sin requerir credenciales válidas.
     
 
 ## 4. Análisis de Vulnerabilidades
 
-- **Vulnerabilidad Principal:** [Acceso anónimo no autenticado a recursos compartidos SMB (SMB Null Session / Guest Access)]
-    
-- **Referencia:** [Mitre ATT&CK T1021.002 (SMB/Windows Admin Shares)]
+- **Vulnerabilidad Principal:** Acceso anónimo no autenticado a recursos compartidos SMB (SMB Null Session / Guest Access)
+
+- **Referencia:** Mitre ATT&CK T1021.002 (SMB/Windows Admin Shares)
     
 
 ## 5. Explotación (Gaining Access)
 
-- **Razonamiento:** [Aprovechar la mala configuración de permisos en el recurso compartido `WorkShares` para acceder directamente al sistema de archivos mediante una sesión nula.]
+- **Razonamiento:** Aprovechar la mala configuración de permisos en el recurso compartido `WorkShares` para acceder directamente al sistema de archivos mediante una sesión nula.
     
 - **Pasos de Reproducción:**
     
@@ -61,7 +69,7 @@ Se comprometió el servidor Windows explotando una configuración insegura en el
     
     ┌──(julicc㉿diavlo)-[~]
 	└─$ smbclient //10.129.9.24/WorkShares
-	Password for [WORKGROUP\julicc]:
+	Password for WORKGROUP\julicc:
 	Try "help" to get a list of possible commands.
 	smb: \> help
 	smb: \> ls James.P\
@@ -87,7 +95,7 @@ Se comprometió el servidor Windows explotando una configuración insegura en el
 
 ## 7. Remediación y Conclusiones
 
-- **Criticidad:** [Alta]
+- **Criticidad:** Alta
     
 - **Recomendaciones:**
     
