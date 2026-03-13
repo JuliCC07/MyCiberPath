@@ -1,3 +1,11 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - programation
+  - scripting
+created: 2026-02-11
+---
 17/02/2026
 print
 variables

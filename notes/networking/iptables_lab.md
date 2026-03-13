@@ -1,3 +1,10 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - networking
+  - htb
+---
 Práctica de IPTables en la máquina virtual de HTB
 
 | 1.  | Launch a web server on TCP/8080 port on your target and use iptables to block incoming traffic on that port. | python -m http.server 8080                                                                    |

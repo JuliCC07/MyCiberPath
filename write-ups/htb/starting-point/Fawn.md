@@ -1,14 +1,22 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - vms
+  - pentesting
+  - starting-point
+---
 ## 1. Información General
 
-- **Máquina:** [Fawn]
+- **Máquina:** Fawn
     
-- **IP:** [10.129.3.239]
+- **IP:** 10.129.3.239
     
-- **SO:** [Linux]
+- **SO:** Linux
     
-- **Dificultad:** [Muy fácil]
+- **Dificultad:** Muy fácil
     
-- **Fecha:** [13/02/2026]
+- **Fecha:** 13/02/2026
     
 
 ## 2. Resumen Ejecutivo
@@ -31,13 +39,13 @@ Se identificó un servidor FTP (vsftpd 3.0.3) mal configurado que permitía la a
 
 _(Aquí es donde detallas lo que encontraste manualmente)_
 
-- **Tecnologías Detectadas:** [FTP Anon]
+- **Tecnologías Detectadas:** FTP Anon
     
-- **Hallazgos Clave:** [FTP Anon está permitido y la flag.txt es accesible.]
+- **Hallazgos Clave:** FTP Anon está permitido y la flag.txt es accesible.
     
 ## 4. Explotación (Gaining Access)
 
-- **Razonamiento:** [La flag está disponible desde el usuario anonymous y sin necesidad de una contraseña.]
+- **Razonamiento:** La flag está disponible desde el usuario anonymous y sin necesidad de una contraseña.
     
 - **Pasos de Reproducción:**
     ftp anonymous@10.129.3.239 
@@ -67,7 +75,7 @@ _(Aquí es donde detallas lo que encontraste manualmente)_
 
 ## 5. Remediación y Conclusiones
 
-- **Criticidad:** [Alta]
+- **Criticidad:** Alta
     
 - **Recomendaciones:**
     

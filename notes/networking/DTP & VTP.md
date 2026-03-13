@@ -1,3 +1,11 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - networking
+  - ccna
+  - vlans
+---
 DTP
 
 Cisco proprietary protocol to dynamically determine their interface status without manual configuration, enabled by default. DTP should be disabled

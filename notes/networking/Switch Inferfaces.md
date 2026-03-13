@@ -1,3 +1,12 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - networking
+  - ccna
+  - switch
+  - commands
+---
 Quick commands:
 en
 conf t

@@ -1,3 +1,11 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - networking
+  - ccna
+  - vlans
+---
 show vlan brief
 name "vlan"
 switchport mode access

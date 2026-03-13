@@ -1,14 +1,22 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - vms
+  - pentesting
+  - starting-point
+---
 ## 1. Información General
 
-- **Máquina:** [Meow]
-    
-- **IP:** [10.129.3.234]
-    
-- **SO:** [Linux]
-    
-- **Dificultad:** [Very Easy]
-    
-- **Fecha:** [13/02/2026]
+- **Máquina:** Meow
+
+- **IP:** 10.129.3.234
+
+- **SO:** Linux
+
+- **Dificultad:** Very Easy
+
+- **Fecha:** 13/02/2026
     
 
 ## 2. Resumen Ejecutivo
@@ -29,14 +37,14 @@ Se comprometió el servidor al detectar un servicio Telnet expuesto en el puerto
 
 ### 3.2 Análisis de Servicios
 
-- **Tecnologías Detectadas:** [Telnet]
-    
-	- **Hallazgos Clave:** [El usuario root no tiene contraseña, ofrece acceso directo.]
+- **Tecnologías Detectadas:** Telnet
+
+	- **Hallazgos Clave:** El usuario root no tiene contraseña, ofrece acceso directo.
     
 
 ## 4. Análisis de Vulnerabilidades
 
-- **Vulnerabilidad Principal:** [Uso de telnet y además sin autenticación para el usuario administrador]
+- **Vulnerabilidad Principal:** Uso de telnet y además sin autenticación para el usuario administrador
         
 ## 5. Post-Explotación (Escalada de Privilegios)
 
@@ -48,7 +56,7 @@ Ya tenemos los máximos privilegios pues hemos accedido con el usuario root
 
 ## 6. Remediación y Conclusiones
 
-- **Criticidad:** [Crítica]
+- **Criticidad:** [
     
 - **Recomendaciones:**
     

@@ -1,3 +1,12 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - networking
+  - ccna
+  - ipv4
+---
+
 ## TL;DR
 **IPs stay the same, MACs change at every hop.** 
 ## The Two Golden Rules of Routing 
