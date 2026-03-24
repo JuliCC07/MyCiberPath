@@ -1,6 +1,6 @@
 # Cambios Realizados en el Sistema - Guía para Nueva Instalación
 
-**Fecha:** 2026-03-13
+**Fecha:** [[2026-03-13]]
 **Distribución:** Fedora Linux
 **Usuario:** julicc
 

