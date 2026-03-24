@@ -17,8 +17,8 @@
 > *Focus: Linux Mastery, Python/Bash Basics & Study Routine*
 
 - [x] **Linux Mastery:** Configure, install, and manage a Security Distro with fluency.
-- [ ] **Coding:** Master Python basics (automation scripts) & Bash scripting.
-- [ ] **Labs:** Complete 4 weeks of Pentesting Labs (Beginner) with full documentation.
+- [x] **Coding:** Master Python basics (automation scripts) & Bash scripting.
+- [x] **Labs:** Complete 4 weeks of Pentesting Labs (Beginner) with full documentation.
 - [x] **Study:** **Begin CCNA Network Fundamentals** (Align with ASIR Networks subject).
 - [x] **Languages:** Reach **Italian A2/B1** 🇮🇹 | Start **German A1** 🇩🇪.
 - [x] **Branding:** Create LinkedIn & GitHub profiles; publish public repo with scripts/notes.
