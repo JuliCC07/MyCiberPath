@@ -53,8 +53,8 @@ My journey is structured into 5 phases, aiming for **Erasmus mobility** and **OS
 
 | Phase | Focus Area | Status |
 | :--- | :--- | :--- |
-| **Trimester 1** | 🧱 **Foundations** (Linux, Python, Bash) | 🟢 **In Progress** |
-| **Trimester 2** | ✈️ **Erasmus Ready** (Sec+, Portolio, German A1) | 📅 Planned |
+| **Trimester 1** | 🧱 **Foundations** (Linux, Python, Bash) | Completed |
+| **Trimester 2** | ✈️ **Erasmus Ready** (Sec+, Portolio, German A1) | In Progress |
 | **Trimester 3** | ⚔️ **Specialization** (eJPT, Adv. Labs) | 📅 Planned |
 | **Trimester 4** | 🔥 **Intensive** (OSCP Prep, CTFs) | 📅 Planned |
 | **Trimester 5** | 🎓 **Professional** (Job Hunting, Final Audit) | 📅 Planned |
