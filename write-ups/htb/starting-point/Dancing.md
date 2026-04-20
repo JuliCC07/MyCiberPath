@@ -5,6 +5,7 @@ tags:
   - vms
   - pentesting
   - starting-point
+created: 2026-02-15
 ---
 ## 1. Información General
 

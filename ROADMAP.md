@@ -1,3 +1,10 @@
+---
+tags:
+  - roadmap
+  - planning
+  - general
+created: 2026-02-01
+---
 # 🗺️ Detailed 5-Trimester Strategic Roadmap
 
 **Objective:** Secure a competitive Erasmus placement in **Switzerland, Germany, or Netherlands** by T2 and reach **OSCP readiness** by T5.
