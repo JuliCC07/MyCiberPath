@@ -5,6 +5,7 @@ tags:
   - networking
   - ccna
   - vlans
+created: 2026-03-12
 ---
 show vlan brief
 name "vlan"
@@ -57,4 +58,14 @@ Configure SVI on SW2, one for each VLAN
 	interface vlan "vlan id"
 	ip add "add" (in this case the last usable address)
 	no shutdown
+
+## Notas Relacionadas
+
+- [[DTP & VTP]] — Protocolos de trunking y gestión de VLANs
+- [[STP Toolkit]] — Herramientas STP para proteger la topología
+- [[STP]] — Comandos STP básicos
+- [[Switch Interfaces]] — Configuración de interfaces de switch
+- [[Routing Protocols]] — Protocolos de enrutamiento (RIP, OSPF)
+- [[Static routing CLI commands]] — Rutas estáticas
+- [[Life of a packet]] — Cómo los paquetes cruzan VLANs a través de routers
 	

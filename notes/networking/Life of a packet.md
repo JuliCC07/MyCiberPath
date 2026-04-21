@@ -5,6 +5,7 @@ tags:
   - networking
   - ccna
   - ipv4
+created: 2026-03-12
 ---
 
 ## TL;DR

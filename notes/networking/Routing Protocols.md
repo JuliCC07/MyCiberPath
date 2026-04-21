@@ -72,3 +72,10 @@ Si el ping falla entre routers, usa este orden:
 2. `show ip ospf interface`: Para ver si la interfaz está enviando paquetes "Hello".
     
 3. `show ip route ospf`: Para ver solo las rutas aprendidas por este protocolo.
+
+## Notas Relacionadas
+
+- [[Static routing CLI commands]] — Comandos de enrutamiento estático
+- [[VLANs]] — Configuración de VLANs y enrutamiento inter-VLAN
+- [[Life of a packet]] — Cómo viajan los paquetes a través de routers (L2 hop-by-hop, L3 end-to-end)
+- [[Administración Esencial]] — Administración de redes en entorno ASIR

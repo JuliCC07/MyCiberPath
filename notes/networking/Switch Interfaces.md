@@ -6,6 +6,7 @@ tags:
   - ccna
   - switch
   - commands
+created: 2026-03-12
 ---
 Quick commands:
 en

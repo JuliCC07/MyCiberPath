@@ -2,7 +2,7 @@
 categories:
   - "[[Ciber]]"
 tags:
-  - programation
+  - programming
   - scripting
 created: 2026-02-11
 ---

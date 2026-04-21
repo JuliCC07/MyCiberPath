@@ -4,6 +4,7 @@ categories:
 tags:
   - networking
   - htb
+created: 2026-03-12
 ---
 Práctica de IPTables en la máquina virtual de HTB
 
@@ -18,3 +19,9 @@ Práctica de IPTables en la máquina virtual de HTB
 | 8.  | Forward traffic to a specific chain.                                                                         | sudo iptables -A INPUT -j cadena_prueba                                                       |
 | 9.  | Delete a specific rule.                                                                                      | sudo iptables -L --line-numbers (listar reglas con numero) && sudo iptables -D INPUT "numero" |
 | 10. | List all existing rules.                                                                                     | sudo iptables -L -n -v / sudo iptables -S                                                     |
+
+## Notas Relacionadas
+
+- [[Administración Esencial]] — Administración Linux ([[ASIR]]) — iptables es parte del temario
+- [[CAMBIOS_SANITIZADOS]] — Configuración de firewall en sistema personal
+- [[Getting Started Notes]] — Contexto de iptables en pentesting

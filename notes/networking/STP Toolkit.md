@@ -16,7 +16,7 @@ There are two kinds of PortFast:
 - edge
 - network (not for CCNA)
 When you should enable PortFast on a trunk port:
-- A port connected to a virtualization server with VM in different VLANS
+- A port connected to a virtualization server with VM in different [[VLANs|VLANS]]
 - A port connected to a router via ROAS
 - Only configured via interface config mode
 ### Commands
