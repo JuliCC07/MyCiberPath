@@ -1,6 +1,18 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - sysadmin
+  - linux
+  - dotfiles
+  - backup
+created: 2026-03-13
+---
 # Cambios Realizados en el Sistema - Guía para Nueva Instalación
 
 **Fecha:** [[2026-03-13]]
+
+> **Notas Relacionadas:** [[Administración Esencial]], [[Gestión de Software]], [[PreguntasISO]], [[Python Fundamentals]]
 **Distribución:** Fedora Linux
 **Usuario:** julicc
 

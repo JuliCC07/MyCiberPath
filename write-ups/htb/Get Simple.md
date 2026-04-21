@@ -1,3 +1,16 @@
+---
+categories:
+  - "[[Ciber]]"
+tags:
+  - complete-pentesting
+  - enumeration
+  - initial-access
+  - exploitation
+  - post-exploitation
+  - hashcrack
+  - php-esc
+created: 2026-04-16
+---
 ## Executive Summary
 
 During the assessment of the target (IP: `10.129.42.249`), initial enumeration revealed an exposed Apache web server running GetSimple CMS version 3.3.15. Directory enumeration led to the discovery of an XML file containing hashed administrator credentials. After successfully cracking the hash, authentication was achieved. Initial access was ultimately secured by exploiting a known Remote Code Execution (RCE) vulnerability in the CMS. Privilege escalation to `root` was accomplished by exploiting an insecure `sudo` configuration related to the PHP binary.
