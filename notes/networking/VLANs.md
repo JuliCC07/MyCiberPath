@@ -68,4 +68,9 @@ Configure SVI on SW2, one for each VLAN
 - [[Routing Protocols]] — Protocolos de enrutamiento (RIP, OSPF)
 - [[Static routing CLI commands]] — Rutas estáticas
 - [[Life of a packet]] — Cómo los paquetes cruzan VLANs a través de routers
+- [[VLANs en MikroTik]] — VLANs con Bridge + VLAN Filtering en MikroTik
+- [[VLANs - Interoperabilidad MikroTik y Cisco]] — Configuración multi-vendor
+- [[Router on a Stick]] — Enrutamiento inter-VLAN con subinterfaces Cisco
+- [[IEEE 802.1Q]] — Estándar de etiquetado de tramas
+- [[Curso GNS3]] — Laboratorios prácticos de VLANs en GNS3
 	

@@ -35,3 +35,13 @@ VTP Treansparent:
 - Does not sync database
 - maintain its own database in nVRAM
 - Will forward VTP advertisements that are in the same domain as it
+
+## Notas Relacionadas
+
+- [[VLANs]] — Configuración general de VLANs
+- [[IEEE 802.1Q]] — Estándar de etiquetado de tramas
+- [[VLANs en MikroTik]] — VLANs con Bridge + VLAN Filtering
+- [[VLANs - Interoperabilidad MikroTik y Cisco]] — Trunking multi-vendor
+- [[Router on a Stick]] — Enrutamiento inter-VLAN con subinterfaces
+- [[Cisco IOS en GNS3]] — Configuración de dispositivos Cisco
+- [[Curso GNS3]] — Laboratorios prácticos
