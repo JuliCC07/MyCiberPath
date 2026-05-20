@@ -12,7 +12,7 @@ created: 2026-02-01
 ---
 
 ### 🏆 Target Certifications
-![CompTIA Security+](https://img.shields.io/badge/Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)
+![CompTIA Security+|83](https://img.shields.io/badge/Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)
 ![CCNA](https://img.shields.io/badge/CCNA-005073?style=flat-square&logo=cisco&logoColor=white)
 ![Microsoft Certified](https://img.shields.io/badge/Microsoft-Certified-0078D4?style=flat-square&logo=microsoft&logoColor=white)
 ![eJPT](https://img.shields.io/badge/eJPT-INE-32CD32?style=flat-square)

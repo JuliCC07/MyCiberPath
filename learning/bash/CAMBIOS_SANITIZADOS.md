@@ -30,22 +30,7 @@ created: 2026-03-13
 
 ## 1. ARCHIVOS GESTIONADOS CON STOW (dotfiles)
 
-Estos archivos **ya están versionados** en `/home/julicc/dotfiles/` y se aplican con `stow`:
-
-### Estructura actual de dotfiles:
-
-```
-dotfiles/
-├── bash/.bashrc           → ~/.bashrc
-├── fzf/.config/fzf/       → ~/.config/fzf/
-├── git/.config/git/       → ~/.config/git/
-├── nvim/init.lua          → ~/.config/nvim/init.lua (bootstrap LazyVim)
-├── oh-my-zsh/.config/     → ~/.config/oh-my-zsh/
-│   ├── custom/aliases.zsh
-│   └── themes/spaceship-prompt/
-├── tmux/.config/tmux/     → ~/.config/tmux/tmux.conf
-└── zsh/.config/zsh/       → ~/.config/zsh/.zshrc
-```
+Estos archivos **ya están versionados** en `/home/julicc/dotfiles/` y se aplican con `stow`
 
 ### Para aplicar en nueva instalación:
 
@@ -79,18 +64,18 @@ stow zsh       # Enlaza .config/zsh/
 
 ### /etc/ - Configuración de Superusuario
 
-| Archivo | Descripción | Comando para extraer |
-|---------|-------------|---------------------|
-| `/etc/dracut.conf.d/nvidia.conf` | Módulos NVIDIA en initramfs | `sudo cp /etc/dracut.conf.d/nvidia.conf ~/backup/` |
-| `/etc/fstab` | Puntos de montaje | `sudo cp /etc/fstab ~/backup/` |
-| `/etc/modprobe.d/legion_laptop.conf` | Config módulo Lenovo Legion | `sudo cp /etc/modprobe.d/legion_laptop.conf ~/backup/` |
-| `/etc/sysctl.conf` | Parámetros del kernel | `sudo cp /etc/sysctl.conf ~/backup/` |
-| `/etc/udev/rules.d/99-power-management.rules` | Reglas energía | `sudo cp /etc/udev/rules.d/99-power-management.rules ~/backup/` |
-| `/etc/yum.repos.d/brave-browser.repo` | Repo Brave | `sudo cp /etc/yum.repos.d/brave-browser.repo ~/backup/` |
-| `/etc/pki/ca-trust/extracted/openssl/iescierva.crt` | Certificado CA | `sudo cp /etc/pki/ca-trust/extracted/openssl/iescierva.crt ~/backup/` |
-| `/etc/systemd/system/ollama.service.d/override.conf` | Override ollama | `sudo cp -r /etc/systemd/system/ollama.service.d/ ~/backup/` |
-| `/etc/systemd/system/tuned-monitor-system.service` | Servicio tuned | `sudo cp /etc/systemd/system/tuned-monitor-system.service ~/backup/` |
-| `/etc/tuned/` | Perfiles tuned (legion-*) | `sudo cp -r /etc/tuned/ ~/backup/` |
+| Archivo                                              | Descripción                 | Comando para extraer                                                  |
+| ---------------------------------------------------- | --------------------------- | --------------------------------------------------------------------- |
+| `/etc/dracut.conf.d/nvidia.conf`                     | Módulos NVIDIA en initramfs | `sudo cp /etc/dracut.conf.d/nvidia.conf ~/backup/`                    |
+| `/etc/fstab`                                         | Puntos de montaje           | `sudo cp /etc/fstab ~/backup/`                                        |
+| `/etc/modprobe.d/legion_laptop.conf`                 | Config módulo Lenovo Legion | `sudo cp /etc/modprobe.d/legion_laptop.conf ~/backup/`                |
+| `/etc/sysctl.conf`                                   | Parámetros del kernel       | `sudo cp /etc/sysctl.conf ~/backup/`                                  |
+| `/etc/udev/rules.d/99-power-management.rules`        | Reglas energía              | `sudo cp /etc/udev/rules.d/99-power-management.rules ~/backup/`       |
+| `/etc/yum.repos.d/brave-browser.repo`                | Repo Brave                  | `sudo cp /etc/yum.repos.d/brave-browser.repo ~/backup/`               |
+| `/etc/pki/ca-trust/extracted/openssl/iescierva.crt`  | Certificado CA              | `sudo cp /etc/pki/ca-trust/extracted/openssl/iescierva.crt ~/backup/` |
+| `/etc/systemd/system/ollama.service.d/override.conf` | Override ollama             | `sudo cp -r /etc/systemd/system/ollama.service.d/ ~/backup/`          |
+| `/etc/systemd/system/tuned-monitor-system.service`   | Servicio tuned              | `sudo cp /etc/systemd/system/tuned-monitor-system.service ~/backup/`  |
+| `/etc/tuned/`                                        | Perfiles tuned (legion-*)   | `sudo cp -r /etc/tuned/ ~/backup/`                                    |
 
 ### /usr/ y /lib/ - Scripts del Sistema
 

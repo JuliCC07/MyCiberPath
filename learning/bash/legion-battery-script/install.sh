@@ -10,23 +10,6 @@ echo "║legion-battery-configs — install.sh   ║"
 echo "╚══════════════════════════════════════╝"
 echo ""
 
-# Checking missing packages
-MISSING=0
-for cmd in tuned-adm gdbus gnome-monitor-config; do
-  if ! command -v "$cmd" &>/dev/null; then
-    echo "  Missing: $cmd"
-    MISSING=1
-  fi
-done
-if [ "$MISSING" = "1" ]; then
-  echo ""
-  echo "  Install the missing packages before continuing"
-  echo "  sudo dnf install gnome-monitor-config"
-  echo "  sudo dnf copr enable mrduarte/LenovoLegionLinux && sudo dnf install LenovoLegionLinux"
-  exit 1
-fi
-echo "   OK"
-
 echo "  Installing tuned profiles"
 for profile in legion-powersave legion-balanced legion-balanced-battery legion-performance; do
   sudo cp -r "$DIR/tuned-profiles/$profile" /usr/lib/tuned/profiles/

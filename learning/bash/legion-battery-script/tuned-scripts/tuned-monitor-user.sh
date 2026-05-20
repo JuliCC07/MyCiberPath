@@ -1,9 +1,7 @@
 #!/bin/bash
-# Ajustes de monitor GNOME — corre como servicio de usuario
+# Ajustes de monitor KDE — corre como servicio de usuario
 
-MONITOR="eDP-1"
-RES_HQ="2560x1600@240.000+vrr"
-RES_SAVE="2560x1600@60.000"
+MONITOR="eDP-2"
 
 apply_monitor() {
   local PROFILE
@@ -11,10 +9,10 @@ apply_monitor() {
 
   case "$PROFILE" in
   legion-powersave | legion-balanced-battery)
-    gnome-monitor-config set -L -p -M "$MONITOR" -m "$RES_SAVE"
+    kscreen-doctor output.$MONITOR.mode.2560x1600@60
     ;;
   legion-balanced | legion-performance)
-    gnome-monitor-config set -L -p -M "$MONITOR" -m "$RES_HQ"
+    kscreen-doctor output.$MONITOR.mode.2560x1600@240
     ;;
   *)
     echo "Perfil desconocido: $PROFILE"
