@@ -269,8 +269,12 @@
       "smart-connections:Smart Lookup: Open lookup view": false
     }
   },
-  "active": "409ba2ed12d54925",
+  "active": "1aff56db50ce4236",
   "lastOpenFiles": [
+    "notes/pentesting/Binary Files.md",
+    "notes/pentesting/Python Injection.md",
+    "notes/pentesting/Repaso Python.md",
+    "notes/pentesting/Web Requests.md",
     "ROADMAP.md",
     "notes/pentesting/ReactOOPS.md",
     "40_Resources/LFI Cheatsheet.md",
@@ -307,11 +311,7 @@
     "Attachments/HTTP_Response.png",
     "Attachments/HTTPS_Handshake.png",
     "40_Resources/Liste der Verben.md",
-    "40_Resources/Alltägliche Sätze.md",
-    "00_Inbox/MOC Wortschatz.md",
     "Templates",
-    "20_Zettelkasten/Satzfragen.md",
-    "20_Zettelkasten/W-Fragen.md",
     "90_System",
     "20_Zettelkasten",
     "10_MOCs",
