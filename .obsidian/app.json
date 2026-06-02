@@ -1,8 +1,8 @@
 {
   "alwaysUpdateLinks": true,
-  "attachmentFolderPath": "90_System/Attachments",
+  "attachmentFolderPath": "Attachments",
   "newFileLocation": "folder",
-  "newFileFolderPath": "00_Inbox",
+  "newFileFolderPath": "notes",
   "pdfExportSettings": {
     "includeName": true,
     "pageSize": "A4",

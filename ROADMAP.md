@@ -37,7 +37,7 @@ created: 2026-02-01
 - [ ] **Labs:** Complete **10 Beginner-Intermediate HTB machines** with full documentation.
 - [ ] **Coding:** Master Intermediate Python (File handling, Networking, Sockets).
 - [ ] **Project:** Participate in an internal mini-pentest & write a **Technical Vulnerability Report**.
-- [ ] **Languages:** Reach **Italian B1** 🇮🇹 | Continue **German A1-A2** 🇩🇪.
+- [ ] **Languages:** Continue **German A1-A2** 🇩🇪.
 - [ ] **Erasmus:** Gather recommendation letters, CV, and certificates before the deadline.
 - [ ] **Content:** Publish Technical Blog (Min. 2 entries explaining hacked machines/scripts).
 
@@ -48,7 +48,7 @@ created: 2026-02-01
 - [ ] **Certification:** Pass **eJPT exam** before trimester end. **CCNA (Cisco Certified Network Associate)** - *Validate networking skills*.
 - [ ] **Dev:** Develop & Document **2 custom Python/Bash tools**.
 - [ ] **Networking:** Reach **50+ LinkedIn connections** & request 5 recommendations.
-- [ ] **Languages:** Reach **Italian B2** 🇮🇹 | Reach **German A2/B1** 🇩🇪.
+- [ ] **Languages:** Reach **German A2/B1** 🇩🇪.
 - [ ] **Erasmus:** Accept placement & formalize/plan budget.
 - [ ] **Portfolio:** Add complete pentesting project to portfolio.
 
@@ -59,7 +59,7 @@ created: 2026-02-01
 - [ ] **Study:** Start **OSCP Preparation** (Min. 20h/week for 4 weeks).
 - [ ] **Dev:** Refine custom scripts/tools & publish on GitHub with **Professional README**.
 - [ ] **Career:** Design Market-Oriented Technical CV & practice technical interviews.
-- [ ] **Languages:** Maintain **Italian B2/C1** 🇮🇹 | Reach **German B1/B2** 🇩🇪.
+- [ ] **Languages:** Reach **German B1/B2** 🇩🇪.
 - [ ] **Erasmus:** Prepare mobility logistics & internship stay.
 
 ### 🎓 Trimester 5: Professional Readiness
@@ -70,5 +70,5 @@ created: 2026-02-01
 - [ ] **Certification:** Finalize **OSCP** (or reach 70% progress with post-grad completion plan).
 - [ ] **Community:** Contribute to an Open-Source security project & write a technical article/conference presentation.
 - [ ] **Career:** Apply to **20+ job offers** & start networking with companies.
-- [ ] **Languages:** Reach **Italian C1** 🇮🇹 | Reach **German B2** 🇩🇪.
+- [ ] **Languages:** Reach **German B2** 🇩🇪.
 - [ ] **Portfolio:** Complete portfolio with Cover Letter & **3 Professional References**.

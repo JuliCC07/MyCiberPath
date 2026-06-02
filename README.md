@@ -16,18 +16,18 @@
 
 > "Documenting my journey from ASIR student to Offensive Security Professional."
 
-I am currently building my theoretical and practical foundations to secure a competitive internship in **Switzerland, Germany, or Spain**. My approach is documentation-first: if I learn it, I write it down.
+I am currently building my theoretical and practical foundations to secure a competitive internship mainly in **Switzerland, Germany, or Spain**, but I am open to any other country. My approach is documentation-first: if I learn it, I write it down.
 
 ## 🛠️ Tech Stack & Learning Arsenal
 
 Currently focusing on the "Big Four" for beginners:
 
-| Domain | Technology | Status |
-| :--- | :--- | :--- |
-| **OS** | ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black) | *Advanced User (Daily Driver)* |
-| **Coding** | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) | *Learning Syntax & Logic* ⏳ |
-| **Scripting** | ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white) | *Basics & Automation* ⏳ |
-| **Labs** | ![HackTheBox](https://img.shields.io/badge/HackTheBox-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black) | *Starting Point Tier 0-1* |
+| Domain        | Technology                                                                                                        | Status                            |
+| :------------ | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------- |
+| **OS**        | ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)                | *Advanced User (Daily Driver)*    |
+| **Coding**    | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)             | *Classes & Methods* ⏳             |
+| **Scripting** | ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)               | *Automation & Casual Scripting* ⏳ |
+| **Labs**      | ![HackTheBox](https://img.shields.io/badge/HackTheBox-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black) | *Very easy / Easy Machines*       |
 
 ---
 
