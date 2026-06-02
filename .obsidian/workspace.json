@@ -1,0 +1,321 @@
+{
+  "main": {
+    "id": "9f18eb621da98292",
+    "type": "split",
+    "children": [
+      {
+        "id": "baac13730cd5f174",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "409ba2ed12d54925",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "notes/pentesting/ReactOOPS.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ReactOOPS"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e498e7aab217472e",
+    "type": "split",
+    "children": [
+      {
+        "id": "5f8de3a78d35bb0f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "52910b2556c2b77a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "c8ac8a7be49f2c7d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f84754b0097bde05",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      },
+      {
+        "id": "7105aa82445fdb78",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b654df8f1bcc3e83",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "graph",
+              "state": {},
+              "pinned": true,
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 201.5
+  },
+  "right": {
+    "id": "80f727db8ede8494",
+    "type": "split",
+    "children": [
+      {
+        "id": "30467a11053c1db1",
+        "type": "tabs",
+        "dimension": 27.86312849162011,
+        "children": [
+          {
+            "id": "4fbfd6d90ab0c7d6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Vokalwechsel.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Vokalwechsel"
+            }
+          },
+          {
+            "id": "79a8288c07a63be8",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Vokalwechsel.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Vokalwechsel"
+            }
+          },
+          {
+            "id": "e788d89d75524aef",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "670b26f449793f7b",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "582946e8b2cc01de",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Vokalwechsel.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Vokalwechsel"
+            }
+          },
+          {
+            "id": "595cc09b7da8cd34",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {},
+              "icon": "lucide-info",
+              "title": "File properties"
+            }
+          },
+          {
+            "id": "a2120c10c7515e92",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "pinned": true,
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          }
+        ],
+        "currentTab": 6
+      },
+      {
+        "id": "d63a3c4fb77c813f",
+        "type": "tabs",
+        "dimension": 41.06145251396648,
+        "children": [
+          {
+            "id": "fe33200059f3ee48",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "smart-connections-view",
+              "state": {},
+              "pinned": true,
+              "icon": "smart-connections",
+              "title": "Connections"
+            }
+          }
+        ]
+      },
+      {
+        "id": "b43cab1e31e9a48a",
+        "type": "tabs",
+        "dimension": 31.075418994413408,
+        "children": [
+          {
+            "id": "1aff56db50ce4236",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "pinned": true,
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 319.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "smart-connections:Smart Connections: Open connections view": false,
+      "smart-connections:Toggle Footer Connections": false,
+      "smart-connections:Smart Connections: Open random connection": false,
+      "smart-connections:Smart Lookup: Open lookup view": false
+    }
+  },
+  "active": "409ba2ed12d54925",
+  "lastOpenFiles": [
+    "ROADMAP.md",
+    "notes/pentesting/ReactOOPS.md",
+    "40_Resources/LFI Cheatsheet.md",
+    "20_Zettelkasten/LFI - Server Files Chain.md",
+    "20_Zettelkasten/LFI - Fuzzing Parameters.md",
+    "20_Zettelkasten/LFI - Manual vs. Scripts.md",
+    "40_Resources/LFI.md",
+    "00_Inbox/Repaso Python.md",
+    "00_Inbox/Python Injection.md",
+    "40_Resources/Web Requests.md",
+    "40_Resources/9e4d9109-1a1b-4e0b-9c28-cdd8184075a8.pdf",
+    "40_Resources/Review del Lunes y Martes Alemán.md",
+    "20_Zettelkasten/Akkusativ Präpositionen.md",
+    "00_Inbox/Proyecto Odoo.md",
+    "90_System/Attachments/Pasted image 20260529170609.png",
+    "90_System/Attachments/Pasted image 20260529170350.png",
+    "90_System/Attachments/Pasted image 20260529165804.png",
+    "90_System/Attachments/Pasted image 20260529164942.png",
+    "90_System/Attachments/EstructuracionKanban.png",
+    "90_System/Attachments/Configuracion_Proyecto.png",
+    "90_System/Attachments/Proyectos_principal.png",
+    "Attachments",
+    "00_Inbox/Comandos Examen UT8.md",
+    "conflict-files-obsidian-git.md",
+    "90_System/Daily/2026-05-14.md",
+    "90_System/Daily",
+    "20_Zettelkasten/MOC Deutsch.md",
+    "References/XQuery.md",
+    "References/XPath.md",
+    "References/Web Requests.md",
+    "References/LFI Cheatsheet.md",
+    "References",
+    "Attachments/häufigkeitadverbien.png",
+    "Attachments/HTTP_Response.png",
+    "Attachments/HTTPS_Handshake.png",
+    "40_Resources/Liste der Verben.md",
+    "40_Resources/Alltägliche Sätze.md",
+    "00_Inbox/MOC Wortschatz.md",
+    "Templates",
+    "20_Zettelkasten/Satzfragen.md",
+    "20_Zettelkasten/W-Fragen.md",
+    "90_System",
+    "20_Zettelkasten",
+    "10_MOCs",
+    "30_Projects/LICENSE",
+    "30_Projects/write-ups/htb/starting-point"
+  ]
+}

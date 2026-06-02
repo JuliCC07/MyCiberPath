@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "ctime": 1778759755526,
+<<<<<<< HEAD
+      "path": "10_MOCs/01-Deutsch.md",
+      "title": "Deutsch"
+    },
+    {
+      "type": "file",
+      "ctime": 1778780450943,
+      "path": "10_MOCs/03-ASIR.md"
+=======
+      "path": "Thoughts Garden/MOC Deutsch.md",
+      "title": "Deutsch"
+>>>>>>> origin/main
+    }
+  ]
+}
