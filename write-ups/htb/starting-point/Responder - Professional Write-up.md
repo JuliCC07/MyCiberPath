@@ -28,10 +28,10 @@ Se comprometió un servidor Windows que ejecutaba un sitio PHP vulnerable a Loca
 
 **Comando utilizado:** `nmap -sV 10.129.79.169`
 
-| **Puerto** | **Servicio** | **Versión** | **Estado** |
-|---|---|---|---|
-| 80 | HTTP | Apache httpd 2.4.52 (Win64, OpenSSL/1.1.1m, PHP/8.1.1) | Abierto |
-| 5985 | HTTP | Microsoft HTTPAPI httpd 2.0 (WinRM) | Abierto |
+| **Puerto** | **Servicio** | **Versión**                                            | **Estado** |
+| ---------- | ------------ | ------------------------------------------------------ | ---------- |
+| 80         | HTTP         | Apache httpd 2.4.52 (Win64, OpenSSL/1.1.1m, PHP/8.1.1) | Abierto    |
+| 5985       | HTTP         | Microsoft HTTPAPI httpd 2.0 (WinRM)                    | Abierto    |
 
 La presencia del puerto 5985 es significativa: indica que WinRM está activo, lo que abre la posibilidad de acceso remoto mediante Evil-WinRM si se obtienen credenciales válidas.
 
