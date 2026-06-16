@@ -3,7 +3,9 @@
 
 USER_NAME="julicc"
 USER_ID=$(id -u "$USER_NAME")
-NIRI_CMD="sudo -u $USER_NAME WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/$USER_ID niri msg output eDP-1"
+WAYLAND_SOCKET=$(ls /run/user/$USER_ID/wayland-* 2>/dev/null | head -n 1)
+W_DISPLAY=$(basename "$WAYLAND_SOCKET")
+NIRI_CMD="sudo -u $USER_NAME WAYLAND_DISPLAY=${W_DISPLAY:-wayland-1} XDG_RUNTIME_DIR=/run/user/$USER_ID niri msg output eDP-1"
 
 start() {
     enable_usb_autosuspend
@@ -11,7 +13,7 @@ start() {
 
     for dev in /sys/bus/pci/devices/*/; do
         if [ -f "$dev/class" ] && grep -q "0x010802" "$dev/class" 2>/dev/null; then
-            echo '2000' > "$dev/power/autosuspend_delay_ms" 2>/dev/null
+            echo '5000' > "$dev/power/autosuspend_delay_ms" 2>/dev/null
             echo 'auto'  > "$dev/power/control" 2>/dev/null
         fi
     done
