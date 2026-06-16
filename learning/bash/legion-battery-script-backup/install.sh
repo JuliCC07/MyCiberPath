@@ -21,6 +21,19 @@ sudo cp "$DIR/tuned-configs/tuned-main.conf" /etc/tuned/tuned-main.conf
 sudo cp "$DIR/tuned-configs/ppd.conf" /etc/tuned/ppd.conf
 echo "  Imported successfully"
 
+echo "  Installing system services"
+sudo install -Dm755 "$DIR/tuned-scripts/tuned-monitor-system.sh" /usr/local/bin/tuned-monitor-system.sh
+sudo install -Dm644 "$DIR/tuned-services/tuned-monitor-system.service" /etc/systemd/system/tuned-monitor-system.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now tuned-monitor-system.service
+echo "  Installed successfully"
+
+echo "  Installing user services"
+install -Dm755 "$DIR/tuned-scripts/tuned-monitor-user.sh" "$HOME/.local/bin/tuned-monitor-user.sh"
+install -Dm644 "$REPO_DIR/tuned-services/power-monitor.service" "$HOME/.config/systemd/user/power-monitor.service"
+systemctl --user daemon-reload
+systemctl --user enable --now power-monitor.service
+echo "  Installed successfully"
 
 echo "  Restarting tuned services"
 sudo systemctl restart tuned
