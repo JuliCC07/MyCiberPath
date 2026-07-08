@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/pentesting/Starting point Tier 1 HTB.md",
+                "file": "notes/Práctica Windows.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Starting point Tier 1 HTB"
+              "title": "Práctica Windows"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "sql injection",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,8 +74,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "7105aa82445fdb78",
@@ -97,8 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 329.5,
-    "collapsed": true
+    "width": 329.5
   },
   "right": {
     "id": "80f727db8ede8494",
@@ -273,27 +271,35 @@
   },
   "active": "8f623038f4a8f0b8",
   "lastOpenFiles": [
+    "write-ups/htb/Principal.md",
+    "Attachments/Pasted image 20260628160336.png",
+    "Attachments/Pasted image 20260628160321.png",
+    "Attachments/Pasted image 20260628160103.png",
+    "Attachments/Pasted image 20260628160057.png",
+    "Attachments/Pasted image 20260628160031.png",
+    "Attachments/LoginButton_CCTV.png",
+    "Attachments/languages_images.png",
+    "Attachments/HTTPS_Handshake.png",
+    "Attachments/HTTP_Response.png",
+    "Attachments/häufigkeitadverbien.png",
+    "write-ups/htb/Get Simple.md",
+    "write-ups/htb/Facts.md",
+    "write-ups/htb/Connected.md",
+    "write-ups/htb/CCTV.md",
     "write-ups/htb/Cap.md",
+    "write-ups/htb/Cacti.md",
+    "notes/linux/Custom_Kernel_Patching_TSC.md",
+    "notes/linux/Binary Files.md",
+    "notes/pentesting/Getting Started Notes.md",
+    "notes/pentesting/Starting point Tier 1 HTB.md",
+    "notes/pentesting/File Inclusions.md",
     "ROADMAP.md",
     "README.md",
     "notes/pentesting/Oopsie.md",
-    "Attachments/Pasted image 20260507212542.png",
-    "Attachments/Pasted image 20260507211632.png",
-    "Attachments/Pasted image 20260507211213.png",
-    "Attachments/Pasted image 20260506234616.png",
-    "Attachments/Pasted image 20260506234610.png",
-    "Attachments/Pasted image 20260506233224.png",
-    "Attachments/Pasted image 20260506233207.png",
-    "Attachments/Pasted image 20260506232410.png",
-    "Attachments/Pasted image 20260506232159.png",
-    "Attachments/Pasted image 20260506232150.png",
     "notes/Untitled.md",
     "Attachments",
-    "notes/pentesting/Getting Started Notes.md",
-    "notes/pentesting/File Inclusions.md",
     "notes/pentesting/Archetype.md",
     "notes/pentesting/Buenas prácticas.md",
-    "notes/linux/Binary Files.md",
     "notes/pentesting/ReactOOPS.md",
     "notes/pentesting/Python Injection.md",
     "notes/pentesting/Repaso Python.md",
@@ -301,17 +307,8 @@
     "40_Resources/LFI Cheatsheet.md",
     "20_Zettelkasten/LFI - Server Files Chain.md",
     "20_Zettelkasten/LFI - Fuzzing Parameters.md",
-    "20_Zettelkasten/LFI - Manual vs. Scripts.md",
-    "40_Resources/LFI.md",
-    "00_Inbox/Repaso Python.md",
-    "00_Inbox/Python Injection.md",
-    "40_Resources/Web Requests.md",
     "40_Resources/9e4d9109-1a1b-4e0b-9c28-cdd8184075a8.pdf",
-    "40_Resources/Review del Lunes y Martes Alemán.md",
-    "20_Zettelkasten/Akkusativ Präpositionen.md",
-    "00_Inbox/Proyecto Odoo.md",
     "Attachments",
-    "00_Inbox/Comandos Examen UT8.md",
     "90_System/Daily",
     "References",
     "Templates",

