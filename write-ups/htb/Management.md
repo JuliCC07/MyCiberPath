@@ -1,3 +1,20 @@
+---
+title: "Management - Hack The Box"
+target: "Management"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "Apache Subversion (SVN) WebDAV Repository Leak, Hardcoded Admin Credentials, Crontab PrivEsc"
+tags:
+  - ciber
+  - htb
+  - subversion
+  - webdav
+  - cron
+  - apache
+synced: "2026-10-16 12:38"
+---
+
 # Hack The Box: Management Writeup
 
 ## Introduction

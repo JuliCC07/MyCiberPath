@@ -1,3 +1,20 @@
+---
+title: "Cap - Hack The Box"
+target: "Cap"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "IDOR Network Capture Download, Cleartext Credentials in PCAP, Linux Capabilities (cap_setuid)"
+tags:
+  - ciber
+  - htb
+  - idor
+  - pcap
+  - capabilities
+  - cap_setuid
+synced: "2026-10-16 12:38"
+---
+
 This write-up covers the exploitation of the **Cap** machine from HackTheBox. The attack path involves identifying an Insecure Direct Object Reference (IDOR) vulnerability to download sensitive network captures, extracting cleartext credentials, and leveraging Linux capabilities for privilege escalation to gain root access.
 ## Overview
 

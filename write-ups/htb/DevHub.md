@@ -1,3 +1,21 @@
+---
+title: "DevHub - Hack The Box"
+target: "DevHub"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Exposed .git Repository Dumping, Gitea API Token Hijacking, CI/CD Runner Privilege Escalation"
+tags:
+  - ciber
+  - htb
+  - git
+  - gitea
+  - cicd
+  - docker
+  - privesc
+synced: "2026-10-16 12:38"
+---
+
 # DevHub Writeup
 
 ## Reconnaissance

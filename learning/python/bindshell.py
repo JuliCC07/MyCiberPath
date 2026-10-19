@@ -36,7 +36,7 @@ def main(port):
     s.listen(4) # allow at most four unaccepted connections before it starts refusing connections anymore
 
     while True:
-        client_socket, _ = s.accept # the socket then accepts new incoming connections. When established, the accept call will rerturn 2 things stored in the variables client_socket and address
+        client_socket, _ = s.accept() # Accepts incoming connections
         t = Thread(target=handle_input, args=(client_socket, ))
         t.start()
 

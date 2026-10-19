@@ -1,3 +1,20 @@
+---
+title: "CCTV - Hack The Box"
+target: "CCTV"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "Default Camera API Credentials, Authenticated RCE, Sudo Misconfiguration PrivEsc"
+tags:
+  - ciber
+  - htb
+  - webcam
+  - default-creds
+  - api
+  - privesc
+synced: "2026-10-16 12:38"
+---
+
 This write-up covers the path to completely compromising the **CCTV** machine from HackTheBox. The journey involves exploiting a SQL injection vulnerability in ZoneMinder to dump user credentials, cracking a hashed password to gain SSH access, and finally escalating privileges by exploiting a command injection vulnerability in a locally running MotionEye instance.
 ## Overview
 

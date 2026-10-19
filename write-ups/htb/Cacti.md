@@ -1,3 +1,21 @@
+---
+title: "Cacti - Hack The Box"
+target: "Cacti"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "Cacti CVE-2022-46169 Unauthenticated Command Injection, Capsh PrivEsc"
+tags:
+  - ciber
+  - htb
+  - cacti
+  - rce
+  - cve-2022-46169
+  - capsh
+  - capabilities
+synced: "2026-10-16 12:38"
+---
+
 Continuing my series of write-ups for HackTheBox’s seasonal event **Season of the Gacha**, I want to share my run through MonitorsFour. The machine wasn’t the hardest, but it had a non-obvious twist: a Windows host running Docker Desktop, which added some headaches during privilege escalation. I’ll admit I was initially confused as to why Nmap showed Windows while the shell I got was Linux—but more on that a bit later.
 
 This box features an IDOR, some fresh CVEs, and a Docker container escape—overall, a great set of concepts to practice. Let’s dive in!

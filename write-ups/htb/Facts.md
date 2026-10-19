@@ -1,3 +1,21 @@
+---
+title: "Facts - Hack The Box"
+target: "Facts"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "CMS Made Simple Authenticated SQLi & RCE, SUID Misconfiguration, Sudo Environment Hijacking"
+tags:
+  - ciber
+  - htb
+  - cmsms
+  - sqli
+  - suid
+  - sudo
+  - privesc
+synced: "2026-10-16 12:38"
+---
+
 ## General Info
 Linux Machine
 Rated as Easy in HTB

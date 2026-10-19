@@ -1,3 +1,20 @@
+---
+title: "Nexus - Hack The Box"
+target: "Nexus"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Sonatype Nexus Repository CVE-2020-10199 EL Injection RCE, Docker Escape / Sudo Abuse"
+tags:
+  - ciber
+  - htb
+  - sonatype-nexus
+  - docker-escape
+  - cve
+  - sudo
+synced: "2026-10-16 12:38"
+---
+
 # Nexus HTB Writeup
 
 ## Reconnaissance

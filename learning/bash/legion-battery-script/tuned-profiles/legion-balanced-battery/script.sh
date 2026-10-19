@@ -1,14 +1,23 @@
 #!/usr/bin/bash
 . /usr/lib/tuned/functions
 
-USER_NAME="julicc"
-USER_ID=$(id -u "$USER_NAME")
-NIRI_SOCK=$(ls /run/user/$USER_ID/niri.wayland-*.sock 2>/dev/null | head -n 1)
-NIRI_CMD="sudo -u $USER_NAME env NIRI_SOCKET=$NIRI_SOCK niri msg output eDP-1"
+USER_ID=$(id -u julicc)
+NIRI_SOCK=$(ls /run/user/$USER_ID/niri.wayland-*.sock 2>/dev/null | head -n1)
+
+niri_set_mode() {
+    if [ -n "$NIRI_SOCK" ]; then
+        local edp
+        edp=$(NIRI_SOCKET="$NIRI_SOCK" niri msg outputs 2>/dev/null | grep -oP 'eDP-\d+' | head -n1)
+        if [ -n "$edp" ]; then
+            NIRI_SOCKET="$NIRI_SOCK" niri msg output "$edp" mode "$1" 2>/dev/null || true
+        fi
+    fi
+}
 
 start() {
     enable_usb_autosuspend
     enable_wifi_powersave
+    legion_cli set-feature PlatformProfileFeature balanced 2>/dev/null || true
 
     for dev in /sys/bus/pci/devices/*/; do
         if [ -f "$dev/class" ] && grep -q "0x010802" "$dev/class" 2>/dev/null; then
@@ -17,9 +26,7 @@ start() {
         fi
     done
 
-    # Bajar refresco con Niri IPC a 60Hz
-    $NIRI_CMD mode "2560x1600@60.000" 2>/dev/null || true
-
+    niri_set_mode "2560x1600@60.000"
     return 0
 }
 
@@ -33,9 +40,7 @@ stop() {
         fi
     done
 
-    # Subir refresco con Niri IPC a 240Hz
-    $NIRI_CMD mode "2560x1600@240.000" 2>/dev/null || true
-
+    niri_set_mode "2560x1600@240.000"
     return 0
 }
 

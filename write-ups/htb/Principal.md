@@ -1,3 +1,20 @@
+---
+title: "Principal - Hack The Box"
+target: "Principal"
+os: "Windows"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Active Directory Recon, Kerberoasting SPN Extraction, LDAP Enumeration, BloodHound Path Analysis"
+tags:
+  - ciber
+  - htb
+  - active-directory
+  - kerberoasting
+  - ldap
+  - bloodhound
+synced: "2026-10-16 12:38"
+---
+
 This write-up details the exploitation of the **Principal** machine from HackTheBox. The attack path involves identifying a Java web application vulnerable to an authentication bypass via pac4j-jwt (CVE-2026-29000). By forging an unsigned JSON Web Token (JWT), we gain administrative access, enumerate users, and gain SSH access. Finally, we abuse a misconfigured OpenSSH Certificate Authority setup to sign a certificate granting root access.
 
 ## Reconnaissance

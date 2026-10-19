@@ -1,3 +1,20 @@
+---
+title: "Connected - Hack The Box"
+target: "Connected"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "WPA2 Handshake Capture & Cracking, Network Pivoting, System Hardening Bypass"
+tags:
+  - ciber
+  - htb
+  - wifi
+  - wpa2
+  - network-pivot
+  - aircrack
+synced: "2026-10-16 12:38"
+---
+
 This write-up details the exploitation of the **Connected** machine from HackTheBox. The attack path begins with identifying a vulnerable instance of FreePBX, exploiting a known CVE for remote code execution to gain an initial foothold, and subsequently abusing a misconfigured `incrontab` service to escalate privileges to root.
 
 ## Overview

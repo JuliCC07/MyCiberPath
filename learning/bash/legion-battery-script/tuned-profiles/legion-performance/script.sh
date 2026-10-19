@@ -1,14 +1,33 @@
 #!/usr/bin/bash
 . /usr/lib/tuned/functions
 
-USER_NAME="julicc"
-USER_ID=$(id -u "$USER_NAME")
-NIRI_SOCK=$(ls /run/user/$USER_ID/niri.wayland-*.sock 2>/dev/null | head -n 1)
-NIRI_CMD="sudo -u $USER_NAME env NIRI_SOCKET=$NIRI_SOCK niri msg output eDP-1"
+USER_ID=$(id -u julicc)
+NIRI_SOCK=$(ls /run/user/$USER_ID/niri.wayland-*.sock 2>/dev/null | head -n1)
+
+niri_set_mode() {
+    if [ -n "$NIRI_SOCK" ]; then
+        local edp
+        edp=$(NIRI_SOCKET="$NIRI_SOCK" niri msg outputs 2>/dev/null | grep -oP 'eDP-\d+' | head -n1)
+        if [ -n "$edp" ]; then
+            NIRI_SOCKET="$NIRI_SOCK" niri msg output "$edp" mode "$1" 2>/dev/null || true
+        fi
+    fi
+}
 
 start() {
     disable_usb_autosuspend
     disable_wifi_powersave
+    legion_cli set-feature PlatformProfileFeature custom 2>/dev/null || true
+
+    # Custom power limits
+    legion_cli set-feature CPULongtermPowerLimit 60 2>/dev/null || true
+    legion_cli set-feature CPUShorttermPowerLimit 75 2>/dev/null || true
+    legion_cli set-feature CPUPeakPowerLimit 80 2>/dev/null || true
+    legion_cli set-feature CPUCrossLoadingPowerLimit 60 2>/dev/null || true
+    legion_cli set-feature CPUAPUSPPTPowerLimit 0 2>/dev/null || true
+    legion_cli set-feature GPUCTGPPowerLimit 120 2>/dev/null || true
+    legion_cli set-feature GPUPPABPowerLimit 10 2>/dev/null || true
+    legion_cli set-feature GPUTemperatureLimit 87 2>/dev/null || true
 
     for dev in /sys/bus/pci/devices/*/; do
         if [ -f "$dev/class" ] && grep -q "0x010802" "$dev/class" 2>/dev/null; then
@@ -16,15 +35,11 @@ start() {
         fi
     done
 
-    # Subir refresco con Niri IPC a 240Hz
-    $NIRI_CMD mode "2560x1600@240.000" 2>/dev/null || true
-
+    niri_set_mode "2560x1600@240.000"
     return 0
 }
 
 stop() {
-    # Al detener el perfil AC, no forzamos estado de bajo consumo aquí,
-    # ya que el perfil de batería que se active después lo hará en su start().
     return 0
 }
 

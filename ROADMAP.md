@@ -33,13 +33,13 @@ created: 2026-02-01
 ### ✈️ Trimester 2: Erasmus Competitiveness
 > *Focus: Vulnerability Analysis & Portfolio Building*
 
-- [ ] **Tech:** Master Vulnerability Analysis tools.
-- [ ] **Labs:** Complete **10 Beginner-Intermediate HTB machines** with full documentation.
-- [ ] **Coding:** Master Intermediate Python (File handling, Networking, Sockets).
-- [ ] **Project:** Participate in an internal mini-pentest & write a **Technical Vulnerability Report**.
-- [ ] **Languages:** Continue **German A1-A2** 🇩🇪.
-- [ ] **Erasmus:** Gather recommendation letters, CV, and certificates before the deadline.
-- [ ] **Content:** Publish Technical Blog (Min. 2 entries explaining hacked machines/scripts).
+- [x] **Tech:** Master Vulnerability Analysis tools. ✅ 2026-10-15
+- [x] **Labs:** Complete **10 Beginner-Intermediate HTB machines** with full documentation. ✅ 2026-10-15
+- [x] **Coding:** Master Intermediate Python (File handling, Networking, Sockets). ✅ 2026-10-15
+- [x] **Project:** Participate in an internal mini-pentest & write a **Technical Vulnerability Report**. ✅ 2026-10-15
+- [x] **Languages:** Continue **German A1-A2** 🇩🇪. ✅ 2026-10-15
+- [x] **Erasmus:** Gather recommendation letters, CV, and certificates before the deadline. ✅ 2026-10-15
+- [x] **Content:** Publish Technical Blog (Min. 2 entries explaining hacked machines/scripts). ✅ 2026-10-15
 
 ### ⚔️ Trimester 3: Specialization & eJPT
 > *Focus: Pentesting Methodology & Tool Development*
@@ -47,10 +47,10 @@ created: 2026-02-01
 - [ ] **Methodology:** Apply full pentesting methodology to **5 Intermediate + 1 Advanced HTB machine**.
 - [ ] **Certification:** Pass **eJPT exam** before trimester end. **CCNA (Cisco Certified Network Associate)** - *Validate networking skills*.
 - [ ] **Dev:** Develop & Document **2 custom Python/Bash tools**.
-- [ ] **Networking:** Reach **50+ LinkedIn connections** & request 5 recommendations.
+- [x] **Networking:** Reach **50+ LinkedIn connections** & request 5 recommendations. ✅ 2026-10-15
 - [ ] **Languages:** Reach **German A2/B1** 🇩🇪.
 - [ ] **Erasmus:** Accept placement & formalize/plan budget.
-- [ ] **Portfolio:** Add complete pentesting project to portfolio.
+- [x] **Portfolio:** Add complete pentesting project to portfolio. ✅ 2026-10-15
 
 ### 🔥 Trimester 4: Intensive Preparation (OSCP Path)
 > *Focus: High-intensity training and technical refinement*

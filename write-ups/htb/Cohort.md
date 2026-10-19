@@ -1,3 +1,21 @@
+---
+title: "Cohort - Hack The Box"
+target: "Cohort"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "MTU Fragmentation Handling, Grafana Enumeration, SQLite Database Extraction, SUID Exploit"
+tags:
+  - ciber
+  - htb
+  - grafana
+  - sqlite
+  - suid
+  - mtu
+  - ssl
+synced: "2026-10-16 12:38"
+---
+
 # Cohort - Hack The Box Writeup
 
 ## Reconnaissance

@@ -1,3 +1,20 @@
+---
+title: "Skill Assessment - File Inclusions - Hack The Box"
+target: "Skill Assessment - File Inclusions"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Local File Inclusion (LFI), PHP Filter Wrappers, Apache Log Poisoning to RCE"
+tags:
+  - ciber
+  - htb
+  - lfi
+  - rfi
+  - php-wrappers
+  - log-poisoning
+synced: "2026-10-16 12:38"
+---
+
 Páginas interesantes: 
 - `apply.php`
 - `contact.php`

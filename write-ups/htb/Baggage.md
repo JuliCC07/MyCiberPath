@@ -1,3 +1,20 @@
+---
+title: "Baggage - Hack The Box"
+target: "Baggage"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "Werkzeug Console PIN Exploit, Flask Debugger, SUID Privilege Escalation"
+tags:
+  - ciber
+  - htb
+  - werkzeug
+  - flask
+  - suid
+  - privesc
+synced: "2026-10-16 12:38"
+---
+
 # HackTheBox Writeup: Baggage
 
 ## Reconnaissance

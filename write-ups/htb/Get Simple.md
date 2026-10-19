@@ -1,3 +1,20 @@
+---
+title: "Get Simple - Hack The Box"
+target: "Get Simple"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "GetSimple CMS 3.3.16 Theme Upload RCE, Sudo Binary Execution Abuse"
+tags:
+  - ciber
+  - htb
+  - getsimple-cms
+  - rce
+  - sudo
+  - upload-bypass
+synced: "2026-10-16 12:38"
+---
+
 This write-up covers the exploitation of the **Get Simple** machine from HackTheBox. The attack path starts with extracting hashed credentials from an exposed XML file, exploiting a known Remote Code Execution (RCE) in GetSimple CMS to gain an initial shell, and subsequently abusing a `sudo` misconfiguration to achieve root access.
 
 ## Overview

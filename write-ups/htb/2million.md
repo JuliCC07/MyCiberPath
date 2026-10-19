@@ -1,3 +1,21 @@
+---
+title: "2million - Hack The Box"
+target: "2million"
+os: "Linux"
+difficulty: "Easy"
+status: "Pwned"
+vectors: "REST API Reversing, ROT13 Invite, Command Injection (VPN .ovpn), Kernel Exploit (Dirty Cred)"
+tags:
+  - ciber
+  - htb
+  - api
+  - rot13
+  - command-injection
+  - dirty-cred
+  - kernel
+synced: "2026-10-16 12:38"
+---
+
 # HackTheBox: 2million Writeup
 
 ## Reconnaissance

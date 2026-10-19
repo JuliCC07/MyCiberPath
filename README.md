@@ -35,9 +35,9 @@ Currently focusing on the "Big Four" for beginners:
 
 Since I am in the **Foundations Phase (T1)**, this repository hosts my study notes and initial write-ups rather than complex tools.
 
-* `📂 /notes` - Markdown notes on Linux commands, Networking concepts (ASIR), and Python syntax.
-* `📂 /writeups` - Detailed solutions for HackTheBox machines (Methodology & Remediation).
-* `📂 /learning` - Code snippets and exercises from my Python learning path.
+* `📂 /notes` - Engineering notes on Linux Kernel, Windows Server Administration, CCNA Networking, and Offensive Security methodologies.
+* `📂 /write-ups` - Comprehensive documentation and audit reports for 26 Hack The Box machines (Starting Point & Seasoned targets).
+* `📂 /learning` - Custom offensive security Python tools, network sockets, race condition exploits, and Bash system administration daemons.
 
 ---
 ## 🗺️ Strategic Roadmap

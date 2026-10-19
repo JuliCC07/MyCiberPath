@@ -1,3 +1,20 @@
+---
+title: "Orion - Hack The Box"
+target: "Orion"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "MikroTik RouterOS Enumeration, Custom WebApp Vulnerability, Hashcat NTLM Cracking, PrivEsc"
+tags:
+  - ciber
+  - htb
+  - mikrotik
+  - routeros
+  - hashcat
+  - privesc
+synced: "2026-10-16 12:38"
+---
+
 # Orion - Hack The Box Writeup
 
 ## Reconnaissance
