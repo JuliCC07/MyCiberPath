@@ -12,20 +12,8 @@ tags:
   - docker-escape
   - cve
   - sudo
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a21774d6-5dc0-4e3a-bee2-7274ea8df097-1782216281.png" alt="Nexus Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.8
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.4
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 5.7
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4.3
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.6
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 241
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 360
-folder: "EASY"
+  - folder: "EASY"
     count: 1561
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 1418
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 759
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 360
-folder: "HARD"
+  - folder: "HARD"
     count: 289
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 145
-folder: "INSANE"
+  - folder: "INSANE"
     count: 39
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 88
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 
@@ -231,7 +217,7 @@ billing                 [Status: 302, Size: 390, Words: 60, Lines: 12, Duration:
 This reveals two subdomains: `git` and `billing`.
 
 During the initial enumeration, we also identify a potential user from the web application:
-Hiring Manager: `j.matthew@nexus.htb`
+- Hiring Manager: `j.matthew@nexus.htb`
 
 ### Gitea Web Application
 
@@ -618,7 +604,7 @@ Total 11 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
 remote: . Processing 1 references
 remote: Processed 1 references in total
 To http://git.nexus.htb/jones/rce.git
-[new branch]      main -> main
+ * [new branch]      main -> main
 rama 'main' configurada para rastrear 'origin/main'.
 ```
 
@@ -637,14 +623,14 @@ root@nexus:~# cat /root/root.txt
 
 This machine provided a great overview of common misconfigurations and chaining vulnerabilities. The exploitation path started with information gathering via open directories and exposed `.env` files. We gained initial access through an outdated Krayin CRM version containing a known RCE vulnerability. After achieving a foothold, password reuse allowed lateral movement to another user account. Finally, privilege escalation was achieved by analyzing a custom Python script executed as a root scheduled task and exploiting a directory traversal vulnerability during Git template synchronization, ultimately yielding a `root` shell.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Source Code Repository Auditing**: Internal Gitea instances often harbor exposed credentials, hardcoded keys, and infrastructure deployment files.
-**Systemd Service Permissions**: Ensure service unit files and scripts executed by `systemd` are strictly writable by `root`.
+- **Source Code Repository Auditing**: Internal Gitea instances often harbor exposed credentials, hardcoded keys, and infrastructure deployment files.
+- **Systemd Service Permissions**: Ensure service unit files and scripts executed by `systemd` are strictly writable by `root`.
 
 ### Atomic Notes to Extract
-[[Linux - Services - Systemd Service Management|Systemd Service Abuse]]
-[[Linux - PrivEsc - SUID|SUID Binaries]]
+- [[Linux - Services - Systemd Service Management|Systemd Service Abuse]]
+- [[Linux - PrivEsc - SUID|SUID Binaries]]

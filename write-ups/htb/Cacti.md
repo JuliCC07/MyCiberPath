@@ -13,20 +13,8 @@ tags:
   - cve-2022-46169
   - capsh
   - capabilities
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Windows
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a065be96-2e94-4958-a1b6-1990170b8224.png" alt="MonitorsFour Avatar" width="220">
@@ -80,34 +68,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 6.1
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.5
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.3
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.7
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.5
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -145,25 +133,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 317
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 411
-folder: "EASY"
+  - folder: "EASY"
     count: 2269
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 2501
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 1373
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 536
-folder: "HARD"
+  - folder: "HARD"
     count: 405
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 124
-folder: "INSANE"
+  - folder: "INSANE"
     count: 63
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 149
 
 #-----------------#
@@ -195,9 +183,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 Continuing my series of write-ups for HackTheBox’s seasonal event **Season of the Gacha**, I want to share my run through MonitorsFour. The machine wasn’t the hardest, but it had a non-obvious twist: a Windows host running Docker Desktop, which added some headaches during privilege escalation. I’ll admit I was initially confused as to why [[Recon - Nmap - Port Scanning and Host Discovery|Nmap]] showed Windows while the shell I got was Linux—but more on that a bit later.
 
@@ -226,7 +212,7 @@ nmap -sC -sV -p- 10.129.12.34 -oN nmap_full.txt
 
 <img alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_14-50.png" />
 
-*Results:**
+**Results:**
 ```ini
 PORT     STATE SERVICE VERSION
 80/tcp   open  http    nginx
@@ -244,9 +230,9 @@ We only see two open ports—the attack surface is small but sufficient. The `PH
 
 Port `5985` ([[Recon - Footprinting - WinRM|WinRM]]), Windows Remote Management, is used for remote administration of Windows systems. It may come in handy later—if we find valid Windows credentials, we can get a full shell via [[Recon - Footprinting - WinRM|evil-winrm]].
 
-*Open ports:**
-**80** - Nginx (web server with PHP)
-**5985** - WinRM (Windows Remote Management)
+**Open ports:**
+- **80** - Nginx (web server with PHP)
+- **5985** - WinRM (Windows Remote Management)
 
 ### Subdomain discovery
 
@@ -254,13 +240,13 @@ As we’ve seen, the main site looks like a typical landing page with no obvious
 
 ```bash
 ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt \
-u http://monitorsfour.htb \
-H "Host: FUZZ.monitorsfour.htb" -ac
+     -u http://monitorsfour.htb \
+     -H "Host: FUZZ.monitorsfour.htb" -ac
 ```
 
 <img alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_14-54%20(Edited).png" />
 
-*Results:**
+**Results:**
 ```yaml
 cacti     [Status: 302, Size: 0, Words: 1, Lines: 1, Duration: 91ms]
 ```
@@ -283,7 +269,7 @@ Since Cacti requires authentication, let’s return to the main site and look fo
 
 ```bash
 ffuf -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \
-u http://monitorsfour.htb/FUZZ -ac
+     -u http://monitorsfour.htb/FUZZ -ac
 ```
 
 Among the discovered endpoints is `/user`, which accepts a `token` parameter. When testing IDOR-like issues, it’s common to try values such as `0`, `1`, `2`, and so on. A value of `0` often either triggers an error or returns all records due to incorrect handling of edge cases. Apparently, the developers didn’t implement proper checks: a request with `token=0` bypasses filtering and the server returns a full list of users along with their MD5 password hashes (see [[Web - Access - IDOR via Query Token|IDOR via Query Tokens]]):
@@ -295,7 +281,7 @@ curl -s "http://monitorsfour.htb/user?token=0"
 ```
 <img width="670" height="670" alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_15-18.png" />
 
-*Server response:**
+**Server response:**
 ```json
 [
   {
@@ -347,17 +333,17 @@ We use the online service [CrackStation](https://crackstation.net/), which conta
 
 At first I tried logging into Cacti as `admin:wonderful1`, but it wouldn’t let me in. Then I tried plausible usernames based on the profile data (name `Marcus Higgins`, email `admin@...`): `marcus`, `mhiggins`, `higgins`... and `marcus:wonderful1` turned out to be the correct combo.
 
-*Cacti credentials obtained:** `marcus:wonderful1`
+**Cacti credentials obtained:** `marcus:wonderful1`
 
 ## Exploiting Cacti (CVE-2025-24367)
 
-*CVE-2025-24367** is a Cacti vulnerability (affecting versions **<= 1.2.28**) that allows arbitrary code execution (RCE) via [[Web - Injection - OS Command Injection in API Parameters|command injection]] in the Graph Template field. The issue occurs due to insufficient sanitization of data passed into the rrdtool utility. A public PoC is available on GitHub: [CVE-2025-24367-Cacti-PoC](https://github.com/TheCyberGeek/CVE-2025-24367-Cacti-PoC).
+**CVE-2025-24367** is a Cacti vulnerability (affecting versions **<= 1.2.28**) that allows arbitrary code execution (RCE) via [[Web - Injection - OS Command Injection in API Parameters|command injection]] in the Graph Template field. The issue occurs due to insufficient sanitization of data passed into the rrdtool utility. A public PoC is available on GitHub: [CVE-2025-24367-Cacti-PoC](https://github.com/TheCyberGeek/CVE-2025-24367-Cacti-PoC).
 
 <img alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_15-22.png" />
 
 Go to `http://cacti.monitorsfour.htb` and log in using:
-**Username:** marcus
-**Password:** wonderful1
+- **Username:** marcus
+- **Password:** wonderful1
 
 At the top of the page, we notice the Cacti version and confirm it: **1.2.28**
 
@@ -427,7 +413,7 @@ www-data@821fbd6a43fa:~/html/cacti$ ls -la /home/marcus
 total 12
 drwxr-xr-x 2 marcus marcus 4096 Oct 15 12:34 .
 drwxr-xr-x 3 root   root   4096 Oct 15 12:34 ..
-rw-r--r-- 1 marcus marcus   33 Oct 15 12:34 user.txt
+-rw-r--r-- 1 marcus marcus   33 Oct 15 12:34 user.txt
 
 www-data@821fbd6a43fa:~/html/cacti$ cat /home/marcus/user.txt
 23cde88d************************
@@ -471,11 +457,11 @@ No luck—the gateway is just a virtual interface of the bridge network. Next, w
 
 ```console
 www-data@821fbd6a43fa:~/html/cacti$ curl -v http://host.docker.internal:2375/version
-Host host.docker.internal:2375 was resolved.
-IPv6: fdc4:f303:9324::254
-IPv4: 192.168.65.254
-Trying 192.168.65.254:2375...
-connect to 192.168.65.254 port 2375 from 172.18.0.2 port 38548 failed: Connection refused
+* Host host.docker.internal:2375 was resolved.
+* IPv6: fdc4:f303:9324::254
+* IPv4: 192.168.65.254
+*   Trying 192.168.65.254:2375...
+* connect to 192.168.65.254 port 2375 from 172.18.0.2 port 38548 failed: Connection refused
 curl: (7) Failed to connect to host.docker.internal port 2375 after 19 ms: Could not connect to server
 ```
 
@@ -490,7 +476,7 @@ www-data@821fbd6a43fa:~/html/cacti$ find / -name "docker.sock" 2>/dev/null
 
 Nothing again—no socket mounted.
 
-*Scanning 192.168.65.0/24:**
+**Scanning 192.168.65.0/24:**
 
 Since `host.docker.internal` points to `192.168.65.254` but the API isn’t there, the Docker Engine might be listening on another IP in the same subnet. We brute-force all addresses from 1 to 254. The subnet is small, so it only takes a couple of seconds:
 
@@ -572,16 +558,16 @@ That’s it—root flag obtained!
 
 This machine is great for reinforcing a few practical lessons: don’t stop at the first shell, always pay attention to *where* you landed (container vs host), and remember that Docker Desktop on Windows introduces its own quirks in the network model and isolation boundaries.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**IDOR via Query Tokens**: Testing unexpected parameter values (like `token=0`) often reveals logic flaws where applications fail to enforce user isolation.
-**Docker Desktop Internal API Exposure (CVE-2025-9074)**: In Windows environments running Docker Desktop, exposing the Docker Engine daemon over the internal subnet allows unauthenticated container creation with host bind-mounts (`/mnt/host/c`), leading to instant host compromise.
-**Isolation Boundaries**: Always determine whether a gained shell is within a container or the underlying host OS to identify relevant escape primitives.
+- **IDOR via Query Tokens**: Testing unexpected parameter values (like `token=0`) often reveals logic flaws where applications fail to enforce user isolation.
+- **Docker Desktop Internal API Exposure (CVE-2025-9074)**: In Windows environments running Docker Desktop, exposing the Docker Engine daemon over the internal subnet allows unauthenticated container creation with host bind-mounts (`/mnt/host/c`), leading to instant host compromise.
+- **Isolation Boundaries**: Always determine whether a gained shell is within a container or the underlying host OS to identify relevant escape primitives.
 
 ### Atomic Notes to Extract
-[[Web - Access - IDOR via Query Token|IDOR via Query Tokens]]
-[[Docker - Escape - Unauthenticated Engine API|Docker API Container Escape (CVE-2025-9074)]]
-[[Recon - Nmap - Port Scanning and Host Discovery|Nmap Scanning]]
+- [[Web - Access - IDOR via Query Token|IDOR via Query Tokens]]
+- [[Docker - Escape - Unauthenticated Engine API|Docker API Container Escape (CVE-2025-9074)]]
+- [[Recon - Nmap - Port Scanning and Host Discovery|Nmap Scanning]]

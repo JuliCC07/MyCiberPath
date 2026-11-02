@@ -12,20 +12,8 @@ tags:
   - kerberoasting
   - ldap
   - bloodhound
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Medium
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1466ce6-d9de-48b2-913b-9c91e82db427.png" alt="Principal Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.3
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.4
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 5.9
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4.1
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.6
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 230
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 276
-folder: "EASY"
+  - folder: "EASY"
     count: 953
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 606
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 542
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 129
-folder: "HARD"
+  - folder: "HARD"
     count: 71
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 15
-folder: "INSANE"
+  - folder: "INSANE"
     count: 2
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 15
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 This write-up details the exploitation of the **Principal** machine from HackTheBox. The attack path involves identifying a Java web application vulnerable to an authentication bypass via pac4j-jwt (CVE-2026-29000). By forging an unsigned JSON Web Token (JWT), we gain administrative access, enumerate users, and gain SSH access. Finally, we abuse a misconfigured OpenSSH Certificate Authority setup to sign a certificate granting root access.
 
@@ -211,8 +197,8 @@ $ nmap -sC -sV 10.129.244.220
 ```
 
 The scan identifies two open ports:
-**22/tcp (SSH):** OpenSSH 9.6p1
-**8080/tcp (HTTP-Proxy):** Jetty web server
+- **22/tcp (SSH):** OpenSSH 9.6p1
+- **8080/tcp (HTTP-Proxy):** Jetty web server
 
 ### Web Enumeration
 
@@ -225,10 +211,10 @@ $ curl -s http://10.129.244.220:8080/static/js/app.js
 ```
 
 The source code provides critical details about the authentication mechanism:
-Tokens are JSON Web Encryption (JWE) tokens encrypted using RSA-OAEP-256 + A128GCM.
-The inner JWT is signed with RS256.
-The Public Key is available at `/api/auth/jwks` for verification.
-Roles include `ROLE_ADMIN`, `ROLE_MANAGER`, and `ROLE_USER`.
+- Tokens are JSON Web Encryption (JWE) tokens encrypted using RSA-OAEP-256 + A128GCM.
+- The inner JWT is signed with RS256.
+- The Public Key is available at `/api/auth/jwks` for verification.
+- Roles include `ROLE_ADMIN`, `ROLE_MANAGER`, and `ROLE_USER`.
 
 We query the JWKS endpoint to retrieve the public key:
 
@@ -257,7 +243,7 @@ $ curl -H "Authorization: Bearer <FORGED_TOKEN>" http://10.129.244.220:8080/api/
 ```
 
 This reveals several users, including a service account:
-`svc-deploy`: "Service account for automated deployments via SSH certificate auth."
+- `svc-deploy`: "Service account for automated deployments via SSH certificate auth."
 
 ![[Pasted image 20260628160031.png]]
 
@@ -267,7 +253,7 @@ This reveals several users, including a service account:
 
 ## Foothold
 
-(Assuming we obtained the credentials for `svc-deploy` through further enumeration of the web application dashboard using our forged admin token.)*
+*(Assuming we obtained the credentials for `svc-deploy` through further enumeration of the web application dashboard using our forged admin token.)*
 
 We connect via SSH using the `svc-deploy` account:
 
@@ -305,14 +291,14 @@ This generates a signed certificate (`pwn-cert.pub`) valid for the `root` user. 
 
 The Principal machine demonstrates advanced authentication mechanisms and how subtle configuration flaws can break them. It highlights the severity of the `none` algorithm vulnerability in JWT implementations (CVE-2026-29000). Furthermore, it underscores the importance of correctly configuring OpenSSH Certificate Authorities; failing to enforce `AuthorizedPrincipalsFile` when trusting a CA can trivially lead to root compromise if the CA key is exposed.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**JWT Algorithmic Confusion**: Ensure token validation libraries (Pac4j) strictly enforce expected cryptographic algorithms (HMAC vs RSA/ECDSA) to prevent signature forgery.
-**SSH Certificate Authority Security**: Signing keys for SSH CAs must be isolated with strict access controls and passphrase protection to avoid unauthorized root certificate generation.
+- **JWT Algorithmic Confusion**: Ensure token validation libraries (Pac4j) strictly enforce expected cryptographic algorithms (HMAC vs RSA/ECDSA) to prevent signature forgery.
+- **SSH Certificate Authority Security**: Signing keys for SSH CAs must be isolated with strict access controls and passphrase protection to avoid unauthorized root certificate generation.
 
 ### Atomic Notes to Extract
-[[Web - Auth - JWT Pac4j Key Confusion and Forgery|JWT Key Confusion & Pac4j Authentication Bypass]]
-[[Linux - PrivEsc - SSH Certificate Authority Abuse|OpenSSH Certificate Authority Abuse Privilege Escalation]]
+- [[Web - Auth - JWT Pac4j Key Confusion and Forgery|JWT Key Confusion & Pac4j Authentication Bypass]]
+- [[Linux - PrivEsc - SSH Certificate Authority Abuse|OpenSSH Certificate Authority Abuse Privilege Escalation]]

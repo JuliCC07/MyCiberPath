@@ -4,6 +4,20 @@ A milestone tracker documenting academic progress, professional certifications, 
 
 ---
 
+## 🎯 Target Milestones & Certifications
+
+<div align="center">
+
+[![Cambridge C1](https://img.shields.io/badge/Cambridge%20C1%20Advanced-Certified%20(June%202025)-005073?style=for-the-badge&logo=cambridge&logoColor=white)](https://JuliCC07.github.io/certifications/)
+[![HTB CPTS](https://img.shields.io/badge/HTB%20CPTS-In%20Active%20Preparation-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
+[![OffSec OSCP](https://img.shields.io/badge/OffSec%20OSCP-Long--Term%20Objective-A90533?style=for-the-badge&logo=kalilinux&logoColor=white)](https://JuliCC07.github.io/certifications/)
+[![Cisco CCNA](https://img.shields.io/badge/Cisco%20CCNA-Coursework%20Complete%20(Paused)-049FD9?style=for-the-badge&logo=cisco&logoColor=white)](https://JuliCC07.github.io/certifications/)
+[![ASIR Degree](https://img.shields.io/badge/ASIR-Expected%20June%202027-2C3E50?style=for-the-badge&logo=linux&logoColor=white)](https://JuliCC07.github.io/cv/)
+[![Erasmus+](https://img.shields.io/badge/Erasmus%2B-DACH%20(March--June%202027)-003399?style=for-the-badge&logo=europeanunion&logoColor=white)](https://JuliCC07.github.io/cv/)
+
+---
+</div>
+
 ## Academic & Career Milestones
 
 - **SMR (Microcomputer Systems and Networks):** IES Ginés Pérez Chirinos (Completed, June 2025).

@@ -13,20 +13,8 @@ tags:
   - suid
   - sudo
   - privesc
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: In Progress
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a0efb09d-2937-4e7c-bd04-ba2e4386b8b1.png" alt="Facts Avatar" width="220">
@@ -80,34 +68,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.2
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.3
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.1
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.9
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.7
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 6
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 3
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 7
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 3
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 7
 
@@ -145,25 +133,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 1569
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 2346
-folder: "EASY"
+  - folder: "EASY"
     count: 6512
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 3877
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 1454
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 402
-folder: "HARD"
+  - folder: "HARD"
     count: 261
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 92
-folder: "INSANE"
+  - folder: "INSANE"
     count: 37
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 121
 
 #-----------------#
@@ -195,9 +183,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## General Info
 Linux Machine
@@ -250,14 +236,14 @@ GET response
 set-cookie: _factsapp_session=63DYSHMFi%2FMSsrK43NGzNsZQJHtEyiPnxW10rMX6GysdzM9qu8s0jO8ua67zOdUoa7uI6hqZ3qwQyx1jFvcr%2Fv%2FLzmv916dmMVkrN4LOBYxT05UZXp0GiHMwlP%2Fs3FhyZkeaiavkgNK%2BJ9ddHr1CkuG9Z%2FPiAvVLlb7S3u5G7Iy5RkD0tQtkDHadYqD2l7I8EYj0v4gY5r2ctFy6RPAn7kA7lpZQnMph0FZRgphyXYtsWq4s2hf%2FZHJ9Es%2Fwa4QuFuUapp7%2FEZ0A3e92j7DKSZR%2FdeT2JDU27Q%3D%3D--eCSsjGLnc4%2Biv83E--A6cCB832173NlnS8wguoqA%3D%3D; path=/; httponly; samesite=lax
 ```
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**MinIO & Secondary Service Exposure**: Non-standard high ports (54321, 9001) frequently run administration consoles that require segmentation.
-**Ruby on Rails Session Security**: Understand cookie signing and encryption mechanisms to identify potential session tampering or deserialization flaws.
+- **MinIO & Secondary Service Exposure**: Non-standard high ports (54321, 9001) frequently run administration consoles that require segmentation.
+- **Ruby on Rails Session Security**: Understand cookie signing and encryption mechanisms to identify potential session tampering or deserialization flaws.
 
 ### Atomic Notes to Extract
-[[Web - HTTP - Cookies & Session Management|Ruby on Rails Session Cookies]]
-[[Recon - Nmap - Port Scanning and Host Discovery|Nmap Scanning]]
+- [[Web - HTTP - Cookies & Session Management|Ruby on Rails Session Cookies]]
+- [[Recon - Nmap - Port Scanning and Host Discovery|Nmap Scanning]]

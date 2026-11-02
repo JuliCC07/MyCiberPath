@@ -12,20 +12,8 @@ tags:
   - pcap
   - capabilities
   - cap_setuid
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: "10.129.131.96"
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d2-73c7-4da0-a15f-662bbc048868.png" alt="Cap Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 4.8
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 4.2
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 4.6
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 5.4
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 5.8
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 2
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 2
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 7
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 3
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 8
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 21973
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 25061
-folder: "EASY"
+  - folder: "EASY"
     count: 42397
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 15456
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 7828
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 1978
-folder: "HARD"
+  - folder: "HARD"
     count: 1225
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 307
-folder: "INSANE"
+  - folder: "INSANE"
     count: 126
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 440
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Information Gathering
 
@@ -215,15 +201,15 @@ nmap -sCV -p<PORTS> 10.129.131.96 -oN recon_services.nmap
 ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-directories.txt -u http://10.129.131.96/FUZZ -fc 404
 ```
 
---
+---
 
 ## Vulnerability Assessment
 <!-- Analysis of attack surface, identified technologies, CVEs, misconfigurations, or logic flaws -->
-**Identified Vector**: 
-**Target Zettelkasten Concept**: Cybersecurity Hub
-**Attack Hypothesis**: 
+- **Identified Vector**: 
+- **Target Zettelkasten Concept**: Cybersecurity Hub
+- **Attack Hypothesis**: 
 
---
+---
 
 ## Exploitation (Foothold)
 
@@ -234,13 +220,13 @@ ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-director
 ```
 
 ### User Shell & Flag
-**Initial Access User**: 
-**User Flag (`user.txt`)**:
+- **Initial Access User**: 
+- **User Flag (`user.txt`)**:
 ```text
 
 ```
 
---
+---
 
 ## Post-Exploitation & Lateral Movement
 
@@ -254,34 +240,34 @@ ss -tulpn
 
 ### Privilege Escalation Vector
 <!-- Exploit technique used to escalate to root / NT AUTHORITY\SYSTEM -->
-**Technique**: 
-**Escalation Steps**:
+- **Technique**: 
+- **Escalation Steps**:
 ```bash
 
 ```
 
 ### Root Shell & Flag
-**Final User**: root / SYSTEM
-**Root Flag (`root.txt` / `proof.txt`)**:
+- **Final User**: root / SYSTEM
+- **Root Flag (`root.txt` / `proof.txt`)**:
 ```text
 
 ```
 
---
+---
 
 ## Proof of Concept & Attack Summary
 <!-- High-level summary of the end-to-end exploit chain -->
-**Recon**: 
-**Foothold**: 
-**PrivEsc**: 
+- **Recon**: 
+- **Foothold**: 
+- **PrivEsc**: 
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Root Cause**: 
-**Remediation / Mitigation**: 
+- **Root Cause**: 
+- **Remediation / Mitigation**: 
 
 ### Atomic Notes to Extract
 <!-- Concepts and techniques to document in 20_Zettelkasten/ -->

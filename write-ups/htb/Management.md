@@ -12,20 +12,8 @@ tags:
   - webdav
   - cron
   - apache
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a261b8b2-9dd5-4958-aaac-ca53661ab002-1785405942.png" alt="Management Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 6.1
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.3
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 5.8
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4.2
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.7
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 8
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 6
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 8
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 2
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 4
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 116
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 133
-folder: "EASY"
+  - folder: "EASY"
     count: 577
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 650
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 438
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 176
-folder: "HARD"
+  - folder: "HARD"
     count: 110
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 47
-folder: "INSANE"
+  - folder: "INSANE"
     count: 31
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 45
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Introduction
 This writeup covers the path to compromise the **Management** machine on Hack The Box. The process involves identifying database credentials within a local configuration, extracting and decrypting LDAP bind credentials from the database, pivoting to another user, and finally escalating privileges to root by exploiting a sudo misconfiguration related to `rdiff-backup`.
@@ -209,7 +195,7 @@ During the initial reconnaissance and enumeration phases, the following screensh
 ![Reconnaissance 3](Pasted image 20260915224130.png)
 ![Reconnaissance 4](Pasted image 20260915230247.png)
 
-Note: The images above depict the initial web attack surface leading to initial access.*
+*Note: The images above depict the initial web attack surface leading to initial access.*
 
 ## Foothold & Lateral Movement
 
@@ -324,28 +310,28 @@ total 44
 drwx------  7 owen owen 4096 Sep 16 13:23 .
 drwxrwxrwt 18 root root 4096 Sep 16 14:57 ..
 lrwxrwxrwx  1 owen owen    9 Sep 16 14:57 .bash_history -> /dev/null
-rw-r--r--  1 owen owen 3106 Apr 22  2024 .bashrc
+-rw-r--r--  1 owen owen 3106 Apr 22  2024 .bashrc
 drwx------  3 owen owen 4096 Sep  7 11:41 .cache
 drwx------  3 owen owen 4096 Sep  7 11:41 .config
 drwxr-xr-x  3 owen owen 4096 Sep  7 11:41 .local
-rw-r--r--  1 owen owen  161 Apr 22  2024 .profile
+-rw-r--r--  1 owen owen  161 Apr 22  2024 .profile
 drwx------  3 owen owen 4096 Sep 16 14:57 rdiff-backup-data
-rw-r-----  1 owen owen   33 Sep 16 13:23 root.txt
+-rw-r-----  1 owen owen   33 Sep 16 13:23 root.txt
 drwx------  2 owen owen 4096 Sep  7 11:41 .ssh
-rw-r--r--  1 owen owen  177 Sep  7 11:06 .wget-hsts
+-rw-r--r--  1 owen owen  177 Sep  7 11:06 .wget-hsts
 ```
 
 From this cloned directory, we have full read access to the `root.txt` flag and the root user's SSH private key (`id_ed25519`):
 
 ```bash
 owen@management:~$ cat /tmp/rootbak/.ssh/id_ed25519
-----BEGIN OPENSSH PRIVATE KEY-----
+-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
 QyNTUxOQAAACDRqEzX3B6ZIUdm8fp0Ty7FcR+ym8y2Ta/ZopPqEgjznAAAAJiKHFMDihxT
 AwAAAAtzc2gtZWQyNTUxOQAAACDRqEzX3B6ZIUdm8fp0Ty7FcR+ym8y2Ta/ZopPqEgjznA
 AAAEC1DT/FX4yt0JieQdIfLJ2389KJYZz1bHsGBjGcb/B/7dGoTNfcHpkhR2bx+nRPLsVx
 H7KbzLZNr9mik+oSCPOcAAAAD3Jvb3RAbWFuYWdlbWVudAECAwQFBg==
-----END OPENSSH PRIVATE KEY-----
+-----END OPENSSH PRIVATE KEY-----
 ```
 
 We can now use this SSH key to fully compromise the system as `root`.
@@ -353,14 +339,14 @@ We can now use this SSH key to fully compromise the system as `root`.
 ## Conclusion
 The path to root on the Management machine required solid enumeration of local configuration files and the database. After successfully decrypting LDAP credentials using the application's built-in libraries, we gained lateral access to the user `owen`. Finally, analyzing the sudo privileges allowed us to bypass the restricted mode of `rdiff-backup`, enabling arbitrary read access to the `/root` directory, providing the root flag and private SSH key.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Credential Storage in Databases**: Plaintext and reversibly encrypted passwords stored in relational databases (MariaDB/LDAP) facilitate lateral movement.
-**Sudo Misconfigurations**: Granting sudo permissions over backup utilities like `rdiff-backup` allows arbitrary command execution via built-in argument flags or subprocess spawning.
+- **Credential Storage in Databases**: Plaintext and reversibly encrypted passwords stored in relational databases (MariaDB/LDAP) facilitate lateral movement.
+- **Sudo Misconfigurations**: Granting sudo permissions over backup utilities like `rdiff-backup` allows arbitrary command execution via built-in argument flags or subprocess spawning.
 
 ### Atomic Notes to Extract
-[[Linux - PrivEsc - Rdiff-Backup Sudo Abuse|Rdiff-Backup Sudo Abuse Privilege Escalation]]
-[[Linux - PrivEsc - Password Reuse|Database Credential Extraction & Decryption]]
+- [[Linux - PrivEsc - Rdiff-Backup Sudo Abuse|Rdiff-Backup Sudo Abuse Privilege Escalation]]
+- [[Linux - PrivEsc - Password Reuse|Database Credential Extraction & Decryption]]

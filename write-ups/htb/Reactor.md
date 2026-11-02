@@ -12,20 +12,8 @@ tags:
   - jvm
   - rce
   - sudo
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1c58c3b-0931-413d-9394-5fae4350ec4c-1778698333.png" alt="Reactor Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.1
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.4
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.4
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.6
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.6
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 1638
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 2103
-folder: "EASY"
+  - folder: "EASY"
     count: 5385
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 2711
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 1052
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 318
-folder: "HARD"
+  - folder: "HARD"
     count: 233
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 73
-folder: "INSANE"
+  - folder: "INSANE"
     count: 26
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 74
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 
@@ -334,7 +320,7 @@ hashcat (v7.1.2) starting
 
 OpenCL API (OpenCL 3.0 PoCL 6.0+debian  Linux, None+Asserts, RELOC, SPIR-V, LLVM 18.1.8, SLEEF, DISTRO, POCL_DEBUG) - Platform #1 [The pocl project]
 ====================================================================================================================================================
-Device #01: cpu-skylake-avx512-AMD Ryzen 9 7945HX with Radeon Graphics, 6971/13943 MB (2048 MB allocatable), 16MCU
+* Device #01: cpu-skylake-avx512-AMD Ryzen 9 7945HX with Radeon Graphics, 6971/13943 MB (2048 MB allocatable), 16MCU
 
 Minimum password length supported by kernel: 0
 Maximum password length supported by kernel: 256
@@ -344,12 +330,12 @@ Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
 Rules: 1
 
 Optimizers applied:
-Zero-Byte
-Early-Skip
-Not-Salted
-Not-Iterated
-Single-Salt
-Raw-Hash
+* Zero-Byte
+* Early-Skip
+* Not-Salted
+* Not-Iterated
+* Single-Salt
+* Raw-Hash
 
 ATTENTION! Pure (unoptimized) backend kernels selected.
 Pure kernels can crack longer passwords, but drastically reduce performance.
@@ -362,10 +348,10 @@ Watchdog: Temperature abort trigger disabled.
 Host memory allocated for this attack: 516 MB (14952 MB free)
 
 Dictionary cache hit:
-Filename..: /usr/share/wordlists/rockyou.txt
-Passwords.: 14344385
-Bytes.....: 139921507
-Keyspace..: 14344385
+* Filename..: /usr/share/wordlists/rockyou.txt
+* Passwords.: 14344385
+* Bytes.....: 139921507
+* Keyspace..: 14344385
 
 39d97110eafe2a9a68639812cd271e8e:reactor1
 Approaching final keyspace - workload adjusted.
@@ -507,15 +493,15 @@ bash-5.2#
 
 Reactor highlights the dangers of using outdated or vulnerable web frameworks (Next.js react2shell) and underscores the importance of securing local development and administrative tools. Exposing the Node.js V8 inspector on a root process created a straightforward path for privilege escalation, demonstrating why debugging interfaces should never be left active or unauthenticated in production environments.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Node.js V8 Inspector Security**: The V8 debugging inspector (`--inspect`) allows arbitrary JavaScript execution and must never be exposed or run with elevated root privileges.
-**Local WebSocket Access**: Restrict WebSocket communication on administrative localhost ports to authenticated operators only.
+- **Node.js V8 Inspector Security**: The V8 debugging inspector (`--inspect`) allows arbitrary JavaScript execution and must never be exposed or run with elevated root privileges.
+- **Local WebSocket Access**: Restrict WebSocket communication on administrative localhost ports to authenticated operators only.
 
 ### Atomic Notes to Extract
-[[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]
-[[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket Exploitation]]
-[[Linux - PrivEsc - SUID|SUID Exploitation]]
+- [[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]
+- [[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket Exploitation]]
+- [[Linux - PrivEsc - SUID|SUID Exploitation]]

@@ -13,20 +13,8 @@ tags:
   - cicd
   - docker
   - privesc
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Medium
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png" alt="DevHub Avatar" width="220">
@@ -80,34 +68,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.3
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.2
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 5.9
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4.1
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.8
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -145,25 +133,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 636
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 756
-folder: "EASY"
+  - folder: "EASY"
     count: 2641
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 1521
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 1251
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 312
-folder: "HARD"
+  - folder: "HARD"
     count: 145
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 55
-folder: "INSANE"
+  - folder: "INSANE"
     count: 17
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 59
 
 #-----------------#
@@ -195,14 +183,12 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 During the initial reconnaissance phase, we explored the open ports on the target machine. On port 80, the web source code indicated two primary services running:
-An active Model Context Protocol (MCP) development and debugging tool on port 6274.
-An internal-only Jupyter-based analytics environment running on `localhost:8888`.
+- An active Model Context Protocol (MCP) development and debugging tool on port 6274.
+- An internal-only Jupyter-based analytics environment running on `localhost:8888`.
 
 ```html
 <p>Model Context Protocol development and debugging tool. Used by the dev team for building and testing MCP servers.</p>
@@ -286,9 +272,9 @@ VALID_API_KEY = "opsmcp_secret_key_4f5a6b7c8d9e0f1a"
 With the valid API Key, we tested calling the available tools via HTTP POST requests:
 ```sh
 curl -X POST \
-H "X-API-Key: opsmcp_secret_key_4f5a6b7c8d9e0f1a" \
-H "Content-Type: application/json" \
-d '{"name": "ops.system_status"}' \
+     -H "X-API-Key: opsmcp_secret_key_4f5a6b7c8d9e0f1a" \
+     -H "Content-Type: application/json" \
+     -d '{"name": "ops.system_status"}' \
      http://127.0.0.1:5000/tools/call
 ```
 
@@ -341,15 +327,15 @@ root@devhub:~#
 ## Conclusion
 The DevHub machine was successfully compromised by identifying an outdated and vulnerable version of the MCPJam Inspector application (v1.4.2) on port 6274. Initial access provided a foothold, allowing for internal network enumeration. Privilege escalation to the `root` user was achieved by abusing an internally exposed API (port 5000) that possessed hidden endpoints. By extracting the hardcoded API key from the world-readable server script and leveraging the `ops._admin_dump` debug function, we successfully dumped the root user's SSH private key and gained full administrative access to the system.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**MCP Development Exposure**: Debugging and Model Context Protocol inspectors (MCPJam v1.4.2) must not be bound to publicly accessible interfaces.
-**Hardcoded Secret Keys in Scripts**: Internal management scripts (`server.py`) with world-readable permissions leak administrative API tokens.
-**Unrestricted Debug Endpoints**: Debug functions such as `ops._admin_dump` capable of exfiltrating SSH keys must require multi-party approval or be completely disabled in production.
+- **MCP Development Exposure**: Debugging and Model Context Protocol inspectors (MCPJam v1.4.2) must not be bound to publicly accessible interfaces.
+- **Hardcoded Secret Keys in Scripts**: Internal management scripts (`server.py`) with world-readable permissions leak administrative API tokens.
+- **Unrestricted Debug Endpoints**: Debug functions such as `ops._admin_dump` capable of exfiltrating SSH keys must require multi-party approval or be completely disabled in production.
 
 ### Atomic Notes to Extract
-[[Linux - PrivEsc - Sudo Abuse and World Readable Scripts|World-Readable Server Scripts & Hardcoded Keys]]
-[[Web - API - Sensitive Data Exposure|API Key Disclosure & Debug Endpoints]]
+- [[Linux - PrivEsc - Sudo Abuse and World Readable Scripts|World-Readable Server Scripts & Hardcoded Keys]]
+- [[Web - API - Sensitive Data Exposure|API Key Disclosure & Debug Endpoints]]

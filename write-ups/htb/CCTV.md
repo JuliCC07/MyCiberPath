@@ -12,20 +12,8 @@ tags:
   - default-creds
   - api
   - privesc
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1204fb6-47f1-4555-8cb3-cd3e2f60f587.png" alt="CCTV Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.3
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.4
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.5
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.5
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.6
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 526
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 659
-folder: "EASY"
+  - folder: "EASY"
     count: 2807
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 2292
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 1059
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 329
-folder: "HARD"
+  - folder: "HARD"
     count: 205
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 71
-folder: "INSANE"
+  - folder: "INSANE"
     count: 22
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 102
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 This write-up covers the path to completely compromising the **CCTV** machine from HackTheBox. The journey involves exploiting a SQL injection vulnerability in ZoneMinder to dump user credentials, cracking a hashed password to gain SSH access, and finally escalating privileges by exploiting a [[Web - Injection - OS Command Injection in API Parameters|command injection]] vulnerability in a locally running MotionEye instance.
 ## Overview
@@ -228,8 +214,8 @@ Service Info: Host: default; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 We discover two open ports:
-**22 (SSH):** OpenSSH 9.6p1
-**80 (HTTP):** Apache httpd 2.4.58
+- **22 (SSH):** OpenSSH 9.6p1
+- **80 (HTTP):** Apache httpd 2.4.58
 
 ### Web Enumeration
 
@@ -357,9 +343,9 @@ ssh -L 8765:127.0.0.1:8765 mark@cctv.htb
 Accessing `http://127.0.0.1:8765` in our browser, we use the `admin` account with the password hash we found (which cracked or allowed pass-the-hash/direct login depending on the application logic) to access the dashboard.
 
 The dashboard reveals the version information:
-**motionEye Version:** 0.43.1b4
-**Motion Version:** 4.7.1
-**OS Version:** Ubuntu 24.04
+- **motionEye Version:** 0.43.1b4
+- **Motion Version:** 4.7.1
+- **OS Version:** Ubuntu 24.04
 
 Searching for vulnerabilities related to motionEye `0.43.1b4`, we find an advisory for an authenticated Remote Code Execution (RCE) vulnerability ([GHSA-j945-qm58-4gjx](https://github.com/motioneye-project/motioneye/security/advisories/GHSA-j945-qm58-4gjx)). Since motionEye typically runs with root privileges, this exploit will provide us with a root shell.
 
@@ -374,16 +360,16 @@ User: d812bf3525cc2d09d40e86e7a939e42b
 
 The CCTV machine offered a realistic scenario involving an outdated surveillance application (ZoneMinder) vulnerable to SQL injection, highlighting the importance of securing and updating internal monitoring tools. After establishing a foothold via weak, reused passwords, privilege escalation was achieved by discovering an internally bound, vulnerable instance of MotionEye running with elevated privileges.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**ZoneMinder SQL Injection**: Web management portals must validate all parameters and avoid executing dynamic SQL queries directly.
-**Password Reuse**: The credential hash recovered from the database directly matched SSH credentials for user `mark`, emphasizing the danger of password reuse across administrative surfaces.
-**Internal Vulnerabilities**: MotionEye running locally on port 8765 as `root` allowed an authenticated command injection to achieve immediate root privilege escalation.
+- **ZoneMinder SQL Injection**: Web management portals must validate all parameters and avoid executing dynamic SQL queries directly.
+- **Password Reuse**: The credential hash recovered from the database directly matched SSH credentials for user `mark`, emphasizing the danger of password reuse across administrative surfaces.
+- **Internal Vulnerabilities**: MotionEye running locally on port 8765 as `root` allowed an authenticated command injection to achieve immediate root privilege escalation.
 
 ### Atomic Notes to Extract
-[[Web - SQLi - Time-Based Blind Injection|Time-Based Blind SQL Injection]]
-[[Web - Injection - OS Command Injection in API Parameters|Command Injection in Internal Web Apps]]
-[[Linux - PrivEsc - Password Reuse|Password Reuse from Databases]]
+- [[Web - SQLi - Time-Based Blind Injection|Time-Based Blind SQL Injection]]
+- [[Web - Injection - OS Command Injection in API Parameters|Command Injection in Internal Web Apps]]
+- [[Linux - PrivEsc - Password Reuse|Password Reuse from Databases]]

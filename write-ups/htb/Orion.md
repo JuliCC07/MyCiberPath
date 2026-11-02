@@ -12,20 +12,8 @@ tags:
   - routeros
   - hashcat
   - privesc
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a217731f-ce7c-4015-ba0f-d68c7f6f7215-1782215994.png" alt="Orion Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.2
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 5.2
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 6.4
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 3.6
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 4.8
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 610
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 964
-folder: "EASY"
+  - folder: "EASY"
     count: 2265
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 1020
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 337
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 110
-folder: "HARD"
+  - folder: "HARD"
     count: 70
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 20
-folder: "INSANE"
+  - folder: "INSANE"
     count: 5
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 24
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 ## Reconnaissance
 
@@ -279,8 +265,8 @@ python3 exploit.py -u http://orion.htb -c id
 
 To work around this, we inspected the request in Burp Suite to manually extract a valid CSRF token.
 
-*GET Request to `/admin/login`**
-*GET Response Extract:**
+**GET Request to `/admin/login`**
+**GET Response Extract:**
 ```http
 Set-Cookie: CraftSessionId=cesdc15vtv0mi791te0giid94n; path=/; HttpOnly
 Set-Cookie: CRAFT_CSRF_TOKEN=37469b508196ab7c6690535d6d4f0c75abd62ba35dd00f939d58009d3371d424a%3A2%3A%7Bi%3A0%3Bs%3A16%3A%22CRAFT_CSRF_TOKEN%22%3Bi%3A1%3Bs%3A40%3A%22Mv-f5oLYl5hOx5KZ5VlJioZmRJQ27Wv1yj8KTrhu%22%3B%7D; path=/; HttpOnly
@@ -451,13 +437,13 @@ The exploit was successful, granting us an interactive root shell and full compr
 
 The Orion machine highlights the critical importance of keeping web application platforms, such as Craft CMS, updated to mitigate severe vulnerabilities like pre-authentication RCE (CVE-2025-32432). After obtaining initial access through this vector, poor credential management (storing database credentials in `.env` files accessible to the web user) and weak passwords enabled lateral movement to a user account. Finally, the privilege escalation underscored the risk of running outdated or vulnerable local services (GNU inetutils telnet 2.7), which allowed an unprivileged user to effortlessly escalate to root.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**Legacy Service Vulnerabilities**: Outdated networking binaries such as GNU Inetutils Telnet permit arbitrary environment variable injection during connection initialization.
-**Environment Sanitization**: Cleanse and restrict environment variables passed across security boundaries.
+- **Legacy Service Vulnerabilities**: Outdated networking binaries such as GNU Inetutils Telnet permit arbitrary environment variable injection during connection initialization.
+- **Environment Sanitization**: Cleanse and restrict environment variables passed across security boundaries.
 
 ### Atomic Notes to Extract
-[[Linux - PrivEsc - Telnet Environment Injection|GNU Inetutils Telnet Environment Injection]]
+- [[Linux - PrivEsc - Telnet Environment Injection|GNU Inetutils Telnet Environment Injection]]

@@ -12,20 +12,8 @@ tags:
   - wpa2
   - network-pivot
   - aircrack
-synced: "2026-11-02 09:58"
+synced: "2026-11-02 12:08"
 ---
-
---
-tags:
-ciber
-htb
-machine
-difficulty: Easy
-os: Linux
-status: Pwned
-ip: ""
-created: 2026-10-16
---
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e14c0a-2ce3-44f2-a101-f0415bb1e577-1779890154.png" alt="Connected Avatar" width="220">
@@ -79,34 +67,34 @@ type: Radar
 #- chart data    -#
 #-----------------#
 data:
-item: "ENUM"
+  - item: "ENUM"
     user: "user"
     score: 5.4
-item: "REAL"
+  - item: "REAL"
     user: "user"
     score: 4.9
-item: "CVE"
+  - item: "CVE"
     user: "user"
     score: 5.9
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "user"
     score: 4.1
-item: "CTF"
+  - item: "CTF"
     user: "user"
     score: 5.1
-item: "ENUM"
+  - item: "ENUM"
     user: "author"
     score: 0
-item: "REAL"
+  - item: "REAL"
     user: "author"
     score: 0
-item: "CVE"
+  - item: "CVE"
     user: "author"
     score: 0
-item: "CUSTOM"
+  - item: "CUSTOM"
     user: "author"
     score: 0
-item: "CTF"
+  - item: "CTF"
     user: "author"
     score: 0
 
@@ -144,25 +132,25 @@ type: Column
 #- chart data    -#
 #-----------------#
 data:
-folder: "PIECE OF CAKE"
+  - folder: "PIECE OF CAKE"
     count: 1880
-folder: "VERY EASY"
+  - folder: "VERY EASY"
     count: 1625
-folder: "EASY"
+  - folder: "EASY"
     count: 2957
-folder: "NOT TOO EASY"
+  - folder: "NOT TOO EASY"
     count: 1942
-folder: "MEDIUM"
+  - folder: "MEDIUM"
     count: 996
-folder: "A BIT HARD"
+  - folder: "A BIT HARD"
     count: 451
-folder: "HARD"
+  - folder: "HARD"
     count: 350
-folder: "EXTREMELY HARD"
+  - folder: "EXTREMELY HARD"
     count: 134
-folder: "INSANE"
+  - folder: "INSANE"
     count: 48
-folder: "BRAINFUCK"
+  - folder: "BRAINFUCK"
     count: 140
 
 #-----------------#
@@ -194,9 +182,7 @@ options:
       alias: "Votes"
 ```
 
---
-
---
+---
 
 This write-up details the exploitation of the **Connected** machine from HackTheBox. The attack path begins with identifying a vulnerable instance of FreePBX, exploiting a known CVE for remote code execution to gain an initial foothold, and subsequently abusing a misconfigured `incrontab` service to escalate privileges to root.
 
@@ -216,9 +202,9 @@ nmap -sC -sV -p22,80,443 10.129.22.23
 ```
 
 The scan reveals the following open ports:
-**22/tcp (SSH):** OpenSSH 7.4
-**80/tcp (HTTP):** Apache httpd 2.4.6 (CentOS, PHP/7.4.16)
-**443/tcp ([[Web - HTTP - HTTPS & SSL-TLS Handshake|HTTPS]]):** Apache httpd 2.4.6 (CentOS, PHP/7.4.16)
+- **22/tcp (SSH):** OpenSSH 7.4
+- **80/tcp (HTTP):** Apache httpd 2.4.6 (CentOS, PHP/7.4.16)
+- **443/tcp ([[Web - HTTP - HTTPS & SSL-TLS Handshake|HTTPS]]):** Apache httpd 2.4.6 (CentOS, PHP/7.4.16)
 
 ### Web Enumeration
 
@@ -285,7 +271,7 @@ We inspect the hooks for the `ucp` module:
 
 ```bash
 ls -la /var/www/html/admin/modules/ucp/hooks
-rwxr-xr-x.  1 asterisk asterisk  473 Nov  2  2023 logrotate
+-rwxr-xr-x.  1 asterisk asterisk  473 Nov  2  2023 logrotate
 ```
 
 Since the `logrotate` file is owned by the `asterisk` user, we can modify it. We overwrite the hook script with a reverse shell payload:
@@ -322,15 +308,15 @@ e10ab390d0368e968ba62f7aa6ecffde
 
 The Connected machine demonstrates the risks associated with running outdated and vulnerable complex web applications like FreePBX. Furthermore, it highlights the importance of securing file-system monitoring tools like `incron`; improper file permissions on executed scripts can easily lead to privilege escalation if an attacker gains an initial foothold.
 
---
+---
 
 ## Post-Engagement & Zettelkasten Notes
 
 ### Key Takeaways & Defense
-**File Integrity Monitoring**: Automating scripts via `incron` on user-writable directories allows command hijacking and privilege escalation if scripts process untrusted inputs.
-**SUID/SGID Hardening**: Frequently audit filesystem binaries with elevated bit permissions.
+- **File Integrity Monitoring**: Automating scripts via `incron` on user-writable directories allows command hijacking and privilege escalation if scripts process untrusted inputs.
+- **SUID/SGID Hardening**: Frequently audit filesystem binaries with elevated bit permissions.
 
 ### Atomic Notes to Extract
-[[Linux - PrivEsc - Incron and File Monitor Automation|Incron & File Monitor Automation Privilege Escalation]]
-[[Linux - PrivEsc - SUID|SUID/SGID Binaries]]
-[[Web - HTTP - HTTPS & SSL-TLS Handshake|HTTPS & TLS Configuration]]
+- [[Linux - PrivEsc - Incron and File Monitor Automation|Incron & File Monitor Automation Privilege Escalation]]
+- [[Linux - PrivEsc - SUID|SUID/SGID Binaries]]
+- [[Web - HTTP - HTTPS & SSL-TLS Handshake|HTTPS & TLS Configuration]]
