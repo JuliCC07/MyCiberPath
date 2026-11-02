@@ -13,12 +13,12 @@ ISO_PATH=""
 DEST_DIR="$DEFAULT_DEST"
 
 usage() {
-    echo "Uso: $0 -i <ruta_iso> [-d <directorio_destino>] <servidor1> [servidor2 ...]"
+    echo "Usage: $0 -i <iso_path> [-d <dest_dir>] <server1> [server2 ...]"
     echo ""
-    echo "Opciones:"
-    echo "  -i  Ruta al archivo ISO local a transferir (Requerido)"
-    echo "  -d  Directorio remoto de destino (Por defecto: $DEFAULT_DEST)"
-    echo "  -h  Muestra este mensaje de ayuda"
+    echo "Options:"
+    echo "  -i  Path to local ISO file to transfer (Required)"
+    echo "  -d  Remote destination directory (Default: $DEFAULT_DEST)"
+    echo "  -h  Display this help message"
     exit 1
 }
 
@@ -32,25 +32,25 @@ done
 shift $((OPTIND - 1))
 
 if [[ -z "$ISO_PATH" || $# -eq 0 ]]; then
-    echo "[!] Error: Se debe especificar el archivo ISO y al menos un servidor objetivo."
+    echo "[!] Error: Must specify an ISO file and at least one target server." >&2
     usage
 fi
 
 if [[ ! -f "$ISO_PATH" ]]; then
-    echo "[!] Error: El archivo ISO '$ISO_PATH' no existe."
+    echo "[!] Error: ISO file '$ISO_PATH' not found." >&2
     exit 1
 fi
 
-echo "[*] Iniciando despliegue de ISO: $(basename "$ISO_PATH")"
-echo "[*] Destino remoto: $DEST_DIR"
+echo "[*] Starting ISO deployment: $(basename "$ISO_PATH")"
+echo "[*] Remote destination: $DEST_DIR"
 
 for server in "$@"; do
-    echo "[+] Transfiriendo a $server..."
+    echo "[+] Transferring to $server..."
     if scp "$ISO_PATH" "${server}:${DEST_DIR}/"; then
-        echo "[✓] Transferencia a $server completada."
+        echo "[+] Transfer to $server completed successfully."
     else
-        echo "[✗] Error al transferir a $server." >&2
+        echo "[!] Error transferring to $server." >&2
     fi
 done
 
-echo "[*] Despliegue finalizado."
+echo "[*] ISO deployment completed."

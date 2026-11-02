@@ -12,17 +12,51 @@ tags:
   - rfi
   - php-wrappers
   - log-poisoning
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
+--
+title: "Skill Assessment - File Inclusions - Hack The Box"
+target: "Skill Assessment - File Inclusions"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Local File Inclusion (LFI), PHP Filter Wrappers, Apache Log Poisoning to RCE"
+tags:
+ciber
+htb
+lfi
+rfi
+php-wrappers
+log-poisoning
+synced: "2026-11-02 09:56"
+--
+
+-
+title: "Skill Assessment - File Inclusions - Hack The Box"
+target: "Skill Assessment - File Inclusions"
+os: "Linux"
+difficulty: "Medium"
+status: "Pwned"
+vectors: "Local File Inclusion (LFI), PHP Filter Wrappers, Apache Log Poisoning to RCE"
+tags:
+ciber
+htb
+lfi
+rfi
+php-wrappers
+log-poisoning
+synced: "2026-11-02 09:43"
+-
+
 Páginas interesantes: 
-- `apply.php`
-- `contact.php`
-- `index.php`
-- `thanks.php`
+`apply.php`
+`contact.php`
+`index.php`
+`thanks.php`
 
 Source code de contact.php:
-- `<img src="[/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c](view-source:http://154.57.164.75:31655/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c)" height="25"/>`
+`<img src="[/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c](view-source:http://154.57.164.75:31655/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c)" height="25"/>`
 Source code de apply.php:
 `<form action="[/api/application.php](view-source:http://154.57.164.75:31655/api/application.php)" method="POST" enctype="multipart/form-data">`
 

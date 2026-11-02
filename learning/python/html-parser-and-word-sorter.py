@@ -43,10 +43,10 @@ def get_all_words_from(url):
 def get_all_links_from(url):
     soup = get_soup_from(url)
     links = soup.find_all(name="a", attrs={"href": True})
-    url_destino = []
+    target_urls = []
     for link in links:
-        url_destino.append(link["href"])
-    return url_destino
+        target_urls.append(link["href"])
+    return target_urls
 
 def get_top_words_from(all_words, min_length):
     occurrences = count_occurrences_in(all_words, min_length)
@@ -54,11 +54,11 @@ def get_top_words_from(all_words, min_length):
 # Mutating words
 def mutating_words(word):
     variations = {word, word.lower(), word.upper(), word.capitalize()}
-    sufixes = {"", "2024", "2025", "2026", "1!", "123"}
+    suffixes = {"", "2024", "2025", "2026", "1!", "123"}
     mutated_words = []
     for variation in variations:
-        for sufix in sufixes:
-            new_word = variation + sufix    
+        for suffix in suffixes:
+            new_word = variation + suffix    
             mutated_words.append(new_word)
     return mutated_words
 
@@ -74,14 +74,14 @@ def main(url, length, output, depth):
     
     top_10_words = top_words[:10]    
     
-    resultado = "\n".join(item[0] for item in top_10_words)
+    result = "\n".join(item[0] for item in top_10_words)
     
     # Adding mutated words
     all_variations = []
     for item in top_10_words:
         mutations = mutating_words(item[0])
         all_variations.extend(mutations)
-    resultado_mutaciones = "\n".join(all_variations)
+    mutations_result = "\n".join(all_variations)
     
     pending_links = [url]
     all_found_links = []
@@ -96,21 +96,13 @@ def main(url, length, output, depth):
                 all_found_links.extend(new_links)
         pending_links = next_level_link
 
-    resultado_links = "\n".join(set(all_found_links))
+    links_result = "\n".join(set(all_found_links))
 
-    if output != None:
+    if output is not None:
         with open(output, 'w', encoding="utf-8") as wr:
-            wr.write(
-                # resultado + "\n" +
-                # resultado_mutaciones + "\n" + 
-                resultado_links + "\n"
-                )
+            wr.write(links_result + "\n")
     else:   
-        print(
-            # resultado + "\n" + 
-            # resultado_mutaciones + "\n" + 
-            resultado_links + "\n"
-            )
+        print(links_result + "\n")
 
 
 if __name__ == '__main__':

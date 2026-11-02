@@ -13,15 +13,196 @@ tags:
   - cicd
   - docker
   - privesc
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-# DevHub Writeup
+--
+tags:
+ciber
+htb
+machine
+difficulty: Medium
+os: Linux
+status: Pwned
+ip: ""
+created: 2026-10-16
+--
+
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png" alt="DevHub Avatar" width="220">
+</p>
+
+## Operating System: Linux
+![[Linux.png|70]]
+
+## Machine Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 903 |
+| **Machine Name** | DevHub |
+| **IP Address** | N/A |
+| **Status** | Pwned |
+| **Active on HTB** | ✅ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Medium |
+| **Stars** | ⭐️ 4.0 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2026-05-30 |
+| **Tags** | #Web_Application #Vulnerability_Assessment #Remote_Code_Execution #Clear_Text_Credentials #Information_Disclosure #Code_Execution #Misconfiguration #Weak_Permissions #Sensitive_Data_Exposure #Command_Execution #Python #Bash #SSH #NGINX #NodeJS #Web_API #Jupyter_Notebook #Linux #API #Reconnaissance #System_Exploitation #Tunneling #Port_Forwarding #API_Abuse #Privilege_Abuse #Custom_Applications #Software_&_OS_exploitation #Security_Tools #Authentication |
+
+<p style="display:none">
+id:: 903
+active:: True
+name:: DevHub
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Medium
+stars:: 4.0
+created:: 2026-10-16
+published:: 2026-05-30
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png
+tags:: #Web_Application #Vulnerability_Assessment #Remote_Code_Execution #Clear_Text_Credentials #Information_Disclosure #Code_Execution #Misconfiguration #Weak_Permissions #Sensitive_Data_Exposure #Command_Execution #Python #Bash #SSH #NGINX #NodeJS #Web_API #Jupyter_Notebook #Linux #API #Reconnaissance #System_Exploitation #Tunneling #Port_Forwarding #API_Abuse #Privilege_Abuse #Custom_Applications #Software_&_OS_exploitation #Security_Tools #Authentication
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 5.3
+item: "REAL"
+    user: "user"
+    score: 5.2
+item: "CVE"
+    user: "user"
+    score: 5.9
+item: "CUSTOM"
+    user: "user"
+    score: 4.1
+item: "CTF"
+    user: "user"
+    score: 4.8
+item: "ENUM"
+    user: "author"
+    score: 0
+item: "REAL"
+    user: "author"
+    score: 0
+item: "CVE"
+    user: "author"
+    score: 0
+item: "CUSTOM"
+    user: "author"
+    score: 0
+item: "CTF"
+    user: "author"
+    score: 0
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
+```
+
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 636
+folder: "VERY EASY"
+    count: 756
+folder: "EASY"
+    count: 2641
+folder: "NOT TOO EASY"
+    count: 1521
+folder: "MEDIUM"
+    count: 1251
+folder: "A BIT HARD"
+    count: 312
+folder: "HARD"
+    count: 145
+folder: "EXTREMELY HARD"
+    count: 55
+folder: "INSANE"
+    count: 17
+folder: "BRAINFUCK"
+    count: 59
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
+```
+
+--
+
+--
 
 ## Reconnaissance
 During the initial reconnaissance phase, we explored the open ports on the target machine. On port 80, the web source code indicated two primary services running:
-- An active Model Context Protocol (MCP) development and debugging tool on port 6274.
-- An internal-only Jupyter-based analytics environment running on `localhost:8888`.
+An active Model Context Protocol (MCP) development and debugging tool on port 6274.
+An internal-only Jupyter-based analytics environment running on `localhost:8888`.
 
 ```html
 <p>Model Context Protocol development and debugging tool. Used by the dev team for building and testing MCP servers.</p>
@@ -105,9 +286,9 @@ VALID_API_KEY = "opsmcp_secret_key_4f5a6b7c8d9e0f1a"
 With the valid API Key, we tested calling the available tools via HTTP POST requests:
 ```sh
 curl -X POST \
-     -H "X-API-Key: opsmcp_secret_key_4f5a6b7c8d9e0f1a" \
-     -H "Content-Type: application/json" \
-     -d '{"name": "ops.system_status"}' \
+H "X-API-Key: opsmcp_secret_key_4f5a6b7c8d9e0f1a" \
+H "Content-Type: application/json" \
+d '{"name": "ops.system_status"}' \
      http://127.0.0.1:5000/tools/call
 ```
 
@@ -159,3 +340,16 @@ root@devhub:~#
 
 ## Conclusion
 The DevHub machine was successfully compromised by identifying an outdated and vulnerable version of the MCPJam Inspector application (v1.4.2) on port 6274. Initial access provided a foothold, allowing for internal network enumeration. Privilege escalation to the `root` user was achieved by abusing an internally exposed API (port 5000) that possessed hidden endpoints. By extracting the hardcoded API key from the world-readable server script and leveraging the `ops._admin_dump` debug function, we successfully dumped the root user's SSH private key and gained full administrative access to the system.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**MCP Development Exposure**: Debugging and Model Context Protocol inspectors (MCPJam v1.4.2) must not be bound to publicly accessible interfaces.
+**Hardcoded Secret Keys in Scripts**: Internal management scripts (`server.py`) with world-readable permissions leak administrative API tokens.
+**Unrestricted Debug Endpoints**: Debug functions such as `ops._admin_dump` capable of exfiltrating SSH keys must require multi-party approval or be completely disabled in production.
+
+### Atomic Notes to Extract
+[[Linux - PrivEsc - Sudo Abuse and World Readable Scripts|World-Readable Server Scripts & Hardcoded Keys]]
+[[Web - API - Sensitive Data Exposure|API Key Disclosure & Debug Endpoints]]

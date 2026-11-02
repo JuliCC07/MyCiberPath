@@ -1,46 +1,47 @@
 ---
-title: "Offensive Security Arsenal & Automation"
+title: "Security Tooling Arsenal & Lab Automation"
 type: "tooling-index"
-updated: "2026-10-16"
+updated: "2026-11-02"
 ---
 
-# ⚔️ Offensive Security Arsenal & ASIR Automation
+# Security Tooling Arsenal & ASIR Automation
 
-> A curated collection of custom Python offensive tooling, network socket implementations, penetration testing automation, and Linux system administration scripts developed for practical cybersecurity labs and Hack The Box challenges.
+> A curated collection of Python tools, network sockets, penetration testing automation, and system administration scripts built for ASIR labs and Hack The Box challenges.
 
 ---
 
-## 🐍 Python Security Arsenal & OOP (`learning/python/`)
+## Python Arsenal (`learning/python/`)
 
 | Script / Module | Purpose | Key Techniques |
 | :--- | :--- | :--- |
-| `bindshell.py` | Standalone Multithreaded TCP Bind Shell | Python `socket`, `subprocess`, interactive shell binding, thread pooling |
-| `C2TcpConnection.py` | Command & Control Client/Server Protocol | Bidirectional TCP communications, persistent context manager (`__enter__`/`__exit__`) |
-| `html-parser-and-word-sorter.py` | Targeted Web Scraper & Wordlist Generator | Regex word extraction, frequency analysis, rule-based mutation engine, Click CLI |
-| `request_flood.py` | Concurrent HTTP Fuzzing & Race Condition Exploit | `ThreadPoolExecutor` (100 workers), high-throughput request blasting, automated flag regex extraction |
-| `red_laboratorio.py` | Network Device Modeling & Attribute Interception | OOP inheritance, dynamic routing tables, MRO resolution, `__getattribute__` security controls |
-| `Python - Sec - PyJail y Sandbox Escape.md` | PyJail Escapes & Sandbox Evasion | Introspection, MRO vertical traversal, `__subclasses__()`, `__builtins__` restoration |
-| `Python - OOP - Introspección y escalada de objetos.md` | Object Introspection & Class Climbing | Runtime memory analysis, `__class__`, `__mro__`, root `object` discovery |
-| `Python - OOP - Métodos Mágicos (Dunder Methods).md` | Special Dunder Methods in Security | Low-level magic method overloading (`__str__`, `__dict__`, `__getitem__`) |
-| `Python - OOP - Sandbox.md` | Sandbox Architecture & Isolation Concepts | Module loading constraints, namespace restriction, defense-in-depth |
+| `bindshell.py` | Standalone TCP Bind Shell | Python `socket`, `subprocess`, interactive shell binding |
+| `C2TcpConnection.py` | Command & Control Client/Server | Context-managed bidirectional TCP socket connection |
+| `html-parser-and-word-sorter.py` | Target Content Scraper | Wordlist generation, HTML entity parsing, regex filtering |
+| `request_flood.py` | HTTP Stress Testing & Fuzzing | Multithreaded requests, rate-limit analysis, response inspection |
+| `lab_network_topology.py` | Virtual Lab Topology Tester | OOP inheritance model, attribute encapsulation, MRO resolution |
+| `Python - Sec - PyJail and Sandbox Escape.md` | PyJail Escapes | Introspection, `__subclasses__()`, `__builtins__` restoration |
+| `Python - OOP - Object Introspection and Escalation.md` | Object Escalation | Vertical and horizontal class traversal via MRO |
+| `Python - OOP - Dunder Methods.md` | Magic Methods | Special method overloading and security implications |
 
 ---
 
-## 🐚 Bash Automation & System Scripting (`learning/bash/`)
+## Bash Automation & System Scripting (`learning/bash/`)
 
-| Script / Module | Purpose | Key Commands |
+| Script | Purpose | Key Commands |
 | :--- | :--- | :--- |
-| `nmap/recon.sh` | Modular Reconnaissance & Fuzzing Pipeline | Automated SYN port scanning, targeted directory/vhost fuzzing with `ffuf`, service banner grabbing |
-| `script_usuarios.sh` | Enterprise User & Group Provisioning | Bulk system user creation, departmental grouping, root privilege verification |
-| `iso_copy.sh` | Remote ISO Deployment Utility | Automated SCP deployment to virtual lab servers with CLI parameter parsing |
-| `legion-battery-script/` | Dynamic Power Management Daemon | Custom Tuned profiles, ACPI event switching, systemd power-monitoring daemon |
+| `user_provisioning.sh` | Automated User & Group Provisioning | `useradd`, `groupadd`, bulk parsing and verification |
+| `iso_copy.sh` | Live USB & ISO Flashing Utility | Remote `scp` transfer, CLI argument parsing with `getopts` |
+| `legion-battery-script/` | Power Management Profiles | ACPI event handling, TuneD profile overrides, systemd unit |
+| `nmap/` | Rapid Recon Wrappers | Automated mass scanning, greppable output parsing |
 
 ---
 
-## 📚 Core Technical Reference Notes
+## Core Pentesting Notes (`notes/pentesting/`)
 
-- [[File Inclusions|In-Depth File Inclusion (LFI / RFI) Guide]] — Vulnerability patterns, PHP wrappers, log poisoning to RCE.
-- [[LFI - PHP Wrappers y Log Poisoning (RCE)|PHP Filters & Log Poisoning Methodology]] — Exploit chains for Apache/Nginx web servers.
-- [[ReactOOPS|Next.js & React Server Components RCE (CVE-2025-55182)]] — Deep dive into the Flight protocol deserialization flaw.
-- [[SSTI - Mako Template Injection|Server-Side Template Injection (Mako)]] — Template introspection to system command execution.
-- [[Getting Started Notes|Offensive Security Fundamentals & Tooling]] — Full penetration testing lifecycle notes from HTB Academy.
+- [[Web - LFI - PHP Wrappers and Log Poisoning (RCE)|PHP Filters & Log Poisoning (RCE)]]
+- [[Web - LFI - Fuzzing Parameters|LFI Parameter Fuzzing Methodology]]
+- [[Web - LFI - Server Files Chain|Server Files Traversal Chain]]
+- [[Web - SSTI - Mako Template Injection|Server-Side Template Injection (Mako)]]
+- [[Pentesting - Tools - cURL Cheatsheet|cURL Mastery Cheatsheet]]
+- [[Linux - PrivEsc - SUID|SUID Privilege Escalation Methodology]]
+- [[Getting Started Notes|Offensive Security Fundamentals]]

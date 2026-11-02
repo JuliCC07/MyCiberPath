@@ -12,8 +12,10 @@ tags:
   - flask
   - suid
   - privesc
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
+
+--
 
 # HackTheBox Writeup: Baggage
 
@@ -27,9 +29,9 @@ unzip ~/Descargas/Baggage.zip
 
 This provides us with the necessary forensic artifacts, specifically focusing on the Windows user profile for the user `steve`.
 
-## Foothold/Initial Access
+## Foothold / Initial Access
 
-To gain insight into the user's activities, we analyze the registry hives using `regipy`. We start by dumping the `user_assist` plugin output from the `NTUSER.DAT` hive to track programs that were executed.
+To gain insight into the user's activities, we analyze the registry hives using `regipy` (see [[Forensics - Windows - UserAssist and Shellbags|Windows Forensics: UserAssist & Shellbags]]). We start by dumping the `user_assist` plugin output from the `NTUSER.DAT` hive to track programs that were executed.
 
 ```sh
 ┌──(julicc㉿arceus)-[~/Challenges/Baggage]
@@ -61,3 +63,14 @@ Finished: 1/75 plugins matched the hive type
 ## Conclusion
 
 By analyzing the `NTUSER.DAT` and `UsrClass.dat` hives with `regipy`, we successfully extracted the UserAssist and Shellbags data into JSON format (`steve_output.json`, `steve_shellbags.json`, and `steve_usrclass_shellbags.json`). This information allows us to thoroughly trace the user's execution and folder navigation history, revealing the hidden information required to solve the Baggage challenge.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**Windows User Profiling**: UserAssist keys in `NTUSER.DAT` track program execution timestamps and run counts.
+**Folder Navigation Tracking**: Shellbags stored in `NTUSER.DAT` and `UsrClass.dat` preserve forensic evidence of folder browsing even after directories are deleted.
+
+### Atomic Notes to Extract
+[[Forensics - Windows - UserAssist and Shellbags|Windows Forensics: UserAssist & Shellbags]]

@@ -1,25 +1,25 @@
 ---
 title: "HTB & CTF Writeups Portfolio"
 type: "portfolio-index"
-updated: "2026-10-16"
+updated: "2026-11-02"
 ---
 
-# 🛡️ Hack The Box — Writeups & Lab Portfolio
+# Hack The Box Write-ups & Lab Portfolio
 
 > Central index of resolved Hack The Box machines, CTF challenges, and offensive security labs.
 > Every machine documents the full engagement lifecycle: **Reconnaissance**, **Initial Foothold**, and **Privilege Escalation**.
 
 ---
 
-### 📊 Portfolio Summary
-- **Total Pwned Targets:** 26 Machines (16 Standalone Machines + 10 Starting Point Foundations)
-- **Breakdown:** 6 Medium | 10 Easy | 10 Starting Point (Tier 0 - Tier 2)
-- **Operating Systems:** Linux (Debian/Ubuntu/Alpine) & Windows Server / Active Directory
+### Portfolio Summary
+- **Total Pwned Targets:** 16 Machines
+- **Breakdown:** 6 Medium | 10 Easy
+- **Operating Systems:** Linux (Debian/Ubuntu/Alpine) & Windows Active Directory
 - **Key Methodologies:** OWASP Top 10, Port Scanning & Service Fingerprinting, LFI/RFI PHP Filters, Command Injection, Linux Capabilities, Active Directory Kerberoasting.
 
 ---
 
-## 🎯 Main Target Matrix (Standalone Machines)
+## Target Matrix & Writeup Index
 
 | Target | OS | Difficulty | Primary Attack Vector & Kill Chain | Writeup Link |
 | :--- | :--- | :--- | :--- | :--- |
@@ -42,34 +42,15 @@ updated: "2026-10-16"
 
 ---
 
-## 🏁 Starting Point Lab Series (`write-ups/htb/starting-point/`)
-
-Documented foundation labs covering network protocol enumeration and misconfiguration exploitation across fundamental services:
-
-| Target | Tier | OS | Exploited Vulnerability & Methodology |
-| :--- | :--- | :--- | :--- |
-| **Meow** | Tier 0 | `Linux` | Unauthenticated Telnet (Port 23) root login bypass |
-| **Fawn** | Tier 0 | `Linux` | Anonymous FTP service access (`vsftpd 3.0.3`) sensitive data exposure |
-| **Dancing** | Tier 0 | `Windows` | Unauthenticated SMB Null Session share extraction (`smbclient`) |
-| **Redeemer** | Tier 0 | `Linux` | Unprotected Redis In-Memory Database (Port 6379) command execution |
-| **Appointment** | Tier 1 | `Linux` | Web authentication bypass via SQL Injection (`OR 1=1`) |
-| **Crocodile** | Tier 1 | `Linux` | Anonymous FTP credential leak leading to administrative web login |
-| **Sequel** | Tier 1 | `Linux` | MariaDB / MySQL remote root authentication without password |
-| **Archetype** | Tier 2 | `Windows` | SMB share leak, MSSQL `xp_cmdshell` RCE, PowerShell reverse shell, WinPEAS privesc |
-| **Oopsie** | Tier 2 | `Linux` | Burp Suite crawling, IDOR parameter tampering, SUID binary exploitation |
-| **Responder** | Tier 2 | `Windows` | PHP LFI to SMB capture, NetNTLMv2 hash harvesting via Responder, John cracking |
-
----
-
-## ⚡ Methodology: The Modular Kill Chain
+## Methodology: Modular Kill Chain
 
 ```mermaid
 flowchart LR
-    A["🔍 Recon & Port Scan<br/>(Nmap, Feroxbuster)"] --> B["🚪 Initial Foothold<br/>(LFI, RCE, IDOR, SQLi)"]
-    B --> C["📦 Internal Enumeration<br/>(LinPEAS, Capabilities, SUID)"]
-    C --> D["👑 Privilege Escalation<br/>(Root / SYSTEM Shell)"]
+    A["Recon & Port Scan<br/>(Nmap, Feroxbuster)"] --> B["Initial Foothold<br/>(LFI, RCE, IDOR, SQLi)"]
+    B --> C["Internal Enumeration<br/>(LinPEAS, Capabilities, SUID)"]
+    C --> D["Privilege Escalation<br/>(Root / SYSTEM Shell)"]
 ```
 
 1. **Reconnaissance & Fingerprinting:** Deep port scanning, service version detection, and virtual host / directory fuzzing.
-2. **Initial Foothold (Access):** Proof-of-Concept exploitation targeting unauthenticated or authenticated web application flaws.
+2. **Initial Foothold (Access):** Proof-of-concept exploitation targeting unauthenticated or authenticated web application flaws.
 3. **Internal Recon & Escalation:** Local privilege escalation leveraging cron jobs, SUID binaries, misconfigured capabilities, or Active Directory delegations.

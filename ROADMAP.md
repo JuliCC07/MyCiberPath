@@ -1,74 +1,59 @@
----
-tags:
-  - roadmap
-  - planning
-  - general
-created: 2026-02-01
----
-# 🗺️ Detailed 5-Trimester Strategic Roadmap
+# Technical Roadmap & Milestones
 
-**Objective:** Secure a competitive Erasmus placement in **Switzerland, Germany, or Netherlands** by T2 and reach **OSCP readiness** by T5.
+A milestone tracker documenting academic progress, professional certifications, lab infrastructure builds, and language proficiency.
 
 ---
 
-### 🏆 Target Certifications
-![CompTIA Security+|83](https://img.shields.io/badge/Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)
-![CCNA](https://img.shields.io/badge/CCNA-005073?style=flat-square&logo=cisco&logoColor=white)
-![Microsoft Certified](https://img.shields.io/badge/Microsoft-Certified-0078D4?style=flat-square&logo=microsoft&logoColor=white)
-![eJPT](https://img.shields.io/badge/eJPT-INE-32CD32?style=flat-square)
-![OSCP](https://img.shields.io/badge/OSCP-OffSec-A90533?style=flat-square&logo=kalilinux&logoColor=white)
+## Academic & Career Milestones
+
+- **SMR (Microcomputer Systems and Networks):** IES Ginés Pérez Chirinos (Completed, June 2025).
+- **ASIR (Network Systems Administration):** IES Ingeniero de la Cierva (Expected graduation: June 2027).
+- **Erasmus+ Internship:** Seeking systems administration, network operations, or IT security placement in Germany, Austria, or Switzerland (March – June 2027).
 
 ---
 
-### 📍 Trimester 1: Foundation & Digital Presence (Current)
-> *Focus: Linux Mastery, Python/Bash Basics & Study Routine*
+## Certifications & Training
 
-- [x] **Linux Mastery:** Configure, install, and manage a Security Distro with fluency.
-- [x] **Coding:** Master Python basics (automation scripts) & Bash scripting.
-- [x] **Labs:** Complete 4 weeks of Pentesting Labs (Beginner) with full documentation.
-- [x] **Study:** **Begin CCNA Network Fundamentals** (Align with [[ASIR]] Networks subject).
-- [x] **Languages:** Reach **Italian A2/B1** 🇮🇹 | Start **German A1** 🇩🇪.
-- [x] **Branding:** Create LinkedIn & GitHub profiles; publish public repo with scripts/notes.
+### Obtained
+- **Cambridge C1 Advanced** (Council of Europe Level C1, June 2025).
 
-### ✈️ Trimester 2: Erasmus Competitiveness
-> *Focus: Vulnerability Analysis & Portfolio Building*
+### In Active Preparation
+- **HTB Certified Penetration Testing Specialist (CPTS)**
+  - Hack The Box Academy Penetration Tester Path (28 modules).
+  - Focus: Active Directory enumeration, web exploitation, network pivoting, Linux/Windows privilege escalation, and commercial-grade reporting.
+  - Practical profile: [Hack The Box Profile](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5).
 
-- [x] **Tech:** Master Vulnerability Analysis tools. ✅ 2026-10-15
-- [x] **Labs:** Complete **10 Beginner-Intermediate HTB machines** with full documentation. ✅ 2026-10-15
-- [x] **Coding:** Master Intermediate Python (File handling, Networking, Sockets). ✅ 2026-10-15
-- [x] **Project:** Participate in an internal mini-pentest & write a **Technical Vulnerability Report**. ✅ 2026-10-15
-- [x] **Languages:** Continue **German A1-A2** 🇩🇪. ✅ 2026-10-15
-- [x] **Erasmus:** Gather recommendation letters, CV, and certificates before the deadline. ✅ 2026-10-15
-- [x] **Content:** Publish Technical Blog (Min. 2 entries explaining hacked machines/scripts). ✅ 2026-10-15
+### Long-Term Goals
+- **OSCP (OffSec Certified Professional):** Planned following CPTS completion and consolidated enterprise infrastructure experience.
+- **CCNA (Cisco Certified Network Associate):** Coursework on routing, switching, and subnetting completed; exam preparation paused to prioritize Linux infrastructure and offensive security.
 
-### ⚔️ Trimester 3: Specialization & eJPT
-> *Focus: Pentesting Methodology & Tool Development*
+---
 
-- [ ] **Methodology:** Apply full pentesting methodology to **5 Intermediate + 1 Advanced HTB machine**.
-- [ ] **Certification:** Pass **eJPT exam** before trimester end. **CCNA (Cisco Certified Network Associate)** - *Validate networking skills*.
-- [ ] **Dev:** Develop & Document **2 custom Python/Bash tools**.
-- [x] **Networking:** Reach **50+ LinkedIn connections** & request 5 recommendations. ✅ 2026-10-15
-- [ ] **Languages:** Reach **German A2/B1** 🇩🇪.
-- [ ] **Erasmus:** Accept placement & formalize/plan budget.
-- [x] **Portfolio:** Add complete pentesting project to portfolio. ✅ 2026-10-15
+## Languages
 
-### 🔥 Trimester 4: Intensive Preparation (OSCP Path)
-> *Focus: High-intensity training and technical refinement*
+- **Spanish:** Native.
+- **English:** C1 Advanced (Cambridge English C1 Advanced, June 2025).
+- **German:** A2 active daily study for DACH Erasmus+ placement.
 
-- [ ] **Specialization:** Focus on pentesting area; complete **3 Advanced Labs + 1 Real Weekend CTF**.
-- [ ] **Study:** Start **OSCP Preparation** (Min. 20h/week for 4 weeks).
-- [ ] **Dev:** Refine custom scripts/tools & publish on GitHub with **Professional README**.
-- [ ] **Career:** Design Market-Oriented Technical CV & practice technical interviews.
-- [ ] **Languages:** Reach **German B1/B2** 🇩🇪.
-- [ ] **Erasmus:** Prepare mobility logistics & internship stay.
+---
 
-### 🎓 Trimester 5: Professional Readiness
-> *Focus: Ready for a full-time Junior Pentester role*
+## Execution Phases
 
-- [ ] **Status:** Achieve "Ready for full-time pentester" status.
-- [ ] **Project:** Execute external project/real collaboration & prepare **Full Audit Report**.
-- [ ] **Certification:** Finalize **OSCP** (or reach 70% progress with post-grad completion plan).
-- [ ] **Community:** Contribute to an Open-Source security project & write a technical article/conference presentation.
-- [ ] **Career:** Apply to **20+ job offers** & start networking with companies.
-- [ ] **Languages:** Reach **German B2** 🇩🇪.
-- [ ] **Portfolio:** Complete portfolio with Cover Letter & **3 Professional References**.
+### Phase 1: Core Foundations & System Administration (Completed)
+- [x] Workstation migration to Arch/CachyOS daily driver.
+- [x] Bash provisioning and automated build pipelines ([cachyos-tsc-wrapper](https://github.com/JuliCC07/cachyos-tsc-wrapper)).
+- [x] Initial network topology labs and Python socket scripts.
+- [x] HTB Starting Point Tier 0-2 and initial easy Linux machines.
+
+### Phase 2: Offensive Security & Network Lab Infrastructure (In Progress)
+- [x] KVM virtual homelab with multi-segment isolated networks (pfSense, Keepalived, Podman).
+- [x] Document 16 retired Hack The Box machines following standardized reporting.
+- [x] Proof-of-concept reproduction labs (PHP session upload and deserialization).
+- [ ] Complete HTB Academy CPTS path modules (Active Directory, Web, Pivoting).
+- [ ] German language progression to A2/B1 level.
+
+### Phase 3: Advanced Assessments & Erasmus Mobility (Planned: 2026 - 2027)
+- [ ] HTB CPTS practical certification exam (10-day hands-on engagement).
+- [ ] Erasmus+ internship selection and logistics for DACH placement (March – June 2027).
+- [ ] ASIR final capstone project and degree completion (June 2027).
+- [ ] Transition to OSCP preparation.

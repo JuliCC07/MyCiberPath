@@ -1,62 +1,39 @@
-<div align="center">
+# MyCiberPath
 
-# 🛡️ MyCyberPath | JuliCC
+Security portfolio, hands-on penetration testing write-ups, and systems administration laboratory by Julián Collados Corbalán.
 
-### ASIR Student & Aspiring Penetration Tester
-
-*Focused on Linux Security | Learning Python & Bash* *Looking forward to participating in CTFs*
-
-[![](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/julián-collados-corbalán-914208395)
-[![](https://img.shields.io/badge/HTB-Profile-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://app.hackthebox.com/users/2474616)
-
----
-</div>
-
-## 👨‍💻 About Me
-
-> "Documenting my journey from ASIR student to Offensive Security Professional."
-
-I am currently building my theoretical and practical foundations to secure a competitive internship mainly in **Switzerland, Germany, or Spain**, but I am open to any other country. My approach is documentation-first: if I learn it, I write it down.
-
-## 🛠️ Tech Stack & Learning Arsenal
-
-Currently focusing on the "Big Four" for beginners:
-
-| Domain        | Technology                                                                                                        | Status                            |
-| :------------ | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| **OS**        | ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)                | *Advanced User (Daily Driver)*    |
-| **Coding**    | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)             | *Classes & Methods* ⏳             |
-| **Scripting** | ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)               | *Automation & Casual Scripting* ⏳ |
-| **Labs**      | ![HackTheBox](https://img.shields.io/badge/HackTheBox-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black) | *Very easy / Easy Machines*       |
+[Portfolio](https://JuliCC07.github.io) | [LinkedIn](https://www.linkedin.com/in/julicc07) | [Hack The Box](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5) | [GitHub](https://github.com/JuliCC07)
 
 ---
 
-## 📂 Repository Structure
+## Profile & Background
 
-Since I am in the **Foundations Phase (T1)**, this repository hosts my study notes and initial write-ups rather than complex tools.
+I am a Higher Vocational Degree student in Network Systems Administration (ASIR) at IES Ingeniero de la Cierva (Murcia, Spain), graduating in June 2027, with a prior Vocational Degree in Microcomputer Systems and Networks (SMR) from IES Ginés Pérez Chirinos (June 2025).
 
-* `📂 /notes` - Engineering notes on Linux Kernel, Windows Server Administration, CCNA Networking, and Offensive Security methodologies.
-* `📂 /write-ups` - Comprehensive documentation and audit reports for 26 Hack The Box machines (Starting Point & Seasoned targets).
-* `📂 /learning` - Custom offensive security Python tools, network sockets, race condition exploits, and Bash system administration daemons.
+My practical work focuses on enterprise Linux administration, virtualization (KVM/QEMU, Libvirt), containerization (Podman Quadlets, Docker), and offensive security assessments. I am actively working through the Hack The Box Certified Penetration Testing Specialist (CPTS) path, documenting methodologies, proof-of-concept exploits, and privilege escalation techniques against retired machines and simulated network environments.
+
+Eligible for Erasmus+ funding and preparing for technical internships in systems administration, network operations, or information security across the DACH region starting March 2027.
 
 ---
-## 🗺️ Strategic Roadmap
 
-My journey is structured into 5 phases, aiming for **Erasmus mobility** and **OSCP readiness by T5**.
+## Technical Scope
 
-### 🏆 Target Certifications
-![CompTIA Security+](https://img.shields.io/badge/Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)
-![eJPT](https://img.shields.io/badge/eJPT-INE-32CD32?style=flat-square)
-![OSCP](https://img.shields.io/badge/OSCP-OffSec-A90533?style=flat-square&logo=kalilinux&logoColor=white)
+- **Systems Administration & Virtualization:** Linux (kernel tuning, custom patch automation, systemd units), KVM/QEMU hypervisors, Libvirt isolated networks, Podman Quadlets, container networking, and High Availability setups (Keepalived, MariaDB Galera).
+- **Offensive Security & CTF Labs:** Web application vulnerability analysis (LFI/RFI, SQLi, command injection, deserialization, SSTI), Active Directory enumeration (Kerberoasting, LDAP, BloodHound), and Linux/Windows local privilege escalation (SUID abuse, capability misconfigurations, token impersonation).
+- **Networking:** TCP/IP stack analysis, VLAN segmentation, inter-VLAN routing, stateful firewalls (pfSense, iptables/nftables), SSH tunnels, and port redirection.
+- **Scripting & Tooling:** Python (socket programming, PoC exploit scripts, network tooling) and Bash (system provisioning, automated build wrappers, hardware/power profiles).
 
-### 🚀 Timeline Overview
+---
 
-| Phase | Focus Area | Status |
-| :--- | :--- | :--- |
-| **Trimester 1** | 🧱 **Foundations** (Linux, Python, Bash) | Completed |
-| **Trimester 2** | ✈️ **Erasmus Ready** (Sec+, Portolio, German A1) | In Progress |
-| **Trimester 3** | ⚔️ **Specialization** (eJPT, Adv. Labs) | 📅 Planned |
-| **Trimester 4** | 🔥 **Intensive** (OSCP Prep, CTFs) | 📅 Planned |
-| **Trimester 5** | 🎓 **Professional** (Job Hunting, Final Audit) | 📅 Planned |
+## Repository Structure
 
-👉 **[View Full Detailed Roadmap & Checklist](./ROADMAP.md)**
+- [`write-ups/`](write-ups/): Comprehensive audit and exploitation reports for Hack The Box targets, structured through the standard 4-phase methodology: Reconnaissance, Initial Foothold, Privilege Escalation, and Remediation.
+- [`learning/`](learning/): Python and Bash tooling, networking scripts, user provisioning automation, and offensive mechanics exercises.
+- [`notes/`](notes/): Technical reference notes on Linux internals, networking protocols (HTTP/HTTPS, routing, switching), and penetration testing methodologies.
+- [`PoCs/`](PoCs/): Dedicated laboratory environments and proof-of-concept exploit chains (such as the PHP session deserialization lab).
+
+---
+
+## Roadmap & Milestone Tracking
+
+Track certification targets, ASIR academic progress, language milestones, and technical lab builds in [ROADMAP.md](ROADMAP.md).

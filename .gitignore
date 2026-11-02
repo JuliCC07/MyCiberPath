@@ -1,41 +1,32 @@
 # Python
-
 __pycache__/
-
 *.py[cod]
-
 *.venv
-
 venv/
-
 ENV/
 
-
-
 # OS specific files
-
 .DS_Store
-
 Thumbs.db
 
-
-
 # Editor directories
-
 .idea/
-
 .vscode/
-
 *.swp
 
+# Obsidian & Synchronization
+.obsidian/
+.smart-env/
+.stfolder/
+.stignore
 
-
-# Sensitive info (Just in case)
-
-*.log
-
-credentials.txt
-
-id_rsa
-
+# Agent & AI tool configurations
+.agents/
+.copilot/
 CLAUDE.md
+AGENTS.md
+
+# Sensitive info
+*.log
+credentials.txt
+id_rsa

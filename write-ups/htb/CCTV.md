@@ -12,10 +12,193 @@ tags:
   - default-creds
   - api
   - privesc
-synced: "2026-10-16 12:38"
+synced: "2026-11-02 09:58"
 ---
 
-This write-up covers the path to completely compromising the **CCTV** machine from HackTheBox. The journey involves exploiting a SQL injection vulnerability in ZoneMinder to dump user credentials, cracking a hashed password to gain SSH access, and finally escalating privileges by exploiting a command injection vulnerability in a locally running MotionEye instance.
+--
+tags:
+ciber
+htb
+machine
+difficulty: Easy
+os: Linux
+status: Pwned
+ip: ""
+created: 2026-10-16
+--
+
+<p align="center">
+  <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1204fb6-47f1-4555-8cb3-cd3e2f60f587.png" alt="CCTV Avatar" width="220">
+</p>
+
+## Operating System: Linux
+![[Linux.png|70]]
+
+## Machine Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Machine ID** | 847 |
+| **Machine Name** | CCTV |
+| **IP Address** | N/A |
+| **Status** | Pwned |
+| **Active on HTB** | ❌ |
+| **User Flag** | ✅ |
+| **Root Flag** | ✅ |
+| **Difficulty** | Easy |
+| **Stars** | ⭐️ 3.6 |
+| **Created Note** | 2026-10-16 |
+| **Release Date** | 2026-03-07 |
+| **Tags** | #Web_Application #SQL_Injection #Remote_Code_Execution #Clear_Text_Credentials #Default_Credentials #Weak_Permissions #SQL #Bash #MySQL #Docker #OpenSSH #Linux #Password_Reuse #Password_Cracking #Network_Sniffing #Password_Capture #Common_Applications #Broken_Authentication_and_Authorization #Injections |
+
+<p style="display:none">
+id:: 847
+active:: False
+name:: CCTV
+os:: Linux
+user_flag:: True
+root_flag:: True
+difficulty_text:: Easy
+stars:: 3.6
+created:: 2026-10-16
+published:: 2026-03-07
+avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1204fb6-47f1-4555-8cb3-cd3e2f60f587.png
+tags:: #Web_Application #SQL_Injection #Remote_Code_Execution #Clear_Text_Credentials #Default_Credentials #Weak_Permissions #SQL #Bash #MySQL #Docker #OpenSSH #Linux #Password_Reuse #Password_Cracking #Network_Sniffing #Password_Capture #Common_Applications #Broken_Authentication_and_Authorization #Injections
+</p>
+
+## Statistics
+
+### Radar Matrix
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Radar
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+item: "ENUM"
+    user: "user"
+    score: 5.3
+item: "REAL"
+    user: "user"
+    score: 5.4
+item: "CVE"
+    user: "user"
+    score: 6.5
+item: "CUSTOM"
+    user: "user"
+    score: 3.5
+item: "CTF"
+    user: "user"
+    score: 4.6
+item: "ENUM"
+    user: "author"
+    score: 0
+item: "REAL"
+    user: "author"
+    score: 0
+item: "CVE"
+    user: "author"
+    score: 0
+item: "CUSTOM"
+    user: "author"
+    score: 0
+item: "CTF"
+    user: "author"
+    score: 0
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "item"
+  yField: "score"
+  seriesField: "user"
+  meta:
+    score:
+      alias: "Score"
+      min: 0
+      nice: true
+  xAxis:
+    line: null
+    tickLine: null
+  yAxis:
+    label: false
+    grid:
+      alternateColor: "rgba(0, 0, 0, 0.04)"
+  point: []
+  area: []
+```
+
+### Community Difficulty Rating
+```chartsview
+#-----------------#
+#- chart type    -#
+#-----------------#
+type: Column
+
+#-----------------#
+#- chart data    -#
+#-----------------#
+data:
+folder: "PIECE OF CAKE"
+    count: 526
+folder: "VERY EASY"
+    count: 659
+folder: "EASY"
+    count: 2807
+folder: "NOT TOO EASY"
+    count: 2292
+folder: "MEDIUM"
+    count: 1059
+folder: "A BIT HARD"
+    count: 329
+folder: "HARD"
+    count: 205
+folder: "EXTREMELY HARD"
+    count: 71
+folder: "INSANE"
+    count: 22
+folder: "BRAINFUCK"
+    count: 102
+
+#-----------------#
+#- chart options -#
+#-----------------#
+options:
+  xField: "folder"
+  yField: "count"
+  padding: auto
+  label:
+    position: "middle"
+    style:
+      opacity: 0.6
+      fontSize: 12
+  columnStyle:
+    fillOpacity: 0.5
+    lineWidth: 1
+    strokeOpacity: 0.7
+    shadowColor: "grey"
+    shadowBlur: 10
+    shadowOffsetX: 5
+    shadowOffsetY: 5
+  xAxis:
+    label:
+      autoHide: false
+      autoRotate: true
+  meta:
+    count:
+      alias: "Votes"
+```
+
+--
+
+--
+
+This write-up covers the path to completely compromising the **CCTV** machine from HackTheBox. The journey involves exploiting a SQL injection vulnerability in ZoneMinder to dump user credentials, cracking a hashed password to gain SSH access, and finally escalating privileges by exploiting a [[Web - Injection - OS Command Injection in API Parameters|command injection]] vulnerability in a locally running MotionEye instance.
 ## Overview
 
 We start by adding the target IP to our `/etc/hosts` file:
@@ -27,7 +210,7 @@ echo "10.129.16.129 cctv.htb" | sudo tee -a /etc/hosts
 
 ### Port Scanning
 
-As always, our first step is to perform a port scan using Nmap to identify open services:
+As always, our first step is to perform a port scan using [[Recon - Nmap - Port Scanning and Host Discovery|Nmap]] to identify open services:
 
 ```bash
 $ nmap -sC -sV -p22,80 cctv.htb
@@ -45,8 +228,8 @@ Service Info: Host: default; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 We discover two open ports:
-- **22 (SSH):** OpenSSH 9.6p1
-- **80 (HTTP):** Apache httpd 2.4.58
+**22 (SSH):** OpenSSH 9.6p1
+**80 (HTTP):** Apache httpd 2.4.58
 
 ### Web Enumeration
 
@@ -67,7 +250,7 @@ The vulnerable endpoint is:
 
 ## Exploitation (SQL Injection)
 
-Attempting to exploit this endpoint directly with `sqlmap` results in a 401 Unauthorized error because the session cookies are missing:
+The endpoint is vulnerable to [[Web - SQLi - Time-Based Blind Injection|Time-Based Blind SQL Injection]]. Attempting to exploit this endpoint directly with `sqlmap` results in a 401 Unauthorized error because session [[Web - HTTP - Cookies & Session Management|cookies]] are missing:
 
 ```bash
 sqlmap -u "http://cctv.htb/zm/index.php?view=request&request=event&action=removetag&tid=1" -p tid
@@ -174,9 +357,9 @@ ssh -L 8765:127.0.0.1:8765 mark@cctv.htb
 Accessing `http://127.0.0.1:8765` in our browser, we use the `admin` account with the password hash we found (which cracked or allowed pass-the-hash/direct login depending on the application logic) to access the dashboard.
 
 The dashboard reveals the version information:
-- **motionEye Version:** 0.43.1b4
-- **Motion Version:** 4.7.1
-- **OS Version:** Ubuntu 24.04
+**motionEye Version:** 0.43.1b4
+**Motion Version:** 4.7.1
+**OS Version:** Ubuntu 24.04
 
 Searching for vulnerabilities related to motionEye `0.43.1b4`, we find an advisory for an authenticated Remote Code Execution (RCE) vulnerability ([GHSA-j945-qm58-4gjx](https://github.com/motioneye-project/motioneye/security/advisories/GHSA-j945-qm58-4gjx)). Since motionEye typically runs with root privileges, this exploit will provide us with a root shell.
 
@@ -190,3 +373,17 @@ User: d812bf3525cc2d09d40e86e7a939e42b
 ## Conclusion
 
 The CCTV machine offered a realistic scenario involving an outdated surveillance application (ZoneMinder) vulnerable to SQL injection, highlighting the importance of securing and updating internal monitoring tools. After establishing a foothold via weak, reused passwords, privilege escalation was achieved by discovering an internally bound, vulnerable instance of MotionEye running with elevated privileges.
+
+--
+
+## Post-Engagement & Zettelkasten Notes
+
+### Key Takeaways & Defense
+**ZoneMinder SQL Injection**: Web management portals must validate all parameters and avoid executing dynamic SQL queries directly.
+**Password Reuse**: The credential hash recovered from the database directly matched SSH credentials for user `mark`, emphasizing the danger of password reuse across administrative surfaces.
+**Internal Vulnerabilities**: MotionEye running locally on port 8765 as `root` allowed an authenticated command injection to achieve immediate root privilege escalation.
+
+### Atomic Notes to Extract
+[[Web - SQLi - Time-Based Blind Injection|Time-Based Blind SQL Injection]]
+[[Web - Injection - OS Command Injection in API Parameters|Command Injection in Internal Web Apps]]
+[[Linux - PrivEsc - Password Reuse|Password Reuse from Databases]]
