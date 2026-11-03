@@ -1,54 +1,25 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-created: 2026-02-13
----
-## 1. Información General
+# Fawn
 
-- **Máquina:** Fawn
-    
-- **IP:** 10.129.3.239
-    
-- **SO:** Linux
-    
-- **Dificultad:** Muy fácil
-    
-- **Fecha:** 13/02/2026
-    
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 0
 
-## 2. Resumen Ejecutivo
+**Summary:** A misconfigured FTP server (vsftpd 3.0.3) allowed anonymous login and exposed the flag.
 
-Se identificó un servidor FTP (vsftpd 3.0.3) mal configurado que permitía la autenticación anónima, exponiendo información confidencial del sistema.
+## 1. Reconnaissance
 
-## 3. Enumeración (Reconocimiento)
+- **Command:** `nmap -sC -sV 10.129.3.239`
+- **Open ports:**
 
-### 3.1 Escaneo de Red
+| **Port** | **Service** | **Version**  | **State** |
+| -------- | ----------- | ------------ | --------- |
+| 21       | FTP         | vsftpd 3.0.3 | Open      |
 
-- **Comando utilizado:** `nmap -sC -sV 10.129.3.239`
-    
-- **Puertos Abiertos:**
-    
-| **Puerto** | **Servicio** | **Versión**  | **Estado** |
-| ---------- | ------------ | ------------ | ---------- |
-| 21         | FTP          | vsftpd 3.0.3 | Abierto    |
+- **Key finding:** anonymous FTP is enabled and `flag.txt` is readable.
 
-### 3.2 Análisis de Servicios
+## 2. Foothold
 
-_(Aquí es donde detallas lo que encontraste manualmente)_
+The flag is reachable as `anonymous`, no password needed.
 
-- **Tecnologías Detectadas:** FTP Anon
-    
-- **Hallazgos Clave:** FTP Anon está permitido y la flag.txt es accesible.
-    
-## 4. Explotación (Gaining Access)
-
-- **Razonamiento:** La flag está disponible desde el usuario anonymous y sin necesidad de una contraseña.
-    
-- **Pasos de Reproducción:**
+```
     ftp anonymous@10.129.3.239 
     Connected to 10.129.3.239. 
     220 (vsFTPd 3.0.3) 
@@ -71,14 +42,18 @@ _(Aquí es donde detallas lo que encontraste manualmente)_
 	ftp> exit 
 	221 Goodbye. 
 	$ cat flag.txt 035db21c881520061c53e0536e44f815 
+```
 
+## 3. Privilege Escalation
 
+Not applicable: the box only asks for the file exposed over FTP.
 
-## 5. Remediación y Conclusiones
+## 4. Conclusion
 
-- **Criticidad:** Alta
-    
-- **Recomendaciones:**
-    
-	1. **Parcheo:** Deshabilitar el acceso anónimo editando la linea "anonymous_enable=NO" en el archivo /etc/vsftpd.conf (reiniciar el servicio)
-	2. Recomiendo actualizar el servicio a la última versión de SFTP si requiere compartir archivos en el entorno.
+**Severity:** High
+
+**Chain:** anonymous FTP → sensitive file readable without credentials.
+
+**Remediation:**
+1. Disable anonymous access by setting `anonymous_enable=NO` in `/etc/vsftpd.conf` and restarting the service.
+2. If file sharing is needed, move to SFTP.

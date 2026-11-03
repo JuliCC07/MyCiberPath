@@ -1,39 +1,16 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-  - ftp
-  - apache
-  - gobuster
-  - credentials-leak
-created: 2026-03-13
----
+# Crocodile
 
-## 1. Información General
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 1
 
-- **Máquina:** Crocodile
-- **IP:** 10.129.17.26
-- **SO:** Linux (Ubuntu)
-- **Dificultad:** Muy fácil
-- **Fecha:** 13/03/2026
+**Summary:** Anonymous FTP leaked a user list and a password list. Gobuster found `login.php`, and one of the leaked pairs (`admin:rKXM59ESxesUFHAd`) gave admin access and the flag.
 
-## 2. Resumen Ejecutivo
-
-Se comprometió un servidor web Apache explotando una fuga de credenciales en un servicio FTP anónimo expuesto. El servidor FTP `vsftpd` permitía acceso de lectura sin autenticación, exponiendo listas de usuarios y contraseñas administrativas. Mediante fuzzing web con Gobuster se descubrió un panel de administración `login.php`, en el cual se validaron las credenciales extraídas (`admin:rKXM59ESxesUFHAd`), obteniendo acceso administrativo y la flag del sistema.
-
-## 3. Enumeración (Reconocimiento)
-
-### Escaneo de Puertos y Servicios con Nmap
+## 1. Reconnaissance
 
 ```bash
 nmap -sC -sV 10.129.17.26
 ```
 
-**Salida relevante:**
-
+Relevant output:
 ```text
 PORT   STATE SERVICE VERSION
 21/tcp open  ftp     vsftpd 3.0.3
@@ -44,11 +21,10 @@ PORT   STATE SERVICE VERSION
 |_http-title: Smash - Bootstrap Business Template
 ```
 
-## 4. Explotación (Acceso Inicial)
+## 2. Foothold
 
-### Acceso FTP Anónimo & Extracción de Ficheros
-
-Conectamos como usuario `anonymous` al servidor FTP para inspeccionar los ficheros públicos:
+### Anonymous FTP
+I logged in as `anonymous` and pulled both files:
 
 ```bash
 ftp anonymous@10.129.17.26
@@ -60,8 +36,7 @@ ftp> get allowed.userlist.passwd
 ftp> exit
 ```
 
-Inspección del contenido descargado:
-
+Contents:
 ```text
 # allowed.userlist
 aron
@@ -76,25 +51,30 @@ Supersecretpassword1
 rKXM59ESxesUFHAd
 ```
 
-### Fuzzing de Directorios Web (Gobuster)
-
-Dado que la página principal solo exponía una plantilla HTML sin enlaces dinámicos, se procedió a buscar recursos ocultos y paneles de autenticación:
+### Directory fuzzing
+The home page was just a static template with no useful links, so I looked for hidden pages and login panels:
 
 ```bash
 gobuster dir -u http://10.129.17.26 -x php,html -w /usr/share/dirbuster/wordlists/directory-list-2.3-small.txt
 ```
 
-**Resultado:**
+Result:
 - `/login.php` (Status: 200 OK)
 
-### Acceso al Panel de Administración
+### Admin panel
+At `http://10.129.17.26/login.php`, user `admin` with password `rKXM59ESxesUFHAd` worked first try, and the flag was on the dashboard:
 
-Navegando a `http://10.129.17.26/login.php`, se introdujo el usuario `admin` junto con la contraseña `rKXM59ESxesUFHAd`. El acceso fue concedido inmediatamente, mostrando la flag en el panel principal:
+![Screenshot-PHP-Crocodile](../../../Attachments/Screenshot-PHP-Crocodile.png)
 
-![[Screenshot-PHP-Crocodile.png]]
+## 3. Privilege Escalation
 
-## 5. Lecciones Aprendidas & Remediación
+Not applicable: the goal is the admin panel.
 
-- **Deshabilitar FTP Anónimo:** En `vsftpd.conf`, configurar `anonymous_enable=NO` para evitar la lectura pública de archivos internos.
-- **Protección de Credenciales:** Las credenciales y listas de cuentas nunca deben residir en texto plano en directorios compartidos o de acceso público.
-- **Seguridad en Paneles Web:** Implementar autenticación multifactor (MFA), bloqueo de intentos repetidos (Rate Limiting) y ocultar rutas de administración detrás de VPN corporativa.
+## 4. Conclusion
+
+**Chain:** anonymous FTP → leaked credential lists → hidden `login.php` → admin access.
+
+**Remediation:**
+- **Disable anonymous FTP:** set `anonymous_enable=NO` in `vsftpd.conf`.
+- **Protect credentials:** never keep credentials or account lists in plaintext in shared or public directories.
+- **Harden admin panels:** add MFA and rate limiting, and keep admin paths behind a VPN.

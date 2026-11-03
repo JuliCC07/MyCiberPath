@@ -1,189 +1,12 @@
----
-title: "DevHub - Hack The Box"
-target: "DevHub"
-os: "Linux"
-difficulty: "Medium"
-status: "Pwned"
-vectors: "Exposed .git Repository Dumping, Gitea API Token Hijacking, CI/CD Runner Privilege Escalation"
-tags:
-  - ciber
-  - htb
-  - git
-  - gitea
-  - cicd
-  - docker
-  - privesc
-synced: "2026-11-02 12:08"
----
+# DevHub
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Linux · **Difficulty:** Medium
+
+> Outdated MCPJam Inspector 1.4.2 for a foothold, hardcoded API key in a world-readable script, hidden debug endpoint on an internal API to root
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png" alt="DevHub Avatar" width="220">
 </p>
-
-## Operating System: Linux
-![[Linux.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 903 |
-| **Machine Name** | DevHub |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ✅ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Medium |
-| **Stars** | ⭐️ 4.0 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2026-05-30 |
-| **Tags** | #Web_Application #Vulnerability_Assessment #Remote_Code_Execution #Clear_Text_Credentials #Information_Disclosure #Code_Execution #Misconfiguration #Weak_Permissions #Sensitive_Data_Exposure #Command_Execution #Python #Bash #SSH #NGINX #NodeJS #Web_API #Jupyter_Notebook #Linux #API #Reconnaissance #System_Exploitation #Tunneling #Port_Forwarding #API_Abuse #Privilege_Abuse #Custom_Applications #Software_&_OS_exploitation #Security_Tools #Authentication |
-
-<p style="display:none">
-id:: 903
-active:: True
-name:: DevHub
-os:: Linux
-user_flag:: True
-root_flag:: True
-difficulty_text:: Medium
-stars:: 4.0
-created:: 2026-10-16
-published:: 2026-05-30
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png
-tags:: #Web_Application #Vulnerability_Assessment #Remote_Code_Execution #Clear_Text_Credentials #Information_Disclosure #Code_Execution #Misconfiguration #Weak_Permissions #Sensitive_Data_Exposure #Command_Execution #Python #Bash #SSH #NGINX #NodeJS #Web_API #Jupyter_Notebook #Linux #API #Reconnaissance #System_Exploitation #Tunneling #Port_Forwarding #API_Abuse #Privilege_Abuse #Custom_Applications #Software_&_OS_exploitation #Security_Tools #Authentication
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 5.3
-  - item: "REAL"
-    user: "user"
-    score: 5.2
-  - item: "CVE"
-    user: "user"
-    score: 5.9
-  - item: "CUSTOM"
-    user: "user"
-    score: 4.1
-  - item: "CTF"
-    user: "user"
-    score: 4.8
-  - item: "ENUM"
-    user: "author"
-    score: 0
-  - item: "REAL"
-    user: "author"
-    score: 0
-  - item: "CVE"
-    user: "author"
-    score: 0
-  - item: "CUSTOM"
-    user: "author"
-    score: 0
-  - item: "CTF"
-    user: "author"
-    score: 0
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 636
-  - folder: "VERY EASY"
-    count: 756
-  - folder: "EASY"
-    count: 2641
-  - folder: "NOT TOO EASY"
-    count: 1521
-  - folder: "MEDIUM"
-    count: 1251
-  - folder: "A BIT HARD"
-    count: 312
-  - folder: "HARD"
-    count: 145
-  - folder: "EXTREMELY HARD"
-    count: 55
-  - folder: "INSANE"
-    count: 17
-  - folder: "BRAINFUCK"
-    count: 59
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
 
 ## Reconnaissance
 During the initial reconnaissance phase, we explored the open ports on the target machine. On port 80, the web source code indicated two primary services running:
@@ -200,7 +23,7 @@ During the initial reconnaissance phase, we explored the open ports on the targe
 
 ### Investigating Port 6274
 Accessing port 6274 revealed the **MCPJam Inspector** application.
-![[Pasted image 20260827133743.png]]
+![Pasted image 20260827133743](../../../Attachments/Pasted%20image%2020260827133743.png)
 
 ```html
 <!doctype html> <html lang="en"> <head> <meta charset="UTF-8" /> <link rel="icon" type="image/svg+xml" href="[/mcp_jam.svg](view-source:http://devhub.htb:6274/mcp_jam.svg)" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>MCPJam Inspector</title> <script type="module" crossorigin src="[/assets/index-DRYhT9Xb.js](view-source:http://devhub.htb:6274/assets/index-DRYhT9Xb.js)"></script> <link rel="stylesheet" crossorigin href="[/assets/index-XvFRNbCs.css](view-source:http://devhub.htb:6274/assets/index-XvFRNbCs.css)"> </head> <body> <div id="root"></div> </body> </html>
@@ -221,11 +44,11 @@ content-type: application/json
 ```
 
 By identifying the application version (**MCPJam Version: v1.4.2**), we discovered a known vulnerability.
-![[Pasted image 20260827134500.png]]
+![Pasted image 20260827134500](../../../Attachments/Pasted%20image%2020260827134500.png)
 
 ## Foothold / Initial Access
 Using an exploit for MCPJam v1.4.2, we successfully gained initial access to the machine as a standard user.
-![[Pasted image 20260828001712.png]]
+![Pasted image 20260828001712](../../../Attachments/Pasted%20image%2020260828001712.png)
 
 Once inside, we enumerated listening services and running processes:
 ```sh
@@ -245,7 +68,7 @@ We found that Jupyter is running on port 8888, and a custom Python server (`/opt
 ```sh
 ssh -L 8888:localhost:8888 mcp-dev@devhub
 ```
-![[Pasted image 20260828004535.png]]
+![Pasted image 20260828004535](../../../Attachments/Pasted%20image%2020260828004535.png)
 
 ## Privilege Escalation
 After uploading and running `linpeas.sh`, we found the following interesting symbolic link:
@@ -254,10 +77,10 @@ After uploading and running `linpeas.sh`, we found the following interesting sym
 ```
 
 Focusing on the internal service running on port 5000, we accessed it via the browser (through port forwarding).
-![[Pasted image 20260828155142.png]]
+![Pasted image 20260828155142](../../../Attachments/Pasted%20image%2020260828155142.png)
 
 Browsing the service directories indicated that an API Key was required to interact with the endpoints.
-![[Pasted image 20260828155304.png]]
+![Pasted image 20260828155304](../../../Attachments/Pasted%20image%2020260828155304.png)
 
 Since the `server.py` file was owned by our user or world-readable, we extracted the hardcoded API Key directly from the source code:
 ```sh
@@ -267,7 +90,7 @@ VALID_API_KEY = "opsmcp_secret_key_4f5a6b7c8d9e0f1a"
     return api_key == VALID_API_KEY
 ...
 ```
-![[Pasted image 20260828161351.png]]
+![Pasted image 20260828161351](../../../Attachments/Pasted%20image%2020260828161351.png)
 
 With the valid API Key, we tested calling the available tools via HTTP POST requests:
 ```sh
@@ -329,13 +152,8 @@ The DevHub machine was successfully compromised by identifying an outdated and v
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **MCP Development Exposure**: Debugging and Model Context Protocol inspectors (MCPJam v1.4.2) must not be bound to publicly accessible interfaces.
 - **Hardcoded Secret Keys in Scripts**: Internal management scripts (`server.py`) with world-readable permissions leak administrative API tokens.
 - **Unrestricted Debug Endpoints**: Debug functions such as `ops._admin_dump` capable of exfiltrating SSH keys must require multi-party approval or be completely disabled in production.
-
-### Atomic Notes to Extract
-- [[Linux - PrivEsc - Sudo Abuse and World Readable Scripts|World-Readable Server Scripts & Hardcoded Keys]]
-- [[Web - API - Sensitive Data Exposure|API Key Disclosure & Debug Endpoints]]

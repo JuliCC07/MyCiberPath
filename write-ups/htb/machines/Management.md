@@ -1,188 +1,12 @@
----
-title: "Management - Hack The Box"
-target: "Management"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "Apache Subversion (SVN) WebDAV Repository Leak, Hardcoded Admin Credentials, Crontab PrivEsc"
-tags:
-  - ciber
-  - htb
-  - subversion
-  - webdav
-  - cron
-  - apache
-synced: "2026-11-02 12:08"
----
+# Management
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Linux · **Difficulty:** Easy
+
+> Credentials from config files and MariaDB, decrypted LDAP password for lateral movement, sudo rdiff-backup restricted-mode bypass to read /root
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a261b8b2-9dd5-4958-aaac-ca53661ab002-1785405942.png" alt="Management Avatar" width="220">
 </p>
-
-## Operating System: Linux
-![[Linux.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 981 |
-| **Machine Name** | Management |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ✅ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Easy |
-| **Stars** | ⭐️ 3.5 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2026-09-12 |
-| **Tags** | None |
-
-<p style="display:none">
-id:: 981
-active:: True
-name:: Management
-os:: Linux
-user_flag:: True
-root_flag:: True
-difficulty_text:: Easy
-stars:: 3.5
-created:: 2026-10-16
-published:: 2026-09-12
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a261b8b2-9dd5-4958-aaac-ca53661ab002-1785405942.png
-tags:: None
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 6.1
-  - item: "REAL"
-    user: "user"
-    score: 5.3
-  - item: "CVE"
-    user: "user"
-    score: 5.8
-  - item: "CUSTOM"
-    user: "user"
-    score: 4.2
-  - item: "CTF"
-    user: "user"
-    score: 4.7
-  - item: "ENUM"
-    user: "author"
-    score: 8
-  - item: "REAL"
-    user: "author"
-    score: 6
-  - item: "CVE"
-    user: "author"
-    score: 8
-  - item: "CUSTOM"
-    user: "author"
-    score: 2
-  - item: "CTF"
-    user: "author"
-    score: 4
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 116
-  - folder: "VERY EASY"
-    count: 133
-  - folder: "EASY"
-    count: 577
-  - folder: "NOT TOO EASY"
-    count: 650
-  - folder: "MEDIUM"
-    count: 438
-  - folder: "A BIT HARD"
-    count: 176
-  - folder: "HARD"
-    count: 110
-  - folder: "EXTREMELY HARD"
-    count: 47
-  - folder: "INSANE"
-    count: 31
-  - folder: "BRAINFUCK"
-    count: 45
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
 
 ## Introduction
 This writeup covers the path to compromise the **Management** machine on Hack The Box. The process involves identifying database credentials within a local configuration, extracting and decrypting LDAP bind credentials from the database, pivoting to another user, and finally escalating privileges to root by exploiting a sudo misconfiguration related to `rdiff-backup`.
@@ -294,7 +118,7 @@ After successfully pivoting to the user `owen`, we begin our local enumeration. 
 ### Exploiting `rdiff-backup`
 Enumeration reveals that the `owen` user is allowed to run `rdiff-backup` as `root` via `sudo`. The allowed command forces restricted paths: `sudo /usr/bin/rdiff-backup --server --restrict-path /opt/backup --restrict-mode read-only --restrict-path %s`.
 
-However, `rdiff-backup` has a known vulnerability/feature when used with the `--remote-schema` argument (see [[Linux - PrivEsc - Rdiff-Backup Sudo Abuse|Rdiff-Backup Sudo Abuse Privilege Escalation]]), allowing a user to inject command-line arguments and bypass intended restrictions. By manipulating the remote schema, we can force the sudo command to backup arbitrary directories on the filesystem. 
+However, `rdiff-backup` has a known vulnerability/feature when used with the `--remote-schema` argument (see Rdiff-Backup Sudo Abuse Privilege Escalation), allowing a user to inject command-line arguments and bypass intended restrictions. By manipulating the remote schema, we can force the sudo command to backup arbitrary directories on the filesystem. 
 
 We abuse this to back up the `/root` directory into a temporary folder `/tmp/rootbak` that we control:
 
@@ -341,12 +165,7 @@ The path to root on the Management machine required solid enumeration of local c
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **Credential Storage in Databases**: Plaintext and reversibly encrypted passwords stored in relational databases (MariaDB/LDAP) facilitate lateral movement.
 - **Sudo Misconfigurations**: Granting sudo permissions over backup utilities like `rdiff-backup` allows arbitrary command execution via built-in argument flags or subprocess spawning.
-
-### Atomic Notes to Extract
-- [[Linux - PrivEsc - Rdiff-Backup Sudo Abuse|Rdiff-Backup Sudo Abuse Privilege Escalation]]
-- [[Linux - PrivEsc - Password Reuse|Database Credential Extraction & Decryption]]

@@ -30,3 +30,7 @@ AGENTS.md
 *.log
 credentials.txt
 id_rsa
+# Personal files kept out of the public repo
+cv/
+*.pdf
+learning/bash/legion-battery-script/backups/

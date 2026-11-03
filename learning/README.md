@@ -1,47 +1,22 @@
----
-title: "Security Tooling Arsenal & Lab Automation"
-type: "tooling-index"
-updated: "2026-11-02"
----
+# Learning
 
-# Security Tooling Arsenal & ASIR Automation
+Scripts I wrote while studying for ASIR and practising for HTB. They're small and practical; most started as a one-off for a lab or a challenge.
 
-> A curated collection of Python tools, network sockets, penetration testing automation, and system administration scripts built for ASIR labs and Hack The Box challenges.
+## Bash
 
----
+| Script | What it does |
+| :--- | :--- |
+| [`nmap/recon.sh`](bash/nmap/recon.sh) | First-pass recon for a target: full TCP port scan, version/script scan on the open ports, then ffuf for directories and vhosts. Results go into a per-target folder. |
+| [`user_provisioning.sh`](bash/user_provisioning.sh) | Creates department groups and numbered users (`systems01`...) in bulk for lab machines, skipping accounts that already exist. |
+| [`iso_copy.sh`](bash/iso_copy.sh) | Copies an ISO image to one or more lab servers over `scp`, with `getopts` argument parsing. |
+| [`legion-battery-script/`](bash/legion-battery-script/) | TuneD profiles for my Legion laptop (powersave, balanced, performance). They set CPU governor, platform profile and power limits, and switch the internal display's refresh rate under niri, detecting the eDP output at runtime instead of hardcoding it. |
 
-## Python Arsenal (`learning/python/`)
+## Python
 
-| Script / Module | Purpose | Key Techniques |
-| :--- | :--- | :--- |
-| `bindshell.py` | Standalone TCP Bind Shell | Python `socket`, `subprocess`, interactive shell binding |
-| `C2TcpConnection.py` | Command & Control Client/Server | Context-managed bidirectional TCP socket connection |
-| `html-parser-and-word-sorter.py` | Target Content Scraper | Wordlist generation, HTML entity parsing, regex filtering |
-| `request_flood.py` | HTTP Stress Testing & Fuzzing | Multithreaded requests, rate-limit analysis, response inspection |
-| `lab_network_topology.py` | Virtual Lab Topology Tester | OOP inheritance model, attribute encapsulation, MRO resolution |
-| `Python - Sec - PyJail and Sandbox Escape.md` | PyJail Escapes | Introspection, `__subclasses__()`, `__builtins__` restoration |
-| `Python - OOP - Object Introspection and Escalation.md` | Object Escalation | Vertical and horizontal class traversal via MRO |
-| `Python - OOP - Dunder Methods.md` | Magic Methods | Special method overloading and security implications |
-
----
-
-## Bash Automation & System Scripting (`learning/bash/`)
-
-| Script | Purpose | Key Commands |
-| :--- | :--- | :--- |
-| `user_provisioning.sh` | Automated User & Group Provisioning | `useradd`, `groupadd`, bulk parsing and verification |
-| `iso_copy.sh` | Live USB & ISO Flashing Utility | Remote `scp` transfer, CLI argument parsing with `getopts` |
-| `legion-battery-script/` | Power Management Profiles | ACPI event handling, TuneD profile overrides, systemd unit |
-| `nmap/` | Rapid Recon Wrappers | Automated mass scanning, greppable output parsing |
-
----
-
-## Core Pentesting Notes (`notes/pentesting/`)
-
-- [[Web - LFI - PHP Wrappers and Log Poisoning (RCE)|PHP Filters & Log Poisoning (RCE)]]
-- [[Web - LFI - Fuzzing Parameters|LFI Parameter Fuzzing Methodology]]
-- [[Web - LFI - Server Files Chain|Server Files Traversal Chain]]
-- [[Web - SSTI - Mako Template Injection|Server-Side Template Injection (Mako)]]
-- [[Pentesting - Tools - cURL Cheatsheet|cURL Mastery Cheatsheet]]
-- [[Linux - PrivEsc - SUID|SUID Privilege Escalation Methodology]]
-- [[Getting Started Notes|Offensive Security Fundamentals]]
+| Script | What it does |
+| :--- | :--- |
+| [`bindshell.py`](python/bindshell.py) | Minimal threaded bind shell built on `socket` and `subprocess`, written to understand how bind shells work. |
+| [`C2TcpConnection.py`](python/C2TcpConnection.py) | Context-managed TCP connection class (`with` statement) that sends a command and reads the reply. |
+| [`html-parser-and-word-sorter.py`](python/html-parser-and-word-sorter.py) | Downloads a page, extracts the text with BeautifulSoup and counts word frequency, useful for building target-specific wordlists. |
+| [`lab_network_topology.py`](python/lab_network_topology.py) | OOP practice: models switches, routers and firewalls with inheritance and shows MRO and introspection. |
+| [`request_flood.py`](python/request_flood.py) | Solver for a picoCTF web challenge that only returns the flag under load: sends concurrent requests, then polls for the flag. |

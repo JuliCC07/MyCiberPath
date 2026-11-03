@@ -1,192 +1,16 @@
----
-title: "Nexus - Hack The Box"
-target: "Nexus"
-os: "Linux"
-difficulty: "Medium"
-status: "Pwned"
-vectors: "Sonatype Nexus Repository CVE-2020-10199 EL Injection RCE, Docker Escape / Sudo Abuse"
-tags:
-  - ciber
-  - htb
-  - sonatype-nexus
-  - docker-escape
-  - cve
-  - sudo
-synced: "2026-11-02 12:08"
----
+# Nexus
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Linux · **Difficulty:** Easy
+
+> Exposed .env and open directories, Krayin CRM RCE (CVE-2026-38526), password reuse, path traversal in a root cron job's Git template sync
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a21774d6-5dc0-4e3a-bee2-7274ea8df097-1782216281.png" alt="Nexus Avatar" width="220">
 </p>
 
-## Operating System: Linux
-![[Linux.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 948 |
-| **Machine Name** | Nexus |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ❌ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Easy |
-| **Stars** | ⭐️ 4.2 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2026-06-23 |
-| **Tags** | #Enterprise_Network #Clear_Text_Credentials #Arbitrary_File_Upload #Information_Disclosure #Code_Execution #Misconfiguration #Insecure_Design #PHP #Python #Bash #MySQL #NGINX #Docker #Git #OpenSSH #Gitea #Linux #Reconnaissance #Web_Site_Structure_Discovery #Configuration_Analysis #Password_Reuse #Protocols #Common_Services |
-
-<p style="display:none">
-id:: 948
-active:: False
-name:: Nexus
-os:: Linux
-user_flag:: True
-root_flag:: True
-difficulty_text:: Easy
-stars:: 4.2
-created:: 2026-10-16
-published:: 2026-06-23
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a21774d6-5dc0-4e3a-bee2-7274ea8df097-1782216281.png
-tags:: #Enterprise_Network #Clear_Text_Credentials #Arbitrary_File_Upload #Information_Disclosure #Code_Execution #Misconfiguration #Insecure_Design #PHP #Python #Bash #MySQL #NGINX #Docker #Git #OpenSSH #Gitea #Linux #Reconnaissance #Web_Site_Structure_Discovery #Configuration_Analysis #Password_Reuse #Protocols #Common_Services
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 5.8
-  - item: "REAL"
-    user: "user"
-    score: 5.4
-  - item: "CVE"
-    user: "user"
-    score: 5.7
-  - item: "CUSTOM"
-    user: "user"
-    score: 4.3
-  - item: "CTF"
-    user: "user"
-    score: 4.6
-  - item: "ENUM"
-    user: "author"
-    score: 0
-  - item: "REAL"
-    user: "author"
-    score: 0
-  - item: "CVE"
-    user: "author"
-    score: 0
-  - item: "CUSTOM"
-    user: "author"
-    score: 0
-  - item: "CTF"
-    user: "author"
-    score: 0
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 241
-  - folder: "VERY EASY"
-    count: 360
-  - folder: "EASY"
-    count: 1561
-  - folder: "NOT TOO EASY"
-    count: 1418
-  - folder: "MEDIUM"
-    count: 759
-  - folder: "A BIT HARD"
-    count: 360
-  - folder: "HARD"
-    count: 289
-  - folder: "EXTREMELY HARD"
-    count: 145
-  - folder: "INSANE"
-    count: 39
-  - folder: "BRAINFUCK"
-    count: 88
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
-
 ## Reconnaissance
 
-The initial step involves scanning the target machine to discover open ports and running services. We perform an [[Recon - Nmap - Port Scanning and Host Discovery|Nmap scan]] to gather this information.
+The initial step involves scanning the target machine to discover open ports and running services. We perform an Nmap scan to gather this information.
 
 ### Nmap Scan
 
@@ -293,7 +117,7 @@ MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 
-![[Pasted image 20260703145548.png]]
+![Pasted image 20260703145548](../../../Attachments/Pasted%20image%2020260703145548.png)
 
 ## Foothold / Initial Access
 
@@ -305,7 +129,7 @@ The dashboard reveals that the application running is Krayin CRM Version 2.2.0. 
 
 [Krayin CRM Version: 2.2.0](https://github.com/pawpic/CVE-2026-38526-POC)
 
-![[Pasted image 20260703150925.png]]
+![Pasted image 20260703150925](../../../Attachments/Pasted%20image%2020260703150925.png)
 
 By exploiting this known vulnerability (CVE-2026-38526), we manage to gain remote code execution and establish an initial foothold on the system as the `www-data` user.
 
@@ -351,7 +175,7 @@ jones@nexus.htb's password:
 
 ### Escalating to `root`
 
-As the `jones` user, we check for scheduled tasks using [[Linux - Services - Systemd Service Management|systemd]] timers and discover a timer for syncing Gitea templates running frequently:
+As the `jones` user, we check for scheduled tasks using systemd timers and discover a timer for syncing Gitea templates running frequently:
 
 ```shell
 jones@nexus:~$ systemctl list-timers
@@ -551,11 +375,11 @@ The script extracts a Git template into a directory using paths read from `git l
 
 To exploit this, we create a template repository using the `jones` user on the Gitea instance (since we can reuse their credentials). 
 
-![[Pasted image 20260703153110.png]]
+![Pasted image 20260703153110](../../../Attachments/Pasted%20image%2020260703153110.png)
 
 We then craft an exploit payload to write our SSH public key to `/root/.ssh/authorized_keys` or similar sensitive locations. The following python script builds the malicious Git tree:
 
-![[Pasted image 20260703153525.png]]
+![Pasted image 20260703153525](../../../Attachments/Pasted%20image%2020260703153525.png)
 
 We generate a new SSH key pair and use the `build.py` script inside our local Git repository to create a commit with a malicious path traversal structure that injects our SSH key.
 
@@ -608,7 +432,7 @@ To http://git.nexus.htb/jones/rce.git
 rama 'main' configurada para rastrear 'origin/main'.
 ```
 
-![[Pasted image 20260703154521.png]]
+![Pasted image 20260703154521](../../../Attachments/Pasted%20image%2020260703154521.png)
 
 After pushing the malicious template to the Gitea server, the `gitea-template-sync.service` cronjob runs as `root`, pulls our repository, and writes our provided public SSH key to the root user's SSH configuration folder. We can then successfully SSH into the target as `root` and retrieve the root flag.
 
@@ -625,12 +449,7 @@ This machine provided a great overview of common misconfigurations and chaining 
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **Source Code Repository Auditing**: Internal Gitea instances often harbor exposed credentials, hardcoded keys, and infrastructure deployment files.
 - **Systemd Service Permissions**: Ensure service unit files and scripts executed by `systemd` are strictly writable by `root`.
-
-### Atomic Notes to Extract
-- [[Linux - Services - Systemd Service Management|Systemd Service Abuse]]
-- [[Linux - PrivEsc - SUID|SUID Binaries]]

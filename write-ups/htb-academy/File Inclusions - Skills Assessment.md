@@ -1,34 +1,23 @@
----
-title: "Skill Assessment - File Inclusions - Hack The Box"
-target: "Skill Assessment - File Inclusions"
-os: "Linux"
-difficulty: "Medium"
-status: "Pwned"
-vectors: "Local File Inclusion (LFI), PHP Filter Wrappers, Apache Log Poisoning to RCE"
-tags:
-  - ciber
-  - htb
-  - lfi
-  - rfi
-  - php-wrappers
-  - log-poisoning
-synced: "2026-11-02 12:08"
----
+# File Inclusions - Skills Assessment
 
-Páginas interesantes: 
+**Platform:** HTB Academy · **Type:** Skills assessment · **OS:** Linux
+
+> LFI found by fuzzing an image endpoint, source disclosure, URL-encoded include filter bypass to run an uploaded shell
+
+Interesting pages:
 - `apply.php`
 - `contact.php`
 - `index.php`
 - `thanks.php`
 
-Source code de contact.php:
+Source of contact.php:
 - `<img src="[/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c](view-source:http://154.57.164.75:31655/api/image.php?p=a4cbc9532b6364a008e2ac58347e3e3c)" height="25"/>`
-Source code de apply.php:
+Source of apply.php:
 `<form action="[/api/application.php](view-source:http://154.57.164.75:31655/api/application.php)" method="POST" enctype="multipart/form-data">`
 
-![[Pasted image 20260519224859.png]]
+![Pasted image 20260519224859](../../Attachments/Pasted%20image%2020260519224859.png)
 
-Probando el comportamiento de las fotos nos damos cuenta que el servidor carga una imagen a partir de un hash. Sin embargo, si no hay ningun parametro ni hash, no da error, simplemente da una respuesta en blanco. Vamos a fuzzear este parametro ya que es un comportamiento sospechoso.
+Poking at the images, the server loads each one from a hash. With no parameter or hash at all it doesn't throw an error, it just returns a blank response. That's suspicious, so I fuzzed the parameter.
 
 ```bash
 ┌──(julicc㉿arceus)-[~]
@@ -62,17 +51,17 @@ ________________________________________________
 ....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//....//etc/passwd [Status: 200, Size: 1041, Words: 7, Lines: 22, Duration: 36ms]
 ```
 
-En BurpSuite, modificando una solicitud get con el parametro obtenido vemos que efectivamente conseguimos vulnerar el servidor por LFI
-![[1779225031158218464.png]]
+Replaying a GET request in Burp Suite with that payload confirms the LFI.
+![1779225031158218464](../../Attachments/1779225031158218464.png)
 
-Vamos a utilizar LFI para leer codigo fuente de ficheros y ver donde se almacenan los ficheros subidos en el formulario:
-![[Pasted image 20260519231416.png]]
-Vemos que en target file existe la ruta `../uploads/`
-Vamos a intentar utilizar la web shell que habiamos subido anteriormente:
-![[Pasted image 20260519231812.png]]
-Mediante uploads no funciona...
-Vamos a observar el codigo de otra página:
-![[Pasted image 20260519231957.png]]
+Next I used the LFI to read source code and find where the form stores uploaded files:
+![Pasted image 20260519231416](../../Attachments/Pasted%20image%2020260519231416.png)
+The target file path points to `../uploads/`.
+I tried to reach the web shell I had uploaded earlier:
+![Pasted image 20260519231812](../../Attachments/Pasted%20image%2020260519231812.png)
+Going through uploads directly doesn't work...
+So I looked at the code of another page:
+![Pasted image 20260519231957](../../Attachments/Pasted%20image%2020260519231957.png)
 ```php
 <?php
                     $region = "AT";
@@ -92,8 +81,8 @@ Vamos a observar el codigo de otra página:
                     }
                     ?>
 ```
-El parametro "region" pasa directamente por la funcion include, y además vemos que al final se le añade la extensión .php como filtro. Además solo checkea si hay `.` y `/`. urldecode() se aplica después de la validación.
+The "region" parameter goes straight into `include`, with `.php` appended at the end. The only check is for `.` and `/`, and `urldecode()` runs after that check.
 
-Recordamos que para cargar la imagen utilizaba hash, y para la función de target_file del formulario hace un hash md5 sobre el archivo, y la ruta es ../uploads, es decir /var/www/html/uploads, y que añade .php al final, vamos a intentar cargar el shell.php de la siguiente manera:
-![[1779225962812586409.png]]
-Vamos a utilizar el parametro `region` en `contanct.php` y vamos a codificar la URL para saltarnos los checks de . y /.
+Putting it together: the form's target_file is an MD5 hash of the file, stored under ../uploads (i.e. /var/www/html/uploads), and the include appends .php. So I tried loading shell.php like this:
+![1779225962812586409](../../Attachments/1779225962812586409.png)
+Using the `region` parameter on `contanct.php`, URL-encoding the path gets past the `.` and `/` checks.

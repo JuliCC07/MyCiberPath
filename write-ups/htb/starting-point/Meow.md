@@ -1,66 +1,36 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-created: 2026-02-13
----
-## 1. Información General
+# Meow
 
-- **Máquina:** Meow
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 0
 
-- **IP:** 10.129.3.234
+**Summary:** Telnet was exposed on port 23 and let me log in as `root` with no password.
 
-- **SO:** Linux
+## 1. Reconnaissance
 
-- **Dificultad:** Very Easy
+- **Command:** `nmap -sC -sV 10.129.3.234`
+- **Open ports:**
 
-- **Fecha:** 13/02/2026
-    
+| **Port** | **Service** | **Version**  | **State** |
+| -------- | ----------- | ------------ | --------- |
+| 23       | telnet      | Linuxtelnetd | Open      |
 
-## 2. Resumen Ejecutivo
+Only Telnet is listening. Trying common usernames, `root` has no password set.
 
-Se comprometió el servidor al detectar un servicio Telnet expuesto en el puerto 23 que permitía el acceso directo como administrador (root) sin requerir credenciales de autenticación.
+## 2. Foothold
 
-## 3. Enumeración (Reconocimiento)
+- **Vulnerability:** Telnet (cleartext protocol) with no authentication for the administrator account.
+- Logging in over Telnet as `root` gives a shell straight away.
 
-### 3.1 Escaneo de Red
+## 3. Privilege Escalation
 
-- **Comando utilizado:** `nmap -sC -sV 10.129.3.234`
-    
-- **Puertos Abiertos:**
+Not needed: the session is already `root`.
 
-| **Puerto** | **Servicio** | **Versión**  | **Estado** |
-| ---------- | ------------ | ------------ | ---------- |
-| 23         | telnet       | Linuxtelnetd | Abierto    |
+- 🚩 **Root flag:** `b40abdfe23665f766f9c61ecba8a4c19`
 
-### 3.2 Análisis de Servicios
+## 4. Conclusion
 
-- **Tecnologías Detectadas:** Telnet
+**Chain:** exposed Telnet → passwordless `root` → full compromise.
 
-	- **Hallazgos Clave:** El usuario root no tiene contraseña, ofrece acceso directo.
-    
-
-## 4. Análisis de Vulnerabilidades
-
-- **Vulnerabilidad Principal:** Uso de telnet y además sin autenticación para el usuario administrador
-        
-## 5. Post-Explotación (Escalada de Privilegios)
-
-Ya tenemos los máximos privilegios pues hemos accedido con el usuario root
-    
-- **Prueba de Compromiso (Flags):**
-    
-    - 🚩 **Root Flag:** `b40abdfe23665f766f9c61ecba8a4c19`
-
-## 6. Remediación y Conclusiones
-
-- **Criticidad:** [
-    
-- **Recomendaciones:**
-    
-    1. **Parcheo:** Cerrar completamente el puerto telnet y configurar un servicio ssh.
-    2. Implementar políticas de contraseñas robustas para todos los usuarios.
-    3. Configurar SSH para impedir el inicio de sesión directo como root (`PermitRootLogin no`).
+**Remediation:**
+1. Shut down Telnet entirely and use SSH instead.
+2. Enforce strong password policies for every account.
+3. Block direct root logins over SSH (`PermitRootLogin no`).

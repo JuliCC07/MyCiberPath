@@ -1,33 +1,14 @@
----
-categories:
-  - "[[Ciber]]"
-tags:
-  - vms
-  - pentesting
-  - starting-point
-  - burp-suite
-  - idor
-  - suid
-  - linux
-created: 2026-04-21
----
-## 1. Información General
+# Oopsie
 
-- **Máquina:** Oopsie
-- **IP:** 10.129.90.91
-- **SO:** Linux (Ubuntu)
-- **Dificultad:** Muy fácil
-- **Fecha:** 21/04/2026
+**Platform:** Hack The Box · **Type:** Starting Point · **OS:** Linux · **Difficulty:** Tier 2
 
-## 2. Resumen Ejecutivo
+> **Status:** in progress. This write-up stops before the end of the box.
 
-Se comprometió un servidor Linux que ejecutaba un sitio web Apache con un panel de administración oculto. Mediante web crawling pasivo con Burp Suite se descubrió una página de login. El reconocimiento reveló SSH y HTTP como servicios expuestos.
+**Summary:** Apache site with a hidden admin panel. Passive crawling through Burp Suite is the way to find the login page. Exposed services: SSH and HTTP.
 
-## 3. Enumeración (Reconocimiento)
+## 1. Reconnaissance
 
-### 3.1 Escaneo de Red
-
-**Comando utilizado:** `nmap -sV -sC 10.129.90.91`
+### 1.1 Port scan
 
 ```
 ┌──(julicc㉿diavlo)-[~]
@@ -51,36 +32,32 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 13.43 seconds
 ```
 
-| **Puerto** | **Servicio** | **Versión** | **Estado** |
+| **Port** | **Service** | **Version** | **State** |
 |---|---|---|---|
-| 22 | SSH | OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 | Abierto |
-| 80 | HTTP | Apache httpd 2.4.29 (Ubuntu) | Abierto |
+| 22 | SSH | OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 | Open |
+| 80 | HTTP | Apache httpd 2.4.29 (Ubuntu) | Open |
 
-### 3.2 Análisis del Servicio Web
+### 1.2 Web service
+The links on the home page don't go anywhere, but scrolling down there's a hint that services are available after logging in. So there should be a login page somewhere.
 
-Los enlaces de la página principal no parecen llevar a ningún sitio, sin embargo si hacemos scroll encontramos una pista de que los servicios pueden ser accedidos tras hacer login. Según esta información, el sitio debería tener una página de login.
+Before brute-forcing directories, I mapped the site by proxying it through **Burp Suite** for passive crawling.
 
-Antes de proceder con la enumeración de directorios y páginas, podemos intentar mapear el sitio web usando **Burp Suite** como proxy para realizar un web crawling pasivo.
+> **Web crawler:** a program that walks a website methodically. If you proxy your browsing through Burp Suite (without intercepting), it passively spiders the site: every requested resource lands in the site map, which builds a tree of files and directories without sending any extra requests.
 
-> **Concepto clave — Web Crawler:** Un web crawler (también conocido como web spider o web robot) es un programa o script automatizado que recorre la World Wide Web de forma metódica y automatizada. Si tunelizas el tráfico web a través de Burp Suite (sin interceptar los paquetes), por defecto puede hacer spider pasivo del sitio web, actualizar el site map con todo el contenido solicitado y así crear un árbol de archivos y directorios sin enviar ninguna petición adicional.
+## 2. Foothold, 3. Privilege Escalation: still to write up
 
-## 4. Próximos Pasos — *Pendiente de completar*
+Remaining steps:
+- [ ] Find the login path through Burp's passive crawl
+- [ ] Use the IDOR to escalate privileges inside the web app
+- [ ] Upload a PHP web shell and get a shell as `www-data`
+- [ ] Local privilege escalation to root
 
-> [!IMPORTANT]
-> Este write-up está basado en los apuntes de reconocimiento realizados. La explotación completa (IDOR, subida de web shell, escalada de privilegios local) queda pendiente de documentar tras repetir la máquina.
+## 4. Conclusion
 
-- [ ] Descubrir la ruta de login mediante el crawling pasivo de Burp Suite
-- [ ] Explotar la vulnerabilidad IDOR para escalar privilegios en la aplicación web
-- [ ] Subir una web shell PHP y obtener acceso como `www-data`
-- [ ] Escalada de privilegios local a root
+**Severity:** High
 
-## 5. Remediación y Conclusiones
-
-- **Criticidad:** Alta
-
-**Recomendaciones:**
-
-1. **Controles de acceso del lado del servidor:** Implementar verificación de autorización en cada endpoint, validando que el usuario autenticado tiene permisos para acceder al recurso solicitado, en lugar de depender únicamente de parámetros del lado del cliente.
-2. **Eliminar paneles de administración expuestos:** Las rutas de login de administración deberían estar protegidas por autenticación multifactor o restringidas por IP.
-3. **Principio de mínimo privilegio:** La funcionalidad de subida de archivos no debería estar disponible para todos los roles de usuario.
-4. **Validación de archivos subidos:** Implementar listas blancas de extensiones permitidas, verificar el MIME type real del archivo y almacenar los uploads fuera del webroot.
+**Remediation:**
+1. **Server-side access control:** check authorization on every endpoint, so that the logged-in user must actually have rights to the requested resource. Don't rely on client-side parameters.
+2. **Don't expose admin panels:** protect admin login paths with MFA or restrict them by IP.
+3. **Least privilege:** file upload shouldn't be available to every user role.
+4. **Validate uploads:** allowlist extensions, check the real MIME type, and store uploads outside the webroot.

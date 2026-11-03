@@ -1,193 +1,13 @@
----
-title: "Cacti - Hack The Box"
-target: "Cacti"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "Cacti CVE-2022-46169 Unauthenticated Command Injection, Capsh PrivEsc"
-tags:
-  - ciber
-  - htb
-  - cacti
-  - rce
-  - cve-2022-46169
-  - capsh
-  - capabilities
-synced: "2026-11-02 12:08"
----
+# MonitorsFour
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Windows · **Difficulty:** Easy
+
+> IDOR leaks credentials, Cacti RCE (CVE-2025-24367) inside a container, Docker Desktop engine API escape (CVE-2025-9074)
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a065be96-2e94-4958-a1b6-1990170b8224.png" alt="MonitorsFour Avatar" width="220">
 </p>
 
-## Operating System: Windows
-![[Windows.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 814 |
-| **Machine Name** | MonitorsFour |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ❌ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Easy |
-| **Stars** | ⭐️ 3.5 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2025-12-06 |
-| **Tags** | #Web_Application #Remote_Code_Execution #Server_Side_Request_Forgery_(SSRF) #Insecure_Direct_Object_Reference_(IDOR) #Command_Execution #Bash #Docker #Cacti #Linux #Windows #API #Reconnaissance #Fuzzing #Password_Reuse #Docker_Abuse #API_Abuse #Broken_Authentication_and_Authorization |
-
-<p style="display:none">
-id:: 814
-active:: False
-name:: MonitorsFour
-os:: Windows
-user_flag:: True
-root_flag:: True
-difficulty_text:: Easy
-stars:: 3.5
-created:: 2026-10-16
-published:: 2025-12-06
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a065be96-2e94-4958-a1b6-1990170b8224.png
-tags:: #Web_Application #Remote_Code_Execution #Server_Side_Request_Forgery_(SSRF) #Insecure_Direct_Object_Reference_(IDOR) #Command_Execution #Bash #Docker #Cacti #Linux #Windows #API #Reconnaissance #Fuzzing #Password_Reuse #Docker_Abuse #API_Abuse #Broken_Authentication_and_Authorization
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 6.1
-  - item: "REAL"
-    user: "user"
-    score: 5.5
-  - item: "CVE"
-    user: "user"
-    score: 6.3
-  - item: "CUSTOM"
-    user: "user"
-    score: 3.7
-  - item: "CTF"
-    user: "user"
-    score: 4.5
-  - item: "ENUM"
-    user: "author"
-    score: 0
-  - item: "REAL"
-    user: "author"
-    score: 0
-  - item: "CVE"
-    user: "author"
-    score: 0
-  - item: "CUSTOM"
-    user: "author"
-    score: 0
-  - item: "CTF"
-    user: "author"
-    score: 0
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 317
-  - folder: "VERY EASY"
-    count: 411
-  - folder: "EASY"
-    count: 2269
-  - folder: "NOT TOO EASY"
-    count: 2501
-  - folder: "MEDIUM"
-    count: 1373
-  - folder: "A BIT HARD"
-    count: 536
-  - folder: "HARD"
-    count: 405
-  - folder: "EXTREMELY HARD"
-    count: 124
-  - folder: "INSANE"
-    count: 63
-  - folder: "BRAINFUCK"
-    count: 149
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
-
-Continuing my series of write-ups for HackTheBox’s seasonal event **Season of the Gacha**, I want to share my run through MonitorsFour. The machine wasn’t the hardest, but it had a non-obvious twist: a Windows host running Docker Desktop, which added some headaches during privilege escalation. I’ll admit I was initially confused as to why [[Recon - Nmap - Port Scanning and Host Discovery|Nmap]] showed Windows while the shell I got was Linux—but more on that a bit later.
-
-This box features an [[Web - Access - IDOR via Query Token|IDOR]], some fresh CVEs, and a Docker container escape—overall, a great set of concepts to practice. Let’s dive in!
 ## Overview
 
 First, we add the target IP to `/etc/hosts` so we can access it by hostname:
@@ -226,9 +46,9 @@ PORT     STATE SERVICE VERSION
 Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 ```
 
-We only see two open ports—the attack surface is small but sufficient. The `PHPSESSID` [[Web - HTTP - Cookies & Session Management|cookie]] hints at a PHP application behind Nginx, so it’s worth looking for typical web vulnerabilities: [[Web - SQLi - Time-Based Blind Injection|SQL injection]], [[Web - LFI - Mechanisms and Exploitation Vectors|LFI]], [[Web - Access - IDOR via Query Token|IDOR]], and so on.
+We only see two open ports—the attack surface is small but sufficient. The `PHPSESSID` cookie hints at a PHP application behind Nginx, so it’s worth looking for typical web vulnerabilities: SQL injection, LFI, IDOR, and so on.
 
-Port `5985` ([[Recon - Footprinting - WinRM|WinRM]]), Windows Remote Management, is used for remote administration of Windows systems. It may come in handy later—if we find valid Windows credentials, we can get a full shell via [[Recon - Footprinting - WinRM|evil-winrm]].
+Port `5985` (WinRM), Windows Remote Management, is used for remote administration of Windows systems. It may come in handy later—if we find valid Windows credentials, we can get a full shell via evil-winrm.
 
 **Open ports:**
 - **80** - Nginx (web server with PHP)
@@ -272,7 +92,7 @@ ffuf -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \
      -u http://monitorsfour.htb/FUZZ -ac
 ```
 
-Among the discovered endpoints is `/user`, which accepts a `token` parameter. When testing IDOR-like issues, it’s common to try values such as `0`, `1`, `2`, and so on. A value of `0` often either triggers an error or returns all records due to incorrect handling of edge cases. Apparently, the developers didn’t implement proper checks: a request with `token=0` bypasses filtering and the server returns a full list of users along with their MD5 password hashes (see [[Web - Access - IDOR via Query Token|IDOR via Query Tokens]]):
+Among the discovered endpoints is `/user`, which accepts a `token` parameter. When testing IDOR-like issues, it’s common to try values such as `0`, `1`, `2`, and so on. A value of `0` often either triggers an error or returns all records due to incorrect handling of edge cases. Apparently, the developers didn’t implement proper checks: a request with `token=0` bypasses filtering and the server returns a full list of users along with their MD5 password hashes (see IDOR via Query Tokens):
 
 <img width="670" height="670" alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_15-10_1.png" />
 
@@ -337,7 +157,7 @@ At first I tried logging into Cacti as `admin:wonderful1`, but it wouldn’t let
 
 ## Exploiting Cacti (CVE-2025-24367)
 
-**CVE-2025-24367** is a Cacti vulnerability (affecting versions **<= 1.2.28**) that allows arbitrary code execution (RCE) via [[Web - Injection - OS Command Injection in API Parameters|command injection]] in the Graph Template field. The issue occurs due to insufficient sanitization of data passed into the rrdtool utility. A public PoC is available on GitHub: [CVE-2025-24367-Cacti-PoC](https://github.com/TheCyberGeek/CVE-2025-24367-Cacti-PoC).
+**CVE-2025-24367** is a Cacti vulnerability (affecting versions **<= 1.2.28**) that allows arbitrary code execution (RCE) via command injection in the Graph Template field. The issue occurs due to insufficient sanitization of data passed into the rrdtool utility. A public PoC is available on GitHub: [CVE-2025-24367-Cacti-PoC](https://github.com/TheCyberGeek/CVE-2025-24367-Cacti-PoC).
 
 <img alt="image" src="https://s3.twcstorage.ru/92f5d491-kubatura/state3/2025-12-12_15-22.png" />
 
@@ -423,7 +243,7 @@ User flag obtained! But this isn’t the end—we’re in a container, and the r
 
 ## Privilege Escalation (CVE-2025-9074)
 
-We have a shell, but we’re inside a Docker container with restricted privileges. To reach the root flag, we need to escape from the container onto the host (see [[Docker - Escape - Unauthenticated Engine API|Docker Container Escape via Unauthenticated Engine API]]). In this situation, the first thing I check is whether we can access Docker Engine (via a Docker socket or Docker API), because that often leads directly to mounting the host filesystem.
+We have a shell, but we’re inside a Docker container with restricted privileges. To reach the root flag, we need to escape from the container onto the host (see Docker Container Escape via Unauthenticated Engine API). In this situation, the first thing I check is whether we can access Docker Engine (via a Docker socket or Docker API), because that often leads directly to mounting the host filesystem.
 
 [CVE-2025-9074](https://nvd.nist.gov/vuln/detail/CVE-2025-9074) is a Docker Desktop vulnerability where locally running Linux containers can connect to the Docker Engine API over Docker Desktop’s internal subnet **without authentication**. The description explicitly mentions the default endpoint `192.168.65.7:2375`, and importantly, this can happen **regardless** of ECI and the `Expose daemon on tcp://localhost:2375 without TLS` option.
 
@@ -560,14 +380,8 @@ This machine is great for reinforcing a few practical lessons: don’t stop at t
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **IDOR via Query Tokens**: Testing unexpected parameter values (like `token=0`) often reveals logic flaws where applications fail to enforce user isolation.
 - **Docker Desktop Internal API Exposure (CVE-2025-9074)**: In Windows environments running Docker Desktop, exposing the Docker Engine daemon over the internal subnet allows unauthenticated container creation with host bind-mounts (`/mnt/host/c`), leading to instant host compromise.
 - **Isolation Boundaries**: Always determine whether a gained shell is within a container or the underlying host OS to identify relevant escape primitives.
-
-### Atomic Notes to Extract
-- [[Web - Access - IDOR via Query Token|IDOR via Query Tokens]]
-- [[Docker - Escape - Unauthenticated Engine API|Docker API Container Escape (CVE-2025-9074)]]
-- [[Recon - Nmap - Port Scanning and Host Discovery|Nmap Scanning]]

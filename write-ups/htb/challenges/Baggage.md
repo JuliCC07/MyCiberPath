@@ -1,23 +1,10 @@
----
-title: "Baggage - Hack The Box"
-target: "Baggage"
-os: "Linux"
-difficulty: "Easy"
-status: "Pwned"
-vectors: "Werkzeug Console PIN Exploit, Flask Debugger, SUID Privilege Escalation"
-tags:
-  - ciber
-  - htb
-  - werkzeug
-  - flask
-  - suid
-  - privesc
-synced: "2026-11-02 12:08"
----
+# Baggage
+
+**Platform:** Hack The Box · **Type:** Challenge · **OS:** Windows · **Difficulty:** Forensics
+
+> Registry forensics: UserAssist and Shellbags from NTUSER.DAT and UsrClass.dat with regipy
 
 ---
-
-# HackTheBox Writeup: Baggage
 
 ## Reconnaissance
 
@@ -31,7 +18,7 @@ This provides us with the necessary forensic artifacts, specifically focusing on
 
 ## Foothold / Initial Access
 
-To gain insight into the user's activities, we analyze the registry hives using `regipy` (see [[Forensics - Windows - UserAssist and Shellbags|Windows Forensics: UserAssist & Shellbags]]). We start by dumping the `user_assist` plugin output from the `NTUSER.DAT` hive to track programs that were executed.
+To gain insight into the user's activities, we analyze the registry hives using `regipy` (see Windows Forensics: UserAssist & Shellbags). We start by dumping the `user_assist` plugin output from the `NTUSER.DAT` hive to track programs that were executed.
 
 ```sh
 ┌──(julicc㉿arceus)-[~/Challenges/Baggage]
@@ -66,11 +53,7 @@ By analyzing the `NTUSER.DAT` and `UsrClass.dat` hives with `regipy`, we success
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **Windows User Profiling**: UserAssist keys in `NTUSER.DAT` track program execution timestamps and run counts.
 - **Folder Navigation Tracking**: Shellbags stored in `NTUSER.DAT` and `UsrClass.dat` preserve forensic evidence of folder browsing even after directories are deleted.
-
-### Atomic Notes to Extract
-- [[Forensics - Windows - UserAssist and Shellbags|Windows Forensics: UserAssist & Shellbags]]

